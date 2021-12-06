@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,7 @@
 			<img src="../resources/img/cafeCarpTitle.png" class="rounded mx-auto d-block my-3" alt="" style="width:250px;">
 		</div>
 		
-		<form method="post" class="center">
+		<form method="post" class="center" name="loginFrm">
 			<div class="mb-3 row">
 				<div class="col">
 					<input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요">
@@ -34,25 +35,39 @@
 				</div>
 			</div>
 			<div class="d-grid gap-2 col-12">
-				<button type="submit" class="btn text-white my-2" style="background-color:gray;">로그인</button>
+				<input type="button" onclick="checklogin()" class="btn text-white my-2" style="background-color:gray;" value="로그인">
 			</div>
+			<c:if test="${msg == false}">
+				<p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
+			</c:if>
 		</form>
 	</div>
-
-	<!-- Optional JavaScript; choose one of the two! -->
 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous">
-		
 	</script>
-
-	<!-- Option 2: Separate Popper and Bootstrap JS -->
-	<!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
+	
+	<script type="text/javascript">
+		function checklogin(){
+			var form = document.loginFrm;
+			
+			// 아이디의 값이 입력되지 않았을 경우
+			if(form.id.value == "") {
+				alert('아이디를 입력해주세요');
+				form.id.focus();
+				return false;
+			} else if(form.pw.value == ""){
+				alert('비밀번호를 입력해주세요');
+				form.pw.focus();
+				return false;
+			}
+			form.submit();
+		}
+	
+	</script>
+	
 </body>
 </html>

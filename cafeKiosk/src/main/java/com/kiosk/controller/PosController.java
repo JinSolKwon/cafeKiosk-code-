@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.service.PosService;
 import com.kiosk.vo.ManagerVo;
@@ -33,7 +34,7 @@ public class PosController {
 	}
 	
 	@RequestMapping(value = "/pos/main", method = RequestMethod.POST)
-	public String posLogin(ManagerVo managerVo, HttpSession session) {
+	public String posLogin(ManagerVo managerVo, HttpSession session, RedirectAttributes rttr) {
 		
 		logger.info("관리자 로그인 페이지 POST요청");
 		
@@ -47,7 +48,8 @@ public class PosController {
 			session.setAttribute("login", login);
 			return "/pos/orderList";
 		} else {
-			return "/pos/posMain";
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/pos/main";
 		}
 		
 	}
