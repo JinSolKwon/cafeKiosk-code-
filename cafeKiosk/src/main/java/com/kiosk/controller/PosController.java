@@ -46,12 +46,22 @@ public class PosController {
 		
 		if(login != null) {
 			session.setAttribute("login", login);
-			return "/pos/orderList";
+			return "redirect:/pos/orderList";
 		} else {
 			rttr.addFlashAttribute("msg", false);
 			return "redirect:/pos/main";
 		}
-		
 	}
 	
+	@RequestMapping(value = "/pos/logout", method = RequestMethod.GET)
+	public String posLogout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/pos/main";
+	}
+	
+	
+	@RequestMapping(value = "/pos/orderList", method = RequestMethod.GET)
+	public String orderList() {
+		return "/pos/orderList";
+	}
 }

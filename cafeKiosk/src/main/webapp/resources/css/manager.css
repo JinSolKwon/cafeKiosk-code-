@@ -1,0 +1,33 @@
+body{
+	background:white;
+}
+
+nav {
+	font-size: x-large;
+	background: white;
+}
+
+.contain {
+	border-bottom-style: solid;
+	border-bottom-color: black;
+}
+
+
+.img-concert {
+	width: 167.52px;
+	height: 88.61px;
+}
+
+#nav-brand {
+	width:170px;
+}
+
+#btn {
+	margin-top: 27px;
+	margin-right: 20px;
+	width:122px;
+}
+
+#identity {
+	margin-top:20px;
+}

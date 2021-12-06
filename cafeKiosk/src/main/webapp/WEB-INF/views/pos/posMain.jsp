@@ -20,7 +20,7 @@
 <body>
 	<div class="container shadow-lg my-5 border" style="width: 370px;">
 		<div class="col-12 center">
-			<img src="../resources/img/cafeCarpTitle.png" class="rounded mx-auto d-block my-3" alt="" style="width:250px;">
+			<img src="../resources/images/cafeCarpTitle.png" class="rounded mx-auto d-block my-3" alt="" style="width:250px;">
 		</div>
 		
 		<form method="post" class="center" name="loginFrm">
@@ -38,6 +38,12 @@
 				<input type="button" onclick="checklogin()" class="btn text-white my-2" style="background-color:gray;" value="로그인">
 			</div>
 			<c:if test="${msg == false}">
+				<!-- 로그인 실패 메세지 alert 표시
+				<script>
+					alert("일치하는 정보가 존재하지 않습니다.");
+				</script>				
+				 -->
+				 <!-- 로그인 실패 메세지 표시 -->
 				<p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
 			</c:if>
 		</form>
@@ -54,7 +60,7 @@
 		function checklogin(){
 			var form = document.loginFrm;
 			
-			// 아이디의 값이 입력되지 않았을 경우
+			// id, pw의 값이 입력되지 않았을 경우
 			if(form.id.value == "") {
 				alert('아이디를 입력해주세요');
 				form.id.focus();
