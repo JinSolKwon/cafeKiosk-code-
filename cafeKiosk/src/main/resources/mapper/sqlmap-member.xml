@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberDao">
+	<insert id="registMember" parameterType="memberVo">
+		insert into MEMBER("NUM", "NAME", "PHONE", "BIRTH_YEAR", "BIRTH", "REGDATE", "POINT") 
+		values(MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, sysdate, 0)
+	</insert>
+	
+	<select id="loginMember" parameterType="String" resultType="memberVo">
+		select * from MEMBER where PHONE=#{phone}
+	</select>
+	
+	
+</mapper>
