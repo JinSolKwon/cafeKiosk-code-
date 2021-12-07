@@ -1,9 +1,10 @@
-package com.kiosk.service;
+package com.kiosk.dao;
 
 import com.kiosk.vo.ManagerVo;
 
-public interface PosService {
+public interface PosMainDao {
 	
 	// 관리자 로그인 계정 확인
 	public ManagerVo managerLogin(ManagerVo managerVo);
+	
 }

@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kiosk.service.PosService;
+import com.kiosk.service.PosMainService;
 import com.kiosk.vo.ManagerVo;
 
 @Controller
-public class PosController {
+public class PosMainController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PosController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PosMainController.class);
 	
 	@Inject
-	private PosService posService;
+	private PosMainService posMainService;
 	
 	@RequestMapping(value = "/pos", method = RequestMethod.GET)
 	public String pos() {
@@ -42,7 +42,7 @@ public class PosController {
 			System.out.println("post요청 시 manager : " + managerVo.toString());
 		}
 		
-		ManagerVo login = posService.managerLogin(managerVo);
+		ManagerVo login = posMainService.managerLogin(managerVo);
 		
 		if(login != null) {
 			session.setAttribute("login", login);
@@ -60,8 +60,4 @@ public class PosController {
 	}
 	
 	
-	@RequestMapping(value = "/pos/orderList", method = RequestMethod.GET)
-	public String orderList() {
-		return "/pos/orderList";
-	}
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="posOrderListMapper">
+
+	<select id="notProvidedOrder" resultType="orderListVo">
+		select 
+		    A.num,
+		    A.order_num,
+		    A.menu,
+		    A.temperature,
+		    A.beverage_size,
+		    A.shot,
+		    A.syrub,
+		    A.whipping,
+		    A.price,
+		    A.order_date
+		from 
+		    order_list A, 
+		    payment B
+		where
+		    A.order_num = B.order_num
+		    and b.provision = 'N'
+	</select>
+	
+</mapper>
