@@ -19,7 +19,8 @@ public class MemberController {
 	private IMemberService memberService;
 	
 	@RequestMapping(value="main")
-	String mainPage() {
+	String mainPage(HttpSession session) {
+		session.invalidate();
 		return "user/main";
 	}
 	
@@ -89,9 +90,4 @@ public class MemberController {
 		return "redirect:/cafeCarp/order";
 	}
 	
-	@RequestMapping(value="order", method=RequestMethod.GET)
-	String order(HttpSession session, RedirectAttributes rttr) {
-		
-		return "user/orderForm";
-	}
 }
