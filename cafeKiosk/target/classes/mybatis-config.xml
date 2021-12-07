@@ -14,6 +14,8 @@
 		
 		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
 		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
+		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
+		<typeAlias alias="refundVo" type="com.kiosk.vo.RefundVo"/>
         
 	</typeAliases>
  	

@@ -9,6 +9,28 @@
 </head>
 <body>
 	<jsp:include page="../${pageContext.request.contextPath}/header/managerMain.jsp" flush="false" />
+	
+		<c:if test="${providedResult eq false }">
+			<script>
+				alert("프로그램 오류!!\n메뉴제공 수정을 실패하였습니다!!");
+			</script>
+		</c:if>
+		<c:if test="${providedResult eq true }">
+			<script>
+				alert("메뉴제공을 완료하였습니다!!")
+			</script>
+		</c:if>
+		<c:if test="${payRefundResult eq false or insertRefundResult eq false}">
+			<script>
+				alert("프로그램 오류!!\환불작업을 실패하였습니다!!");
+			</script>
+		</c:if>
+		<c:if test="${payRefundResult eq true and insertRefundResult eq true}">
+			<script>
+				alert("환불처리를 완료했습니다.")
+			</script>
+		</c:if>
+	
 	<div class="container my-3">
 		<p><h3><b>주문내용</b></h3></p>
 		<div class="table-responsive">
@@ -34,7 +56,7 @@
 				<c:if test="${notProvidedOrder ne null }">
 					<tbody>
 						<c:forEach items="${notProvidedOrder}" var="notProvidedOrder">
-							<tr class="text-center" height="50">
+							<tr class="text-center" height="55">
 								<td>${notProvidedOrder.orderNum}</td>
 								<c:choose>
 									<c:when test="${notProvidedOrder.temperature eq null}">
@@ -78,14 +100,12 @@
 								</c:choose>
 								<c:choose>
 									<c:when test="${orderNum ne null and orderNum eq notProvidedOrder.orderNum}">
-										<td>
-											
-										</td>									
+										<td></td>									
 									</c:when>
 									<c:otherwise>
 										<td>
-											<button onclick="location.href='#${notProvidedOrder.orderNum}'" class="btn btn-secondary px-3">완료</button> &nbsp;
-											<button onclick="location.href='#${notProvidedOrder.orderNum}'" class="btn btn-light px-3">취소</button>
+											<button onclick="location.href='/pos/orderList/provided?orderNum=${notProvidedOrder.orderNum}'" class="btn btn-secondary px-3">주문완료</button> &nbsp;
+											<button onclick="location.href='/pos/orderList/refund?orderNum=${notProvidedOrder.orderNum}'" class="btn btn-light px-3">주문취소</button>
 										</td>
 									</c:otherwise>
 								</c:choose>
