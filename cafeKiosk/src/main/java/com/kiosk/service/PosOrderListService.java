@@ -2,6 +2,7 @@ package com.kiosk.service;
 
 import java.util.List;
 
+import com.kiosk.command.RefundPointCmd;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
 
@@ -21,4 +22,8 @@ public interface PosOrderListService {
 
 	// 환불정보 입력
 	public boolean insertRefund(PaymentVo paymentVo);
+	
+	// 회원 테이블에 있는 회원에게 포인트 복구
+	public boolean refundPoint(RefundPointCmd refundPointCmd);
+	
 }

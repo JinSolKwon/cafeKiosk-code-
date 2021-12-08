@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kiosk.command.RefundPointCmd;
 import com.kiosk.service.PosOrderListService;
 import com.kiosk.vo.ManagerVo;
 import com.kiosk.vo.OrderListVo;
@@ -66,32 +67,38 @@ public class PosOrderListController {
 
 	@RequestMapping(value = "/pos/orderList/refund", method = RequestMethod.GET)
 	public String menuRefund(int orderNum, RedirectAttributes rttr) {
-		/*
-		 * 1. payment테이블 refund : N -> Y update 
-		 * 2. refund테이블 insert : payment테이블에서 정보 가져와서 사용하기 
-		 *	 - 1번이 성공했을 경우 2번 실행 
-		 *	 - orderNum으로 payment테이블에서 정보가져오기 
-		 *	 - 가져온 payment테이블 정보를 사용해 refund테이블에 입력하기
-		 */
+
 		logger.info("menuRefund메서드 orderNum확인 : " + orderNum);
 
 		boolean payRefundResult = posOrderListService.menuRefund(orderNum);
 
-		if (payRefundResult == false) {
-			// payment 테이블의 refund 칼럼 update실패
-			rttr.addFlashAttribute("payRefundResult", false);
-		} else {
+		if (payRefundResult == true) {
 			// payment 테이블의 refund 칼럼 update성공
 			PaymentVo paymentVo = posOrderListService.selectPayment(orderNum);
 			logger.info(paymentVo.toString());
+
+			// 환불정보 테이블에 정보입력
 			boolean insertRefundResult = posOrderListService.insertRefund(paymentVo);
-			if(insertRefundResult == false) {
-				rttr.addFlashAttribute("insertRefundResult", false);
-			} else {
+
+			if (insertRefundResult == true) {
 				rttr.addFlashAttribute("insertRefundResult", true);
+
+				// 포인트 결제 내역있을 경우 해당 회원에게 포인트 복구
+				int refundPoint = paymentVo.getPoint();
+				int refundMemberNum = paymentVo.getMemberNum();
+
+				if (refundPoint > 0) {
+					// 회원 테이블에 있는 회원에게 포인트 복구
+					RefundPointCmd refundPointCmd = new RefundPointCmd(refundPoint, refundMemberNum);
+
+					// 회원번호로 update실행 후 동작 완료 여부에 따라 결과 설정
+					boolean refundPointResult = posOrderListService.refundPoint(refundPointCmd);
+					rttr.addFlashAttribute("refundPointResult", refundPointResult);
+				}
 			}
-			rttr.addFlashAttribute("payRefundResult", true);
+			rttr.addFlashAttribute("insertRefundResult", insertRefundResult);
 		}
+		rttr.addFlashAttribute("payRefundResult", payRefundResult);
 
 		return "redirect:/pos/orderList";
 	}

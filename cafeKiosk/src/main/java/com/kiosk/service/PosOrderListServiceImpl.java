@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.command.RefundPointCmd;
 import com.kiosk.dao.PosOrderListDao;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
@@ -64,4 +65,19 @@ public class PosOrderListServiceImpl implements PosOrderListService {
 
 		return insertCheck;
 	}
+	
+	@Override
+	public boolean refundPoint(RefundPointCmd refundPointCmd) {
+		boolean refundPointCheck = false;
+
+		int result = posOrderListDao.refundPoint(refundPointCmd);
+
+		if (result > 0) {
+			refundPointCheck = true;
+		}
+
+		return refundPointCheck;
+	}
+	
+	
 }

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.command.RefundPointCmd;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
 
@@ -39,5 +40,10 @@ public class PosOrderListDaoImpl implements PosOrderListDao {
 	@Override
 	public int insertRefund(PaymentVo paymentVo) {
 		return session.insert("posOrderListMapper.insertRefund", paymentVo);
+	}
+	
+	@Override
+	public int refundPoint(RefundPointCmd refundPointCmd) {
+		return session.update("posOrderListMapper.refundPoint", refundPointCmd);
 	}
 }

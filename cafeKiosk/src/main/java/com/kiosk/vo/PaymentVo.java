@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class PaymentVo {
 	private int num;
 	private int orderNum;
+	private int memberNum;
 	private int point;
 	private int card;
 	private int cash;
@@ -18,11 +19,12 @@ public class PaymentVo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PaymentVo(int num, int orderNum, int point, int card, int cash, int total, String provision, String refund,
-			Timestamp orderDate) {
+	public PaymentVo(int num, int orderNum, int memberNum, int point, int card, int cash, int total, String provision,
+			String refund, Timestamp orderDate) {
 		super();
 		this.num = num;
 		this.orderNum = orderNum;
+		this.memberNum = memberNum;
 		this.point = point;
 		this.card = card;
 		this.cash = cash;
@@ -46,6 +48,14 @@ public class PaymentVo {
 
 	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
+	}
+
+	public int getMemberNum() {
+		return memberNum;
+	}
+
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
 	}
 
 	public int getPoint() {
@@ -106,9 +116,12 @@ public class PaymentVo {
 
 	@Override
 	public String toString() {
-		return "PaymentVo [num=" + num + ", orderNum=" + orderNum + ", point=" + point + ", card=" + card + ", cash="
-				+ cash + ", total=" + total + ", provision=" + provision + ", refund=" + refund + ", orderDate="
-				+ orderDate + "]";
+		return "PaymentVo [num=" + num + ", orderNum=" + orderNum + ", memberNum=" + memberNum + ", point=" + point
+				+ ", card=" + card + ", cash=" + cash + ", total=" + total + ", provision=" + provision + ", refund="
+				+ refund + ", orderDate=" + orderDate + "]";
 	}
+
+	
+	
 	
 }

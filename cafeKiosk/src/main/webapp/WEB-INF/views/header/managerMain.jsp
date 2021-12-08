@@ -31,7 +31,7 @@
 
 				<ul class="nav nav-pills">
 					<li id="menu">
-						<button class="btn btn-primary" id="btn" onclick="location.href='<c:url value="#"/>'">
+						<button class="btn btn-primary" id="btn" onclick="location.href='/pos/menuOrder'">
 							주문하기
 						</button>
 					</li>

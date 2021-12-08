@@ -64,9 +64,15 @@
 			#{total},
 			systimestamp
 		)
-			
-			
-	
 	</insert>
+	
+	<update id="refundPoint" parameterType="refundPointCmd">
+		update
+			member
+		set
+			point = point + #{refundPoint}
+		where
+			num = #{memberNum}
+	</update>
 	
 </mapper>
