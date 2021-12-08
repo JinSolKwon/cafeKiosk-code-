@@ -28,6 +28,7 @@ if(login == 'hello'){
 }
 function mainBack(){
 	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
+		location.href="<c:url value="/cafeCarp/main"/>";
 		return true;
 	}else{
 		return false;
@@ -40,13 +41,14 @@ function mainBack(){
 	<c:set var="length" value="${fn:length(sessionScope.member.getPhone())}" />
 	<c:set var="phone2" value="${fn:substring(sessionScope.member.getPhone(), length-4, length-2)}" />
 	<c:set var="user" value="${phone2}**님" />
-	<fmt:formatNumber var="point2" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
+	<fmt:formatNumber var="point" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
+	<c:set var="point2" value="${point}P" />
 </c:if>
 <div class="container">
 <div class="header">
-	<ul>
+	<ul id="cateUl">
 	<c:forEach items="${sessionScope.cateList}" var="cateOne">
-		<a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />"><li>${cateOne.getCategory() }</li></a>
+		<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
 	</c:forEach>
 	</ul>
 </div>
@@ -70,11 +72,9 @@ function mainBack(){
 </div>
 <div class="side">
 	<div id="side1">
-	<c:if test="${!empty sessionScope.member}">
 		<div id="side1-1">${user}</div>
-		<div id="side1-2">${point2}P</div>
-	</c:if>
-		<div id="side1-3"><a href="<c:url value="/cafeCarp/main"/>" onclick="mainBack();">메인페이지 이동</a></div>
+		<div id="side1-2">${point2}</div>
+		<div id="side1-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
 	</div>
 	<div id="side2"></div>
 	<div id="side3"></div>
@@ -143,6 +143,9 @@ function mainBack(){
 </div>
 <!-- 모달 함수 -->
 <script type="text/javascript">
+var numC = "<c:out value="${num}" />";
+	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
+	
 var modal = document.getElementById("optionModal");
 function modalOpen(selM){
 	console.log(selM);

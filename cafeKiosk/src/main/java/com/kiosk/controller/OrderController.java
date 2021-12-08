@@ -32,6 +32,7 @@ public class OrderController {
 		}
 		List<HashMap<String, String>> menuList = memberService.menuList(num);
 		model.addAttribute("menuList", menuList);
+		model.addAttribute("num", num);
 		return "user/orderForm";
 	}
 	
