@@ -1,5 +1,6 @@
 package com.kiosk.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,7 +16,7 @@ public class MenuDaoImpl implements IMenuDao{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List<MenuVo> menuList(int num) throws Exception {
+	public List<HashMap<String, String>> menuList(int num) throws Exception {
 		return sqlSessionTemplate.selectList("menuList", num);
 	}
 	

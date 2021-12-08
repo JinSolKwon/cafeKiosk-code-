@@ -1,5 +1,6 @@
 package com.kiosk.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.kiosk.vo.CategoryVo;
@@ -14,5 +15,5 @@ public interface IMemberService {
 	//카테고리 목록 가져오기
 	public List<CategoryVo> categoryList() throws Exception;
 	//메뉴 목록 가져오기
-	public List<MenuVo> menuList(int num) throws Exception;
+	public List<HashMap<String, String>> menuList(int num) throws Exception;
 }

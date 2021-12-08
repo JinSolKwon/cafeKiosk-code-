@@ -1,5 +1,6 @@
 package com.kiosk.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class MemberServiceImpl implements IMemberService{
 	}
 
 	@Override
-	public List<MenuVo> menuList(int num) throws Exception {
+	public List<HashMap<String, String>> menuList(int num) throws Exception {
 		return menuDao.menuList(num);
 	}
 	
