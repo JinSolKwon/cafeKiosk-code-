@@ -54,7 +54,7 @@ function mainBack(){
 </div>
 <div class="main">
 	<c:forEach items="${menuList}" var="menuOne">
-		<a onclick="modalOpen(this)">
+		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
 		<div class="main1">
 			<c:if test="${empty menuOne.SAVE_NAME}">
 				<div class="main1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
@@ -64,7 +64,7 @@ function mainBack(){
 			</c:if>
 			<div class="main1-txt">
 				<div class="main1-name">${menuOne.MENU}</div>
-				<div class="main1-price">${menuOne.PRICE}</div>
+				<div class="main1-price"><fmt:formatNumber var="price" pattern="#,###" value="${menuOne.PRICE}"/>${price} 원</div>
 			</div>
 		</div>
 		</a>
@@ -76,16 +76,60 @@ function mainBack(){
 		<div id="side1-2">${point2}</div>
 		<div id="side1-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
 	</div>
-	<div id="side2"></div>
+	<div id="side2">
+		<c:if test="${!empty sessionScope.orderList}">
+		<c:forEach items="${sessionScope.orderList}" var="orderOne">
+			<div class="side2-1">
+				<div class="side2-2">
+					<div class="side2-2-1">${orderOne.getMenu()}</div>
+					<div class="side2-2-2">( ${orderOne.getTemperature()} )</div>
+					<div class="side2-2-3">
+						<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
+						${orderPrice} 원
+					</div>
+				</div>
+				<div class="side2-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
+				<c:choose>
+					<c:when test="${orderOne.getWhipping() eq 'N'}">
+						<c:set var="whip" value="┗ 휘핑 : 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="whip" value="┗ 휘핑 : 있음" />
+					</c:otherwise>
+				</c:choose>
+				<div class="side2-4">${whip}</div>
+				<c:choose>
+					<c:when test="${orderOne.getSyrub() == 0}">
+						<c:set var="syrubOp" value="┗ 시럽 : 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="syrubOp" value="┗ 시럽 : ${orderOne.getSyrub()}" />
+					</c:otherwise>
+				</c:choose>
+				<div class="side2-5">${syrubOp}</div>
+				<c:choose>				
+					<c:when test="${orderOne.getShot() == 0}">
+						<c:set var="shotOp" value="┗ 샷추가: 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="shotOp" value="┗ 샷추가 : ${orderOne.getShot()}" />
+					</c:otherwise>
+				</c:choose>
+				<div class="side2-6">${shotOp}</div>
+			</div>
+		</c:forEach>
+		</c:if>
+	</div>
 	<div id="side3"></div>
 	<div id="side4"><button id="subBtn" onclick="">결 제 하 기</button></div>
 </div>
 </div>
 
 <div class="modal" id="optionModal" tabindex="-1" role="dialog">
-	<form action="<c:url value="#" />" method="post">
+	<form action="<c:url value="/cafeCarp/orderSet" />" method="post">
 	<div class="modal-content">
 		<div class="modal-header">
+			<input type="hidden" name="categoryNum" id="modal-cateNum-hidden"/>
 			<div class="modal-header1"><img id="modal-img" alt="" src=""></div>
 			<div class="modal-header2">
 				<div class="modal-header2-1">
@@ -93,7 +137,7 @@ function mainBack(){
 					<input type="hidden" name="menu" id="modal-name-hidden"/>
 				</div>
 				<div class="modal-header2-2">
-					<h3 id="modal-price"></h3>
+					<h4 id="modal-price"></h4>
 				</div>
 			</div>
 			<div class="modal-header3">
@@ -115,18 +159,18 @@ function mainBack(){
 			</div>
 			<div class="modal-body3">
 				<h3>시럽추가</h3>
-				<button type ="button" onclick="fnCalCount('sp');">+</button>
-		        <input size="5px" type="text" name="syrub" value="0" readonly="readonly" style="text-align:center;"/>
 		        <button type="button" onclick="fnCalCount('sm');">-</button>
+		        <input size="5px" type="text" name="syrub" value="0" readonly="readonly" style="text-align:center;"/>
+				<button type ="button" onclick="fnCalCount('sp');">+</button>
 			</div>
 			<div class="modal-body4">
 				<h3>샷추가</h3>
-				<button type ="button" onclick="fnCalCount('p');">+</button>
-		        <input size="5px" type="text" name="shot" value="0" readonly="readonly" style="text-align:center;"/>
 		        <button type="button" onclick="fnCalCount('m');">-</button>
+		        <input size="5px" type="text" name="shot" value="0" readonly="readonly" style="text-align:center;"/>
+				<button type ="button" onclick="fnCalCount('p');">+</button>			
 			</div>
 			<div class="modal-body5">
-				<p id="totalPrice"></p>
+				<p id="modal-price-total"></p>
 				<input type="hidden" name="price" id="modal-price-hidden"/>
 			</div>
 		</div>
@@ -147,8 +191,17 @@ var numC = "<c:out value="${num}" />";
 	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
 	
 var modal = document.getElementById("optionModal");
-function modalOpen(selM){
-	console.log(selM);
+function modalOpen(menu,price,save,cateNum){
+	if(save == null || save == ""){save = 'noimage.gif';}
+	document.getElementById("modal-name").innerHTML = menu;
+	document.getElementById("modal-name-hidden").value = menu;
+	document.getElementById("modal-price").innerHTML = price + ' 원';
+	document.getElementById("modal-price-total").innerHTML = price + ' 원';
+	document.getElementById("modal-price-hidden").value = price;
+	document.getElementById("modal-cateNum-hidden").value = cateNum;
+	var imgSrc = "<c:url value='/display?saveName=" + save + "'/>";
+	$('#modal-img').attr("src", imgSrc);
+	$('#modal-img').attr("alt", save);
 	modal.style.display="block";
 }
 function modalClose(){
@@ -159,19 +212,37 @@ function fnCalCount(type){
     var tCount = Number($input.val());
     var $input2 = $(".modal-body4").find("input[name='shot']");
     var tCount2 = Number($input2.val());
-    var price = Number($("#modal-price").val());
+    var price = Number($("#modal-price-hidden").val());
+    console.log(price);
     var totalPrice = Number($("#totalPrice").val());
+    var total;
     if(type==='sp'){
         $input.val(Number(tCount)+1);
-        totalPrice.val(Number(price)+300);
-     }else if(type==='sm'){
-         if(tCount >0) $input.val(Number(tCount)-1);    
-         }
+        total = price+300;
+    }else if(type==='sm'){
+       if(tCount >0){
+        	$input.val(Number(tCount)-1);  
+        	total = price-300; 
+        }
+    }
     if(type==='p'){
        $input2.val(Number(tCount2)+1);
+       total = price+500;
     }else if(type==='m'){
-        if(tCount2 >0) $input2.val(Number(tCount2)-1);    
+    	if(tCount2 >0){
+        	$input2.val(Number(tCount2)-1);    
+       		total = price-500;      
         }
+    }
+    if(type==='sp' || type==='p'){
+		document.getElementById("modal-price-total").innerHTML = total + ' 원';
+		$("#modal-price-hidden").val(total);
+    }else if(type==='sm' || type==='m'){
+       	if(tCount >0 || tCount2 >0){   	
+    		document.getElementById("modal-price-total").innerHTML = total + ' 원';
+    		$("#modal-price-hidden").val(total);       		
+       	}
+    }
 }
 </script>
 </body>
