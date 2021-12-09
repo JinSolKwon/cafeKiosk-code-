@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberDao">
+	
+	<!-- 회원 수 가져오기 -->
+	<select id="countMember" parameterType="int" resultType="int">
+		select count(*)	from MEMBER
+		<if test='backNumber!=null or !place.equals("")'>
+	  			and PHONE like '%#{backNumber}'
+	  	  </if>
+	</select>
+	
+	<!-- 회원 목록 가져오기 -->
+	<select id="memberList" parameterType="hashmap" resultType="memberVo">
+      select * from (select rownum RNUM, NUM, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT 
+		  from (select * from MEMBER
+		  <if test='backNumber!=null or !place.equals("")'>
+	  			where PHONE like '%#{backNumber}'
+	  	  </if>
+		  order by NUM asc))
+			  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="memberVo">
+		SELECT MEMBER_NO as memberNo, ID, PASSWORD, NAME, EMAIL
+		  FROM MEMBER
+		 WHERE ID = #{id}
+		   AND PASSWORD = #{password}   
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="memberVo">
+		INSERT INTO MEMBER(MEMBER_NO,
+						   ID ,
+						   PASSWORD,
+						   NAME,
+						   EMAIL,
+						   CREATE_AT
+					)VALUES(MEMBER_NO_SEQ.nextval, 
+							#{id},										  
+							 #{password},											  
+							  #{name},
+								#{email},
+								SYSDATE
+								)
+	</insert>
+	
+	<!-- 정보 수정 -->
+	<update id="memberUpdate" parameterType="memberVo">
+		UPDATE MEMBER SET
+		PASSWORD = #{pw2}
+		WHERE ID = #{id} 
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="memberDelete" parameterType="memberVo">
+		DELETE FROM MEMBER
+		WHERE ID = #{id}
+		AND PASSWORD = #{password}
+	</delete>
+</mapper>
