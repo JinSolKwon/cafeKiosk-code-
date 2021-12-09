@@ -46,12 +46,20 @@ function mainBack(){
 </c:if>
 <div class="container">
 <div class="header">
-	<ul id="cateUl">
-	<c:forEach items="${sessionScope.cateList}" var="cateOne">
-		<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
-	</c:forEach>
-	</ul>
+	<div class="header1">
+		<ul id="cateUl">
+		<c:forEach items="${sessionScope.cateList}" var="cateOne">
+			<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
+		</c:forEach>
+		</ul>
+	</div>
+	<div id="header2">
+		<div id="header2-1">${user}</div>
+		<div id="header2-2">${point2}</div>
+		<div id="header2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
+	</div>
 </div>
+<hr style="border: black;">
 <div class="main">
 	<c:forEach items="${menuList}" var="menuOne">
 		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
@@ -72,23 +80,28 @@ function mainBack(){
 </div>
 <div class="side">
 	<div id="side1">
-		<div id="side1-1">${user}</div>
-		<div id="side1-2">${point2}</div>
-		<div id="side1-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
-	</div>
-	<div id="side2">
 		<c:if test="${!empty sessionScope.orderList}">
-		<c:forEach items="${sessionScope.orderList}" var="orderOne">
-			<div class="side2-1">
-				<div class="side2-2">
-					<div class="side2-2-1">${orderOne.getMenu()}</div>
-					<div class="side2-2-2">( ${orderOne.getTemperature()} )</div>
-					<div class="side2-2-3">
-						<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
-						${orderPrice} 원
+		<c:forEach items="${sessionScope.orderList}" var="orderOne" varStatus="status">
+			<div class="side1-1">
+				<div class="side1-2">
+					<div class="side1-2-1">${orderOne.getMenu()}</div>
+					<div class="side1-2-2">( ${orderOne.getTemperature()} )</div>
+					<div class="side1-2-3">
+						<div class="side1-2-3-1">
+						<form action="<c:url value="/cafeCarp/orderDel" />" method="post">
+							<input type="hidden" name="status" value="${status.index}"/>
+							<input type="hidden" name="pageNum" value="${pageNum}"/>
+							<button type="submit">X</button>
+						</form>
+						</div>
+						<div class="side1-2-3-2">
+							<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
+							<c:set var="oP" value="${orderPrice} 원" />
+							${oP}
+						</div>
 					</div>
 				</div>
-				<div class="side2-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
+				<div class="side1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
 				<c:choose>
 					<c:when test="${orderOne.getWhipping() eq 'N'}">
 						<c:set var="whip" value="┗ 휘핑 : 없음" />
@@ -97,7 +110,7 @@ function mainBack(){
 						<c:set var="whip" value="┗ 휘핑 : 있음" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side2-4">${whip}</div>
+				<div class="side1-4">${whip}</div>
 				<c:choose>
 					<c:when test="${orderOne.getSyrub() == 0}">
 						<c:set var="syrubOp" value="┗ 시럽 : 없음" />
@@ -106,7 +119,7 @@ function mainBack(){
 						<c:set var="syrubOp" value="┗ 시럽 : ${orderOne.getSyrub()}" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side2-5">${syrubOp}</div>
+				<div class="side1-5">${syrubOp}</div>
 				<c:choose>				
 					<c:when test="${orderOne.getShot() == 0}">
 						<c:set var="shotOp" value="┗ 샷추가: 없음" />
@@ -115,16 +128,23 @@ function mainBack(){
 						<c:set var="shotOp" value="┗ 샷추가 : ${orderOne.getShot()}" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side2-6">${shotOp}</div>
+				<div class="side1-6">${shotOp}</div>
 			</div>
 		</c:forEach>
 		</c:if>
 	</div>
-	<div id="side3"></div>
-	<div id="side4"><button id="subBtn" onclick="">결 제 하 기</button></div>
+	<div id="side2">
+		<div class="side2-1">수량 : ${sessionScope.orderCount}</div>
+		<div class="side2-2">
+			<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
+			금액 : ${orderTotal1} 원
+		</div>
+	</div>
+	<div id="side3">
+		<button id="subBtn" onclick="<c:url value="/cafeCarp/orderResult"/>" disabled="true">결 제 하 기</button>
+	</div>
 </div>
 </div>
-
 <div class="modal" id="optionModal" tabindex="-1" role="dialog">
 	<form action="<c:url value="/cafeCarp/orderSet" />" method="post">
 	<div class="modal-content">
@@ -189,6 +209,14 @@ function mainBack(){
 <script type="text/javascript">
 var numC = "<c:out value="${num}" />";
 	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
+	
+var btnCont = "<c:set value="${sessionScope.orderList}"/>";
+if(btnCont != null){
+	$(function(){
+		$("#subBtn").attr("disabled", false);
+	})
+}
+	
 	
 var modal = document.getElementById("optionModal");
 function modalOpen(menu,price,save,cateNum){

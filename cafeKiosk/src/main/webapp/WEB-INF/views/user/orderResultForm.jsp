@@ -11,44 +11,113 @@
 <link href="<c:url value="/resources/css/userOrderResult.css" />" rel="stylesheet" type="text/css" />
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!-- 모달 JQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<!-- toast -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
+function mainBack(){
+	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
+		location.href="<c:url value="/cafeCarp/main"/>";
+		return true;
+	}else{
+		return false;
+	}
+}
 </script>
 </head>
 <body>
-<c:set var="length" value="${fn:length(sessionScope.member.getPhone())}" />
-<c:set var="phone2" value="${fn:substring(sessionScope.member.getPhone(), length-4, length-2)}" />
-<fmt:formatNumber var="point2" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
+<c:if test="${!empty sessionScope.member}">
+	<c:set var="length" value="${fn:length(sessionScope.member.getPhone())}" />
+	<c:set var="phone2" value="${fn:substring(sessionScope.member.getPhone(), length-4, length-2)}" />
+	<c:set var="user" value="${phone2}**님" />
+	<fmt:formatNumber var="point" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
+	<c:set var="point2" value="${point}P" />
+</c:if>
 <div class="container">
 <div class="header">
-	<div clas="header1"><h1>주문내역 확인</h1></div>
-	<div class="header2"><h3>주문내역 확인</h3></div>
+	<div class="header1">
+		<h1>주문내역 확인</h1>
+	</div>
+	<div id="header2">
+		<div id="header2-1">${user}</div>
+		<div id="header2-2">${point2}</div>
+		<div id="header2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
+	</div>
 </div>
+<hr style="border: black;">
 <div class="main">
-	<c:forEach items="${menuList}" var="menuOne">
-		<div class="main1" onclick="modalOpen(this)">
-			<c:if test="${empty menuOne.SAVE_NAME}">
-				<div class="main1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
-			</c:if>
-			<c:if test="${!empty menuOne.SAVE_NAME}">
-				<div class="main1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=${menuOne.SAVE_NAME}" />"></div>
-			</c:if>
-			<div class="main1-txt">
-				<div class="main1-name">${menuOne.MENU}</div>
-				<div class="main1-price">${menuOne.PRICE}</div>
-			</div>
-		</div>
-	</c:forEach>
+	<table>
+		<thead>
+			<tr>
+				<td class="th1" colspan="6">메뉴</td><td class="th2"></td>수량<td class="th3">가격</td>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${sessionScope.orderList}" var="orderOne" varStatus="status">
+			<tr class="tr1">
+				<td class="td1-1">${orderOne.getMenu()}</td>
+				<td class="td1-2">( ${orderOne.getTemperature()} )</td>
+				<td class="td2-1">사이즈 : ${orderOne.getBeverageSize()}</td>
+				<c:choose>
+					<c:when test="${orderOne.getWhipping() eq 'N'}">
+						<c:set var="whip" value=" / 휘핑 : 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="whip" value=" / 휘핑 : 있음" />
+					</c:otherwise>
+				</c:choose>
+				<td class="td2-2">${whip}</td>
+				<c:choose>
+					<c:when test="${orderOne.getSyrub() == 0}">
+						<c:set var="syrubOp" value=" / 시럽 : 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="syrubOp" value=" / 시럽 : ${orderOne.getSyrub()}" />
+					</c:otherwise>
+				</c:choose>
+				<td class="td2-3">${syrubOp}</td>
+				<c:choose>				
+					<c:when test="${orderOne.getShot() == 0}">
+						<c:set var="shotOp" value=" / 샷추가 : 없음" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="shotOp" value=" / 샷추가 : ${orderOne.getShot()}" />
+					</c:otherwise>
+				</c:choose>
+				<td class="td2-4">${shotOp}</td>
+				<td>1</td>
+				<td class="side1-2-3-2">
+					<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
+					${orderPrice}
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
 </div>
 <div class="side">
 	<div id="side1">
-		<div id="side1-1">${user}</div>
-		<div id="side1-2">${point2}P</div>
-		<div id="side1-3"><a href="<c:url value="/cafeCarp/main"/>" onclick="mainBack();">메인페이지 이동</a></div>
+		<div id="side1-1">
+			<div id="side1-1-1">총 수량</div>
+			<div id="side1-1-2">${sessionScope.orderCount}</div>
+		</div>
+		<div id="side1-2">
+			<div id="side1-2-1">결제 금액</div>
+			<div id="side1-2-2">
+				<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
+				${orderTotal1} 원
+			</div>
+		</div>
 	</div>
-	<div id="side2"></div>
-	<div id="side3">
-		<button id="canBtn" onclick="history.go(-1);">취 소</button>
-		<button id="subBtn" onclick="">결 제</button>
+	<div id="side2">
+		<div id="side2-1"><button onclick="history.go(-1)">취 소</button></div>
+		<div id="side2-2"><button id="subBtn" onclick="">결 제 </button></div>
 	</div>
 </div>
 </div>
