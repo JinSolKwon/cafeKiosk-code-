@@ -28,13 +28,25 @@ public class PosMainController {
 	}
 	
 	@RequestMapping(value = "/pos/main", method = RequestMethod.GET)
-	public String posMain() {
+	public String posMain(HttpSession session) {
 		logger.info("pos 메인 요청 : 관리자 로그인 페이지");
-		return "/pos/posMain";
+		
+		ManagerVo loginCheck = (ManagerVo) session.getAttribute("login");
+		
+		if(loginCheck == null) {
+			logger.info("pos get요청 시 로그인된 정보가 없음");
+			return "/pos/posMain";
+		} else {
+			logger.info("pos get요청 시 로그인된 정보가 있음");
+			return "redirect:/pos/orderList";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/pos/main", method = RequestMethod.POST)
 	public String posLogin(ManagerVo managerVo, HttpSession session, RedirectAttributes rttr) {
+		
+		// 로그인 과정 복호화작업 추가해야됨
 		
 		logger.info("관리자 로그인 페이지 POST요청");
 		

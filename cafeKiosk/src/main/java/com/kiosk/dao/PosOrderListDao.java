@@ -25,4 +25,5 @@ public interface PosOrderListDao {
 	
 	// 회원 테이블에 있는 회원에게 포인트 복구
 	public int refundPoint(RefundPointCmd refundPointCmd);
+	
 }

@@ -17,6 +17,7 @@
 		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
 		<typeAlias alias="refundVo" type="com.kiosk.vo.RefundVo"/>
 		<typeAlias alias="refundPointCmd" type="com.kiosk.command.RefundPointCmd"/>
+		<typeAlias alias="memberVo" type="com.kiosk.vo.MemberVo"/>
         
 	</typeAliases>
  	

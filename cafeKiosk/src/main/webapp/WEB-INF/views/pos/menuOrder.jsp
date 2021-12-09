@@ -21,10 +21,9 @@
 	<div class="container border my-2">
 		<div class="row border">
 			<div class="col-3">
-				<div class="row" style="overflow:scroll; height:500px;" >
+				<div class="row" style="overflow:auto; width:auto; height:500px;" >
 					주문한 상품 내역 : 스크롤 설정까지 완료<br>
 					포인트 사용 혹은 적립 후 세션에 담아져있는 내용 확인해서 보여주기 추가해야됨<br>
-					
 				</div>
 				<div class="row">
 					<div class="col">수량 : </div>
@@ -35,7 +34,7 @@
 				<div class="row border">
 					카테고리 영역 : 페이징처리로 넘어가는거 해야됨 => 스크립트 써서 해보기
 				</div>
-				<div class="row border">
+				<div class="row border" style="overflow:auto; width:auto; height:auto;">
 					저장된 메뉴 조회 및 선택 영역 : 높이 설정, 스크롤 설정 필요
 				</div>
 				<div class="row border">
@@ -58,7 +57,7 @@
 			<div class="col-3 border">포인트 변동</div>
 			<div class="col-3 border">결제금액</div>
 			<div class="col-6 border text-center">
-				<button type="button" class="btn btn-outline-secondary my-2" style="width:100px;" onclick="location.href='#'">포인트</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary my-2" style="width:100px;" onclick="location.href='/pos/menuOrder/pointCheck'">포인트</button>&nbsp;
 				<button type="button" class="btn btn-outline-secondary my-2" style="width:100px;" onclick="location.href='#'">카드</button>&nbsp;
 				<button type="button" class="btn btn-outline-secondary my-2" style="width:100px;" onclick="location.href='#'">현금</button>&nbsp;
 				<button type="button" class="btn btn-outline-secondary my-2" style="width:100px;" onclick="location.href='#'">취소</button>
