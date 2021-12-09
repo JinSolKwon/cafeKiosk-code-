@@ -20,21 +20,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-var login = "<c:out value="${success}" />";
-var user = "<c:out value="${sessionScope.member.getName()}" />";
-if(login == 'hello'){
-	alert(user + "님 환영합니다.");
-}
-function mainBack(){
-	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
-		location.href="<c:url value="/cafeCarp/main"/>";
-		return true;
-	}else{
-		return false;
-	}
-}
-</script>
 </head>
 <body>
 <c:if test="${!empty sessionScope.member}">
@@ -141,7 +126,7 @@ function mainBack(){
 		</div>
 	</div>
 	<div id="side3">
-		<button id="subBtn" onclick="<c:url value="/cafeCarp/orderResult"/>" disabled="true">결 제 하 기</button>
+		<button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/orderResult"/>'" disabled="true">결 제 하 기</button>
 	</div>
 </div>
 </div>
@@ -205,13 +190,25 @@ function mainBack(){
 	</div>
 	</form>
 </div>
-<!-- 모달 함수 -->
 <script type="text/javascript">
+var login = "<c:out value="${success}" />";
+var user = "<c:out value="${sessionScope.member.getName()}" />";
+if(login == 'hello'){
+	alert(user + "님 환영합니다.");
+}
+function mainBack(){
+	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
+		location.href="<c:url value="/cafeCarp/main"/>";
+		return true;
+	}else{
+		return false;
+	}
+}
+
 var numC = "<c:out value="${num}" />";
 	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
 	
-var btnCont = "<c:set value="${sessionScope.orderList}"/>";
-if(btnCont != null){
+if(${not empty sessionScope.orderList}){
 	$(function(){
 		$("#subBtn").attr("disabled", false);
 	})

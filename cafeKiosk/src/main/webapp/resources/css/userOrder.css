@@ -2,7 +2,7 @@
 
 .container{display : grid; grid-template-columns : 1fr 30%; grid-template-rows : 80px 1fr; height : 100%; grid-template-areas :  "header header"  "main side"}
 
-.header{grid-area : header; margin:0; background-color: #EAEAEA; overflow: hidden; display : grid; grid-template-columns: 1fr 30%;}
+.header{grid-area : header; margin:0; background-color: #E0E0E0; overflow: hidden; display : grid; grid-template-columns: 1fr 30%;}
 .main{grid-area : main; padding:10px; margin:0; text-align: center; height: 1000px; overflow-y: scroll; -ms-overflow-style: none; /* IE and Edge */scrollbar-width: none; /* Firefox */}
 .main::-webkit-scrollbar {display: none; /* Chrome, Safari, Opera*/ width: 0 !important;}
 .side{grid-area : side; background-color: #162447; margin:0; padding:0; text-align: center;}

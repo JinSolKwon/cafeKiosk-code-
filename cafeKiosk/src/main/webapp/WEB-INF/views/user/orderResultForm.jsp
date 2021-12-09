@@ -20,16 +20,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-function mainBack(){
-	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
-		location.href="<c:url value="/cafeCarp/main"/>";
-		return true;
-	}else{
-		return false;
-	}
-}
-</script>
 </head>
 <body>
 <c:if test="${!empty sessionScope.member}">
@@ -53,17 +43,15 @@ function mainBack(){
 <hr style="border: black;">
 <div class="main">
 	<table>
-		<thead>
-			<tr>
-				<td class="th1" colspan="6">메뉴</td><td class="th2"></td>수량<td class="th3">가격</td>
-			</tr>
-		</thead>
-		<tbody>
+		<tr class="th">
+			<td class="th1" colspan="2">메뉴</td><td class="th2">수량</td><td class="th3">가격</td>
+		</tr>
 		<c:forEach items="${sessionScope.orderList}" var="orderOne" varStatus="status">
 			<tr class="tr1">
-				<td class="td1-1">${orderOne.getMenu()}</td>
-				<td class="td1-2">( ${orderOne.getTemperature()} )</td>
-				<td class="td2-1">사이즈 : ${orderOne.getBeverageSize()}</td>
+				<td class="td1">
+					<b>${orderOne.getMenu()}</b>
+					<span>( ${orderOne.getTemperature()} )</span>
+				</td>
 				<c:choose>
 					<c:when test="${orderOne.getWhipping() eq 'N'}">
 						<c:set var="whip" value=" / 휘핑 : 없음" />
@@ -72,7 +60,6 @@ function mainBack(){
 						<c:set var="whip" value=" / 휘핑 : 있음" />
 					</c:otherwise>
 				</c:choose>
-				<td class="td2-2">${whip}</td>
 				<c:choose>
 					<c:when test="${orderOne.getSyrub() == 0}">
 						<c:set var="syrubOp" value=" / 시럽 : 없음" />
@@ -81,7 +68,6 @@ function mainBack(){
 						<c:set var="syrubOp" value=" / 시럽 : ${orderOne.getSyrub()}" />
 					</c:otherwise>
 				</c:choose>
-				<td class="td2-3">${syrubOp}</td>
 				<c:choose>				
 					<c:when test="${orderOne.getShot() == 0}">
 						<c:set var="shotOp" value=" / 샷추가 : 없음" />
@@ -90,28 +76,29 @@ function mainBack(){
 						<c:set var="shotOp" value=" / 샷추가 : ${orderOne.getShot()}" />
 					</c:otherwise>
 				</c:choose>
-				<td class="td2-4">${shotOp}</td>
-				<td>1</td>
-				<td class="side1-2-3-2">
+				<td class="td2">사이즈 : ${orderOne.getBeverageSize()}${whip}${syrubOp}${shotOp}</td>
+				<td class="td3">1</td>
+				<td class="td3">
 					<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
 					${orderPrice}
 				</td>
 			</tr>
 		</c:forEach>
-		</tbody>
 	</table>
 </div>
 <div class="side">
 	<div id="side1">
 		<div id="side1-1">
-			<div id="side1-1-1">총 수량</div>
-			<div id="side1-1-2">${sessionScope.orderCount}</div>
-		</div>
-		<div id="side1-2">
-			<div id="side1-2-1">결제 금액</div>
-			<div id="side1-2-2">
-				<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
-				${orderTotal1} 원
+			<div id="side1-2">
+				<div id="side1-2-1">총 수량</div>
+				<div id="side1-2-2">${sessionScope.orderCount}</div>
+			</div>
+			<div id="side1-3">
+				<div id="side1-3-1">결제 금액</div>
+				<div id="side1-3-2">
+					<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
+					${orderTotal1} 원
+				</div>
 			</div>
 		</div>
 	</div>
@@ -121,5 +108,15 @@ function mainBack(){
 	</div>
 </div>
 </div>
+<script type="text/javascript">
+function mainBack(){
+	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
+		location.href="<c:url value="/cafeCarp/main"/>";
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
 </body>
 </html>
