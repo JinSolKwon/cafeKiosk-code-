@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,11 @@ import com.kiosk.vo.CategoryVo;
 @Controller
 @RequestMapping(value="/cafeCarp/")
 public class OrderController {
-	@Autowired
+	
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+	//logger.info();		sysout 대신
+	
+	@Autowired		//	@Inject
 	private IMemberService memberService;
 	
 	@RequestMapping(value="order", method=RequestMethod.GET)
@@ -32,9 +38,11 @@ public class OrderController {
 		}
 		List<HashMap<String, String>> menuList = memberService.menuList(num);
 		model.addAttribute("menuList", menuList);
-		model.addAttribute("num", num);
-		model.addAttribute("pageNum", num);
-		return "user/orderForm";
+		if(session.getAttribute("pageNum") != null) {
+			session.removeAttribute("pageNum");
+		}
+		session.setAttribute("pageNum", num);
+		return "kiosk/orderForm";
 	}
 	
 	@RequestMapping(value="orderSet", method=RequestMethod.POST)
@@ -49,29 +57,52 @@ public class OrderController {
 			session.removeAttribute("orderTotal");
 		}
 		orderList.add(moc);
+		if(session.getAttribute("pageNum") != null) {
+			session.removeAttribute("pageNum");
+		}
+		session.setAttribute("pageNum", moc.getCategoryNum());
 		session.setAttribute("orderList", orderList);
 		session.setAttribute("orderCount", orderList.size());
 		session.setAttribute("orderTotal", toNum);
-		rttr.addFlashAttribute("pageNum", moc.getCategoryNum());
 		return "redirect:/cafeCarp/order?num="+moc.getCategoryNum();
 	}
 	
-	@RequestMapping(value="orderDel", method=RequestMethod.POST)
-	public String orderSet(int status, int pageNum, HttpSession session, Model model) {
+	@RequestMapping(value="orderDel")
+	public String orderSet(@RequestParam(value="num") int num, HttpSession session, Model model) {
 		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 		int toNum = (Integer) session.getAttribute("orderTotal");
-		toNum -= orderList.get(status).getPrice();
-		orderList.remove(status);
+		toNum -= orderList.get(num).getPrice();
+		orderList.remove(num);
 		session.removeAttribute("orderList");
 		session.removeAttribute("orderTotal");
 		session.setAttribute("orderList", orderList);
 		session.setAttribute("orderTotal", toNum);
-		return "redirect:/cafeCarp/order";
+		int pageNum = (Integer) session.getAttribute("pageNum");
+		return "redirect:/cafeCarp/order?num="+pageNum ;
 	}
 	
 	@RequestMapping(value="orderResult")
 	public String orderSet() {
-		return "user/orderResultForm";
+		return "kiosk/orderResultForm";
+	}
+	
+	@RequestMapping(value="scroll")
+	public String scroll(@RequestParam(value="type") String type, HttpSession session, RedirectAttributes rttr) throws Exception {
+		int page =(Integer) session.getAttribute("pageNum");
+		int cateLen = memberService.categoryList().size();
+		if(type.equals("N") || type == "N") { 
+			if(page < cateLen) {
+				page += 1; 	
+				rttr.addFlashAttribute("scDis", "R");
+			}
+		}
+		if(type.equals("A") || type == "A") {
+			if(1 < page) {
+				page -=1; 
+				rttr.addFlashAttribute("scDis", "L");
+			}
+		}
+		return "redirect:/cafeCarp/order?num="+page;
 	}
 	
 }

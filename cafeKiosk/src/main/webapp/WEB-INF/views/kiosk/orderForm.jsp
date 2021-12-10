@@ -32,11 +32,15 @@
 <div class="container">
 <div class="header">
 	<div class="header1">
-		<ul id="cateUl">
-		<c:forEach items="${sessionScope.cateList}" var="cateOne">
-			<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
-		</c:forEach>
-		</ul>
+		<div class="header1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
+		<div class="header1-2">
+			<ul id="cateUl">
+			<c:forEach items="${sessionScope.cateList}" var="cateOne">
+				<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
+			</c:forEach>
+			</ul>
+		</div>
+		<div class="header1-3"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=N" />'">▶</button></div>
 	</div>
 	<div id="header2">
 		<div id="header2-1">${user}</div>
@@ -73,11 +77,7 @@
 					<div class="side1-2-2">( ${orderOne.getTemperature()} )</div>
 					<div class="side1-2-3">
 						<div class="side1-2-3-1">
-						<form action="<c:url value="/cafeCarp/orderDel" />" method="post">
-							<input type="hidden" name="status" value="${status.index}"/>
-							<input type="hidden" name="pageNum" value="${pageNum}"/>
-							<button type="submit">X</button>
-						</form>
+							<button type="button" onclick="location.href='<c:url value="/cafeCarp/orderDel?num=${status.index}" />'">X</button>
 						</div>
 						<div class="side1-2-3-2">
 							<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
@@ -205,8 +205,17 @@ function mainBack(){
 	}
 }
 
-var numC = "<c:out value="${num}" />";
+var numC = "<c:out value="${sessionScope.pageNum}" />";
 	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
+	
+var scDis = "<c:out value="${scDis}" />";
+var _scrollX = $('.header1-2').scrollLeft();
+if(scDis === 'R'){
+	$('.header1-2').scrollLeft(_scrollX + 100);
+}
+if(scDis === 'L'){
+	$('.header1-2').scrollLeft(_scrollX - 100);
+}
 	
 if(${not empty sessionScope.orderList}){
 	$(function(){

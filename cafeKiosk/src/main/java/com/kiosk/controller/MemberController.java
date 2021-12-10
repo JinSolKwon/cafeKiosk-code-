@@ -21,12 +21,12 @@ public class MemberController {
 	@RequestMapping(value="main")
 	String mainPage(HttpSession session) {
 		session.invalidate();
-		return "user/main";
+		return "kiosk/main";
 	}
 	
 	@RequestMapping(value="regist", method=RequestMethod.GET)
 	String regist() {
-		return "user/registForm";
+		return "kiosk/registForm";
 	}
 	
 	@RequestMapping(value="regist", method=RequestMethod.POST)
@@ -72,7 +72,7 @@ public class MemberController {
 	
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	String login(String phone) {
-		return "user/loginForm";
+		return "kiosk/loginForm";
 	}
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
