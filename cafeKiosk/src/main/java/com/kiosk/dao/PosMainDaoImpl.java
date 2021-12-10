@@ -2,7 +2,7 @@ package com.kiosk.dao;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kiosk.vo.ManagerVo;
@@ -11,11 +11,11 @@ import com.kiosk.vo.ManagerVo;
 public class PosMainDaoImpl implements PosMainDao{
 	
 	@Inject
-	private SqlSession sqlSession;
+	private SqlSessionTemplate sqlSessionTemplate;
 	
 	// 관리자 로그인 계정 확인
 	@Override
 	public ManagerVo managerLogin(ManagerVo managerVo) {
-		return sqlSession.selectOne("posMainMapper.managerLogin", managerVo);
+		return sqlSessionTemplate.selectOne("posMainMapper.managerLogin", managerVo);
 	}
 }

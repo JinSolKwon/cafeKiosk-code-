@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,9 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+
+<!-- 추가 css -->
+<link href="<c:url value="/resources/css/userOrderResult.css" />" rel="stylesheet" type="text/css" />	
 	
 <title>메뉴 주문하기</title>
 </head>
@@ -21,7 +25,7 @@
 	<div class="container border my-2">
 		<div class="row border">
 			<div class="col-3">
-				<div class="row" style="overflow:auto; width:auto; height:500px;" >
+				<div class="row scroll-1" style="overflow:auto; width:auto; height:500px;" >
 					주문한 상품 내역 : 스크롤 설정까지 완료<br>
 					포인트 사용 혹은 적립 후 세션에 담아져있는 내용 확인해서 보여주기 추가해야됨<br>
 				</div>
@@ -39,11 +43,11 @@
 				</div>
 				<div class="row border">
 					<div class="col">
-							<button type="button" class="btn btn-dark text-white my-1" style="width:100px;" onclick="location.href='#'">M</button>&nbsp;
-							<button type="button" class="btn btn-dark text-white my-1" style="width:100px;" onclick="location.href='#'">L(+500)</button>&nbsp;
-							<button type="button" class="btn btn-dark text-white my-1" style="width:100px;" onclick="location.href='#'">ML(+500)</button>&nbsp;
-							<button type="button" class="btn btn-primary text-white my-1" style="width:100px;" onclick="location.href='#'">ICE</button>
-							<button type="button" class="btn btn-primary text-white my-1" style="width:100px;" onclick="location.href='#'">HOT</button>
+							<button type="button" class="btn btn-dark text-white my-1" style="width:140px;" onclick="location.href='#'">M</button>
+							<button type="button" class="btn btn-dark text-white my-1" style="width:140px;" onclick="location.href='#'">L(+500)</button>
+							<button type="button" class="btn btn-dark text-white my-1" style="width:140px;" onclick="location.href='#'">ML(+500)</button>
+							<button type="button" class="btn btn-primary text-white my-1" style="width:140px;" onclick="location.href='#'">ICE</button>
+							<button type="button" class="btn btn-primary text-white my-1" style="width:140px;" onclick="location.href='#'">HOT</button>
 							<button type="button" class="btn btn-secondary text-white my-1" style="width:140px;" onclick="location.href='#'">샷추가(+500)</button>
 							<button type="button" class="btn btn-secondary text-white my-1" style="width:140px;" onclick="location.href='#'">휘핑추가(+500)</button>
 							<button type="button" class="btn btn-secondary text-white my-1" style="width:140px;" onclick="location.href='#'">시럽추가(+500)</button>
