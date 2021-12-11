@@ -105,4 +105,19 @@ public class OrderController {
 		return "redirect:/cafeCarp/order?num="+page;
 	}
 	
+	@RequestMapping(value="pay")
+	public String pay1() {
+		return "kiosk/payCount";
+	}
+	
+	@RequestMapping(value="receipe")
+	public String payRecipe(@RequestParam(value="type", defaultValue="S") String type, RedirectAttributes rttr) {
+		if(type.equals("Y")) {
+			return "redirect:/cafeCarp/main";
+		}else if(type.equals("N")) {
+			return "kiosk/payResult";
+		}
+		return "kiosk/payReceipe";
+	}
+	
 }

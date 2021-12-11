@@ -104,7 +104,7 @@
 	</div>
 	<div id="side2">
 		<div id="side2-1"><button onclick="history.go(-1)">취 소</button></div>
-		<div id="side2-2"><button id="subBtn" onclick="">결 제 </button></div>
+		<div id="side2-2"><button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/pay" />'">결 제 </button></div>
 	</div>
 </div>
 </div>

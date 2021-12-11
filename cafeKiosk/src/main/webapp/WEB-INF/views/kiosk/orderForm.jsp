@@ -35,8 +35,8 @@
 		<div class="header1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
 		<div class="header1-2">
 			<ul id="cateUl">
-			<c:forEach items="${sessionScope.cateList}" var="cateOne">
-				<li><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
+			<c:forEach items="${sessionScope.cateList}" var="cateOne" varStatus="status">
+				<li id="cateLi${satus.count}"><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
 			</c:forEach>
 			</ul>
 		</div>
@@ -119,10 +119,12 @@
 		</c:if>
 	</div>
 	<div id="side2">
-		<div class="side2-1">수량 : ${sessionScope.orderCount}</div>
+		<div class="side2-1"><c:if test="${not empty sessionScope.orderCount}" ><c:set var="orCount" value="수량  : ${sessionScope.orderCount}"/>${orCount}</c:if></div>
 		<div class="side2-2">
-			<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
-			금액 : ${orderTotal1} 원
+			<c:if test="${not empty sessionScope.orderTotal}" >
+				<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
+				<c:set var="orTotal" value="금액 : ${orderTotal1} 원"/>${orTotal}
+			</c:if>
 		</div>
 	</div>
 	<div id="side3">
@@ -130,7 +132,8 @@
 	</div>
 </div>
 </div>
-<div class="modal" id="optionModal" tabindex="-1" role="dialog">
+<div class="modal" id="optionModal" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
 	<form action="<c:url value="/cafeCarp/orderSet" />" method="post">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -154,8 +157,8 @@
 			<div class="modal-body1">
 				<h3>사이즈</h3>
 				<label><input type="radio" name="beverageSize" value="M" checked="checked" />M</label>
-				<label><input type="radio" name="beverageSize" value="L" />L</label>
-				<label><input type="radio" name="beverageSize" value="XL" />XL</label>
+				<label><input type="radio" name="beverageSize" value="L" />L(+500)</label>
+				<label><input type="radio" name="beverageSize" value="XL" />XL(+1000)</label>
 			</div>
 			<div class="modal-body2">
 				<h3>휘핑</h3>
@@ -189,6 +192,7 @@
 		</div>
 	</div>
 	</form>
+	</div>
 </div>
 <script type="text/javascript">
 var login = "<c:out value="${success}" />";
@@ -205,13 +209,20 @@ function mainBack(){
 	}
 }
 
+var btnCont = "<c:out value="${sessionScope.orderList}"/>";
+if(btnCont != null){
+	$(function(){
+		$("#subBtn").attr("disabled", false);
+	})
+}
+
 var numC = "<c:out value="${sessionScope.pageNum}" />";
 	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
 	
-var scDis = "<c:out value="${scDis}" />";
+/* var scDis = "<c:out value="${scDis}" />";
 var _scrollX = $('.header1-2').scrollLeft();
 if(scDis === 'R'){
-	$('.header1-2').scrollLeft(_scrollX + 100);
+	$('.header1-2').scrollTo(_scrollX + 100);
 }
 if(scDis === 'L'){
 	$('.header1-2').scrollLeft(_scrollX - 100);
@@ -221,7 +232,36 @@ if(${not empty sessionScope.orderList}){
 	$(function(){
 		$("#subBtn").attr("disabled", false);
 	})
-}
+} */
+
+// 스크롤 마우스로 이동 function
+const slider = document.querySelector('.header1-2');
+let isMouseDown = false;
+let startX, scrollLeft;
+
+slider.addEventListener('mousedown', (e) => {
+	isMouseDown = true;
+	slider.classList.add('active');
+	
+	startX = e.pageX - slider.offsetLeft;
+	scrollLeft = slider.scrollLeft;
+});
+slider.addEventListener('mouseleave', () => {
+	isMouseDown = false;
+	slider.classList.remove('active');
+});
+slider.addEventListener('mouseup', () => {
+	isMouseDown = false;
+	slider.classList.remove('active');
+});
+slider.addEventListener('mousemove', (e) => {
+	if(!isMouseDown) return;
+	
+	e.preventDefault();
+	const x = e.pageX - slider.offsetLeft;
+	const walk = (x - startX) * 1;
+	slider.scrollLeft = scrollLeft - walk;
+});
 	
 	
 var modal = document.getElementById("optionModal");
@@ -236,11 +276,17 @@ function modalOpen(menu,price,save,cateNum){
 	var imgSrc = "<c:url value='/display?saveName=" + save + "'/>";
 	$('#modal-img').attr("src", imgSrc);
 	$('#modal-img').attr("alt", save);
+	
+	var divWidth = $(window).width(); 
+	var divHeight = $(window).height(); //화면을 가리는 레이어의 사이즈 조정 $(".backLayer").width(width); $(".backLayer").height(height);
+	$('#optionModal').css({'width':divWidth,'height':divHeight});
 	modal.style.display="block";
 }
 function modalClose(){
 	modal.style.display="none";
 }
+
+
 function fnCalCount(type){
     var $input = $(".modal-body3").find("input[name='syrub']");
     var tCount = Number($input.val());

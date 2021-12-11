@@ -22,13 +22,13 @@
 a{text-decoration: none !important;}
 a:hover{text-decoration: none !important;}
 a:visited {text-decoration: none !important;}
-.header1{height: 100%; width:100%; font-size: 0;}
+.header1{height: 100%; width:100%; font-size: 0; display: inline-flex;}
 .header1 ul{margin: 0; padding: 0;}
 .header1 ul li{display: inline-block;text-align: center; list-style: none; margin:auto; padding: 5px 40px 5px 40px; line-height:70px; vertical-align:middle; font-size: 22px; font-weight: bold; border: #FFFFFF 2px; height: 70px;}
 .header1 ul li a{color: #5E5E5E !important;}
-.header1-1,.header1-3{height:100%; width:10%; padding: 0; margin: 0; display: inline-block; text-align: center;}
-.header1-1 button,.header1-3 button{padding: 0; margin: 0; font-weight: bold; font-size: 50px; background-color: #E0E0E0; width:100%; height: 100%; border: 0; text-align: center;}
-.header1-2{height:100%; width:80%; margin: 0; padding: 0; display: inline-block; vertical-align: top; overflow-x:auto; white-space:nowrap; -ms-overflow-style: none; /* IE and Edge */scrollbar-width: none; /* Firefox */}
+.header1-1,.header1-3{height:100%; width:5%; padding: 0; margin: 0; text-align: center;}
+.header1-1 button,.header1-3 button{padding: 0 0 15px 0; margin: 0; font-weight: bold; font-size: 50px; background-color: #E0E0E0; width:100%; height: 100%; border: 0; text-align: center;}
+.header1-2{height:100%; width:90%; margin: 0; padding: 0; vertical-align: top; overflow-x:auto; white-space:nowrap; -ms-overflow-style: none; /* IE and Edge */scrollbar-width: none; /* Firefox */}
 .header1-2::-webkit-scrollbar {display: none; /* Chrome, Safari, Opera*/ width: 0 !important;}
 
 #header2{background-color: #162447; height:100%;font-size: 20px;display: grid;grid-template-columns: 1.5fr 2fr 1fr;font-weight: bold;color: #FFFFFF;margin: 0; padding: 0;}
@@ -62,15 +62,21 @@ a:visited {text-decoration: none !important;}
 #side3 button{display:block; width:90%; height:80%; border-radius: 5px; background-color: #FFFFFF; color: #162447; border: 0; font-size: 28px; font-weight: bold; margin: auto; padding: 4px 0 4px 0; text-align: center;}
 
 #optionModal{
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: 0; padding: 0; 
+	z-index:10001;
 	background-color: rgb(0,0,0); /* Fallback color */
-	background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+	background-color: rgba(0,0,0,0.8); /* Black w/ opacity */	
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
     }
+    
     
 /* Modal Content/Box */
 .modal-content{
@@ -112,7 +118,6 @@ a:visited {text-decoration: none !important;}
 }
 .modal-footer1, .modal-footer2{
   display:inline;
-  float:left;
   width:50%;                      /*2개 버튼 각각 50% 영역*/
   height:100%;                    /*50px*/
   justify-content:center;         /*수평정렬*/
