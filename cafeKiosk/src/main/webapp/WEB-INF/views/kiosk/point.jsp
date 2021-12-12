@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>cafeCarp 주문페이지</title>
+<title>cafeCarp 포인트 결과</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -50,16 +50,14 @@
 	</div>
 	<div class="footer-btn-point">
 		<div class="footer-btn1-point"><button onclick="location.href='<c:url value="/cafeCarp/pointPay?type=S" />'"><span>적립</span></button></div>
-		<div class="footer-btn2-point"><button onclick="location.href='<c:url value="/cafeCarp/pointPay?type=U" />'" disabled="true"><span>사용</span></button></div>
+		<div class="footer-btn2-point"><button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/pointPay?type=U" />'" disabled="true"><span>사용</span></button></div>
 	</div>
 </div>
 <script type="text/javascript">
 var point = "<c:out value="${sessionScope.member.getPoint()}"/>";
 console.log(point);
 if(point >= 3000){
-	$(function(){
-		$("#subBtn").attr("disabled", false);
-	})
+	$("#subBtn").attr("disabled", false);
 }
 </script>
 </body>

@@ -213,10 +213,8 @@ if(${empty sessionScope.orderList}){
 	$(function(){
 		$("#subBtn").attr("disabled", true);
 	})
-}else if({not empty sessionScope.orderList}){
-	$(function(){
-		$("#subBtn").attr("disabled", false);
-	})
+}else{
+	$("#subBtn").attr("disabled", false);
 }
 
 var numC = "<c:out value="${sessionScope.pageNum}" />";

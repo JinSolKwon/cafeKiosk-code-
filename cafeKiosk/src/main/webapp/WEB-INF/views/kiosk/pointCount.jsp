@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>cafeCarp 주문페이지</title>
+<title>cafeCarp 주문완료</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -39,13 +39,13 @@
 					<c:set var="pointWhat" value="적립예정 포인트" />
 					<fmt:formatNumber var="pointHow" value="${sessionScope.orderTotal}" pattern="#,###" />
 					<c:set var="pointHow2" value="+ ${pointHow} P" />
-					<c:set var="pointResult" value="+ ${sessionScope.member.getPoint()+sessionScope.orderTotal} P" />
+					<c:set var="pointResult" value="${sessionScope.member.getPoint()+sessionScope.orderTotal}" />
 				</c:if>
 				<c:if test="${poType == 'use'}">
 					<c:set var="pointWhat" value="사용예정 포인트" />
 					<fmt:formatNumber var="pointHow" value="${sessionScope.orderTotal}" pattern="#,###" />
 					<c:set var="pointHow2" value="+ ${pointHow} P" />					
-					<c:set var="pointResult" value="+ ${sessionScope.orderTotal-sessionScope.member.getPoint()} P" />
+					<c:set var="pointResult" value="${sessionScope.orderTotal-sessionScope.member.getPoint()}" />
 				</c:if>
 				<span class="p-intro">${pointWhat}</span>
 				<span class="p-set">${pointHow2}</span>

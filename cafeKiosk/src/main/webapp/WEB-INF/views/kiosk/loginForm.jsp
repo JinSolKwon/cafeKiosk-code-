@@ -3,25 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>cafeCarp 로그인</title>
+<link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-<form action="<c:url value="/cafeCarp/login" />" method="post">
-	<table>
-	<thead>
-		<tr><td></td></tr>
-	</thead>
-	<tbody>
-		<tr><td><input size="50" type="text" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리 입력"/></td></tr>
-	</tbody>
-	<tfoot>
-		<tr><td><button type="submit" id="subBtn" disabled="true">회원 주문하기</button></td></tr>
-	</tfoot>
-	</table>
-</form>
+<div class="container-main">
+<div class="header-main">
+	<img alt="cafeCarp" src="<c:url value="/resources/img/cafeCarp_main.png" />">
+</div>
+<div class="main-login">
+	<form action="<c:url value="/cafeCarp/login" />" method="post">
+	<input size="50" type="text" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리 입력"/>
+	<button type="submit" id="subBtn" disabled="true">회원 주문하기</button>
+	</form>
+</div>	
+</div>
 <script type="text/javascript">
 $(function(){
 	$("#phone").on('input', function(){

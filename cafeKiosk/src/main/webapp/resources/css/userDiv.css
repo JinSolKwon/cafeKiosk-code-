@@ -20,6 +20,26 @@
 	box-shadow: 3px 3px 3px 3px gray;
 }
 
+.container-main{
+	margin:0;
+	padding:0;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	z-index:10001;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);	
+	width:70%;
+	height:50%;
+	background-color: #162447;
+	border:1px solid #000000;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 3px gray;
+}
+
 .container2{
 	margin:0;
 	padding:0;
@@ -40,6 +60,43 @@
 	box-shadow: 3px 3px 3px 3px gray;
 }
 .container1{width:49%; height:100%; margin: 0; padding: 0; float: left;}
+
+.header-main{margin: 0; padding: 0; width: 100%; height: 28%; text-align: center;}
+.header-main img{width: 60%; height: 80%; margin: 15px; padding: 0; vertical-align: middle;}
+
+.main-main{margin: 0; padding-left: 5%; width: 96%; height: 57%; text-align: center;}
+.main-main a:vidited{text-decoration: none !important;}
+.main-main a:link{text-decoration: none !important;}
+.main-main1{display:table; margin: 2%; padding: 0; width: 27%; height: 80%; background-color: #46526D; float: left;}
+.main-main1 span{display:table-cell; vertical-align:middle; margin: 0; padding: 0; width: 100%; height:100%; text-align: center; color: #F4F4F4; font-size: 30px; font-weight: bold;}
+
+.footer-main{display:table; margin: 0; padding: 0; width: 100%; height: 15%;}
+.footer-main span{margin: 0; padding: 0; width: 100%; height: 20%;display:table-cell; vertical-align:middle; text-align: center; font-weight: bold; font-size: 22px; color: #F4F4F4; }
+
+.main-login{margin-top: 5%; padding: 0; width: 100%; height: 60%; text-align: center;}
+.main-login form{height: 100%; margin: 0; padding: 0; }
+.main-login input{width: 80%; height: 20%; font-size: 22px; margin:4%;}
+.main-login button{width: 80%; height: 20%;  border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size: 30px; font-weight: bold; margin:2%; padding: 0;}
+
+.main-regist{margin: 0; padding: 0; width: 100%; height: 72%; text-align: center;}
+#registForm{margin: 0; padding: 0; width: 100%; height: 72%; }
+.main-regist1,.main-regist2,.main-regist3{margin: 1%; padding: 0; width: 100%; height: 25%; }
+.main-regist1 input{margin: 0; padding: 0; width: 60%; height: 60%; font-size: 20px;}
+.main-regist1 button{width: 20%; height: 60%;  border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size:20px; font-weight: bold; margin:1%; padding: 0;}
+.main-regist2 input{margin: 0; padding: 0; width: 83%; height: 60%; font-size: 20px;}
+.main-regist3{margin: 0;}
+.main-regist3-1{margin: 0; padding-top:1%; width: 30%; height: 70%; font-size: 30px; font-weight: bold; color: #FFFFFF; display: inline-block; vertical-align: middle; text-align: center;}
+.main-regist3-2,.main-regist3-3,.main-regist3-4{margin: 0; padding: 0; width: 15%; height: 80%; display: inline-block; vertical-align: middle;}
+.main-regist3 select{margin: 0; width: 100%; height: 100%; font-size: 18px;padding: .3em .5em; text-align: right;}
+
+.main-regist4{margin: 0; padding: 0 0 0 10%; width: 90%; height: 15%; display: table;}
+.main-regist4 span{display:table-cell; vertical-align:middle; color: #ED0000; font-weight: bold; font-size: 20px; text-align: left; }
+
+.footer-btn-regist{margin: 0; padding: 0; width: 100%; height: 20%; }
+.footer-btn-regist1,.footer-btn-regist2{width:50%; height:100%; margin: 0; padding: 0; text-align: center; display:inline; float: left;}
+.footer-btn-regist1 button{width:77%; height:80%; border-radius: 5px; background-color: #F4F4F4; color: #FFFFFF; border: 0; font-size: 26px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
+.footer-btn-regist2 button{width:77%; height:80%; border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size: 26px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
+
 
 .header-count{display:table; margin: 0; padding: 0; width: 100%; height: 25%; text-align: center;}
 .header-count span{display:table-cell; vertical-align:middle; text-align: center; font-weight: bold; font-size: 40px; color: #000000;}
