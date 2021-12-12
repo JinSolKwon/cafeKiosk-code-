@@ -25,35 +25,33 @@
 			<b>조회결과</b>
 		</div>
 		
-		<div class="row">
+		<div class="row my-4 text-center" style="height: 130px;">
 			<c:choose>
 				<c:when test="${memberPointCheck ne null }">
-					<div class="text-start">
-						<table class="table table-borderless fs-5" style="width: 300px; margin-left: auto; margin-right: auto;">
-							<tr>
-								<th>이름</th>
-								<td>${memberPointCheck.name }</td>
-							</tr>
-							<tr>
-								<th>전화번호</th>
-								<td>${memberPointCheck.phone }</td>
-							</tr>
-							<tr>
-								<th>보유포인트</th>
-								<td><fmt:formatNumber value="${memberPointCheck.point }" pattern="#,###"/>P</td>
-							</tr>
-						</table>
-					</div>
+					<table class="table table-borderless fs-5" style="width: 300px; margin-left: auto; margin-right: auto;">
+						<tr>
+							<th>이름</th>
+							<td>${memberPointCheck.name }</td>
+						</tr>
+						<tr>
+							<th>전화번호</th>
+							<td>${memberPointCheck.phone }</td>
+						</tr>
+						<tr>
+							<th>보유포인트</th>
+							<td><fmt:formatNumber value="${memberPointCheck.point }" pattern="#,###"/>P</td>
+						</tr>
+					</table>
 				</c:when>
 				<c:otherwise>
-					<div class="text-center fs-1">
-						<b>등록된 회원정보가 없습니다</b>			
+					<div class="fs-2 my-4">
+						<b>등록된 회원정보가 없습니다</b>
 					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
 		
-		<div class="row justify-content-end">
+		<div class="row my-3 justify-content-end">
 			<div class="col-3">
 				<button type="button" id="back" class="btn btn-light border" style="width:100px;">이전</button>
 			</div>
@@ -78,7 +76,7 @@
 		document.getElementById("back").addEventListener("click", back);
 		
 		function back(){
-			location.href="/pos/menuOrder";
+			location.href="/pos/menuOrder/details";
 		}
 		
 		document.getElementById("pointSave").addEventListener("click", pointSave);

@@ -36,6 +36,11 @@ public class PosMenuOrderServiceImpl implements PosMenuOrderService{
 	}
 	
 	@Override
+	public String getMaxOrderNum(String today) {
+		return posMenuOrderDao.getMaxOrderNum(today);
+	}
+	
+	@Override
 	public Map<String, MemberVo> pointCheck(String phoneNum) {
 		
 		MemberVo memberVo = posMenuOrderDao.pointCheck(phoneNum);

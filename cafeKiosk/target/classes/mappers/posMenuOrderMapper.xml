@@ -32,6 +32,15 @@
 			num asc
 	</select>
 	
+	<select id="getMaxOrderNum" parameterType="String" resultType="String">
+		select
+			*
+		from
+			order_list
+		where
+			to_char(order_date,'YYYYMMDD') = #{today}
+	</select>
+	
 	<select id="selectMember" parameterType="String" resultType="memberVo">
 		select 
 			*

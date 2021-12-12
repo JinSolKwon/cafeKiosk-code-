@@ -18,6 +18,9 @@ public interface PosMenuOrderDao {
 	// 옵션 목록 조회
 	public List<OptionListVo> selectOptionList();
 	
+	// 주문번호 가져오기
+	public String getMaxOrderNum(String today);
+	
 	// 회원 전화번호로 포인트 조회
 	public MemberVo pointCheck(String phoneNum);
 }

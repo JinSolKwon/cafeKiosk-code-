@@ -33,7 +33,7 @@
 		<form method="post" class="center" name="pointCheck">
 			<div class="row">
 				<div class="col">
-					<input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="전화번호를 입력하세요">
+					<input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="전화번호를 입력하세요" maxlength="13">
 				</div>
 			</div>
 		</form>
@@ -55,7 +55,43 @@
 	</script>
 	
 	<script type="text/javascript">
-		
+		function autoHypenPhone(str){
+	        str = str.replace(/[^0-9]/g, '');
+	        var tmp = '';
+	        if( str.length < 4){
+	            return str;
+	        }else if(str.length < 7){
+	            tmp += str.substr(0, 3);
+	            tmp += '-';
+	            tmp += str.substr(3);
+	            return tmp;
+	        }else if(str.length < 11){
+	            tmp += str.substr(0, 3);
+	            tmp += '-';
+	            tmp += str.substr(3, 3);
+	            tmp += '-';
+	            tmp += str.substr(6);
+	            return tmp;
+	        }else{              
+	            tmp += str.substr(0, 3);
+	            tmp += '-';
+	            tmp += str.substr(3, 4);
+	            tmp += '-';
+	            tmp += str.substr(7);
+	            return tmp;
+	        }
+	        return str;
+	    }
+	
+		var phoneNum = document.getElementById('phoneNum');
+		// onkeyup : 사용자가 키보드를 눌렀다가 땠을 때
+		phoneNum.onkeyup = function(event){
+		    event = event || window.event;
+		    var _val = this.value.trim();
+		    this.value = autoHypenPhone(_val) ;
+		}	
+	
+	
 		document.getElementById("back").addEventListener("click", back);
 		
 		function back(){
@@ -78,14 +114,14 @@
 				alert('숫자만 입력해주세요')
 				form.phoneNum.focus();
 				return false;
-			} else if(phone.length != 11) {
+			} else if(phone.length != 13) {
 				alert('전화번호 11자리를 입력해주세요');
 				form.phoneNum.focus();
 				return false;
 			} 
 			form.submit();
 		}
-
+		
 		</script>
 	
 </body>

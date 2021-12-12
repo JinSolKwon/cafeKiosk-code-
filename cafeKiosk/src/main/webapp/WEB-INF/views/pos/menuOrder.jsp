@@ -38,9 +38,9 @@
 							</b>
 						</div>
 						<div class="col-3">
-							<a href="/pos/menuOrder/cancel?index=${status.index}&type=single">
-								<img alt="" src="../resources/images/delete_icon.png" class="my-2" style="width: 25px; height: 25px;">
-							</a>
+							<button type="button" class="btn-close my-2" aria-label="Close" 
+								onclick="location.href='/pos/menuOrder/cancel?index=${status.index}&type=single'">
+							</button>
 						</div>
 						
 					</div>
@@ -104,19 +104,33 @@
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-3 fs-3">주문수량  ${paymentInfo["totalCnt"]}</div>
-			<div class="col-3 fs-3">결제금액  
+			<div class="col-3 fs-3">주문금액  
 				<c:if test='${paymentInfo["totalPrice"] ne null }'>
 					<fmt:formatNumber value='${paymentInfo["totalPrice"]}' pattern="#,###"/>원
 				</c:if>
 			</div>
-			<div class="col-3 text-end">
-				<button class="btn btn-outline-primary my-2" style="width: 180px;"
-					onclick="location.href='/pos/menuOrder/details'">결제하기</button>
-			</div>
-			<div class="col-3 text-center">
-				<button class="btn btn-outline-danger my-2" style="width: 180px;"
-					onclick="cancelAll()">취소하기</button>
-			</div>
+			<c:choose>
+				<c:when test="${paymentInfo['totalCnt'] > 0 }">
+					<div class="col-3 text-end">
+						<button class="btn btn-outline-primary my-2" style="width: 180px;"
+							onclick="location.href='/pos/menuOrder/details'">결제하기</button>
+					</div>
+					<div class="col-3 text-center">
+						<button class="btn btn-outline-danger my-2" style="width: 180px;"
+							onclick="cancelAll()">취소하기</button>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="col-3 text-end">
+						<button class="btn btn-outline-primary my-2" style="width: 180px;"
+							onclick="location.href='/pos/menuOrder/details'" disabled>결제하기</button>
+					</div>
+					<div class="col-3 text-center">
+						<button class="btn btn-outline-danger my-2" style="width: 180px;"
+							onclick="cancelAll()" disabled>취소하기</button>
+					</div>
+				</c:otherwise>					
+			</c:choose>
 		</div>
 	</div>
 

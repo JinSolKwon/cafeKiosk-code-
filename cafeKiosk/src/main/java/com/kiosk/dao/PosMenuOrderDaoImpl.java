@@ -34,6 +34,11 @@ public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
 	}
 	
 	@Override
+	public String getMaxOrderNum(String today) {
+		return sqlSessionTemplate.selectOne("posMenuOrderMapper.getMaxOrderNum", today);
+	}
+	
+	@Override
 	public MemberVo pointCheck(String phoneNum) {
 		return sqlSessionTemplate.selectOne("posMenuOrderMapper.selectMember", phoneNum);
 	}

@@ -1,6 +1,8 @@
 package com.kiosk.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,8 +160,23 @@ public class PosMenuOrderController {
 	}
 	
 	@RequestMapping(value = "/pos/menuOrder/details", method = RequestMethod.GET)
-	public String orderDetails() {
+	public String orderDetails(HttpSession session) {
 		logger.info("orderDetails페이지 get요청");
+		
+		Date date = new Date();
+		SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
+		String today = fmtToday.format(date);
+		
+		int orderNum = 0;
+		String maxOrderNum = posMenuOrderService.getMaxOrderNum(today);
+		if(maxOrderNum == null) {
+			orderNum = 1;
+		} else {
+			orderNum = Integer.parseInt(maxOrderNum) + 1; 
+		}
+		
+		session.setAttribute("orderNum", orderNum);
+		
 		return "/pos/orderDetails";
 	}
 	
