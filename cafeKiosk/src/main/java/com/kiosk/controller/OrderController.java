@@ -105,8 +105,27 @@ public class OrderController {
 		return "redirect:/cafeCarp/order?num="+page;
 	}
 	
+	@RequestMapping(value="point")
+	public String point() {
+		return "kiosk/point";
+	}
+	
+	@RequestMapping(value="pointPay")
+	public String pointPay(@RequestParam(value="type") String type, Model model) {
+		if(type.equals("S")) {
+			model.addAttribute("poType", "save");
+			return "kiosk/pointCount";			
+		}else if(type.equals("U")) {
+			model.addAttribute("poType", "use");			
+			return "kiosk/pointCount";			
+		}else {
+			return "redirect:/cafeCarp/main";
+		}
+		
+	}
+	
 	@RequestMapping(value="pay")
-	public String pay1() {
+	public String pay() {
 		return "kiosk/payCount";
 	}
 	

@@ -33,14 +33,14 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var setCount = Number(30);
+	var setCount = 30;
 	document.addEventListener("DOMContentLoaded", function countDown(){
 		document.getElementById("countNumber").innerHTML = setCount;
 		if(setCount === 0){
 			location.href="<c:url value="/cafeCarp/main" />";
 		}else{
 			document.getElementById("countNumber").innerHTML = setCount;
-			setTimeout("countDown()", 30000);
+			setTimeout("countDown()", 1000);
 			setCount--;
 		}
 	});

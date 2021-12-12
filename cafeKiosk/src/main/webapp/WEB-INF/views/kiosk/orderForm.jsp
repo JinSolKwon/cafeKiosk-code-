@@ -209,8 +209,11 @@ function mainBack(){
 	}
 }
 
-var btnCont = "<c:out value="${sessionScope.orderList}"/>";
-if(btnCont != null){
+if(${empty sessionScope.orderList}){
+	$(function(){
+		$("#subBtn").attr("disabled", true);
+	})
+}else if({not empty sessionScope.orderList}){
 	$(function(){
 		$("#subBtn").attr("disabled", false);
 	})
@@ -298,11 +301,9 @@ function fnCalCount(type){
     var total;
     if(type==='sp'){
         $input.val(Number(tCount)+1);
-        total = price+300;
     }else if(type==='sm'){
        if(tCount >0){
-        	$input.val(Number(tCount)-1);  
-        	total = price-300; 
+        	$input.val(Number(tCount)-1);
         }
     }
     if(type==='p'){

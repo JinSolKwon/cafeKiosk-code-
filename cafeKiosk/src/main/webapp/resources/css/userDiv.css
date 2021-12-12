@@ -20,6 +20,26 @@
 	box-shadow: 3px 3px 3px 3px gray;
 }
 
+.container2{
+	margin:0;
+	padding:0;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	z-index:10001;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);	
+	width:90%;
+	height:50%;
+	background-color: #FFFFFF;
+	border:1px solid #EAEAEA;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 3px gray;
+}
+.container1{width:49%; height:100%; margin: 0; padding: 0; float: left;}
 
 .header-count{display:table; margin: 0; padding: 0; width: 100%; height: 25%; text-align: center;}
 .header-count span{display:table-cell; vertical-align:middle; text-align: center; font-weight: bold; font-size: 40px; color: #000000;}
@@ -55,3 +75,37 @@
 .footer-result{margin: 0; padding: 0; width: 100%; height: 30%; text-align: center;}
 .footer-result img{width: 30%; vertical-align: middle;}
 .footer-result span{text-align: center; font-weight: bold; font-size:28px; color: #000000; margin-top:20px;}
+
+
+
+.header-point{display:table; margin: 0; padding: 0; width: 100%; height: 30%; text-align: center;}
+.header-point span{display:table-cell; vertical-align:middle; text-align: center; font-weight: bold; font-size: 55px; color: #000000; }
+
+.main-point{margin: 0; padding: 0; width: 100%; height: 45%;}
+.main1-point{display:table; margin: 0; padding: 0; width: 100%; height: 60%; text-align: center;}
+.main1-point1{display:table; margin: 0; padding: 0; width: 100%; height: 50%; text-align: center;}
+.main1-point1 span{display:table-cell; vertical-align:middle; font-weight: bold; font-size:35px; color: #000000;}
+.p-intro{text-align: left; padding-left: 13%; width: 50%}
+.p-set{text-align: right; padding-right: 13%; width: 50%}
+
+.main2-point{margin: 0; padding: 0; width: 100%; height: 40%; text-align: center;}
+.main2-point p{margin: 10px; padding: 0; font-size:22px; font-weight: bold; }
+.main2-point span{color: #F05454; text-decoration: underline;}
+
+.footer-btn-point{margin: 0; padding: 0; width: 100%; height: 25%; text-align: center;}
+.footer-btn1-point,.footer-btn2-point{width:50%; height:100%; margin: 0; padding: 0; text-align: center; display:inline; float: left;}
+.footer-btn1-point button{width:77%; height:60%; border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size: 30px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
+.footer-btn2-point button{width:77%; height:60%; border-radius: 5px; background-color: #162447; color: #FFFFFF; border: 0; font-size: 30px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
+
+
+.header-pointChange{display:table; margin: 0; padding: 0; width: 100%; height: 30%; text-align: center;}
+.header-pointChange span{display:table-cell; vertical-align:middle; text-align: center; font-weight: bold; font-size: 40px; color: #000000; }
+
+.main-pointChange{margin: 0; padding: 0; width: 100%; height: 40%;}
+.main-pointChange1{display:table; margin: 0; padding: 0; width: 100%; height: 50%; text-align: center;}
+.main-pointChange1 span{display:table-cell; vertical-align:middle; font-weight: bold; font-size:28px; color: #000000;}
+
+.footer-pointChange{display:table; margin: 0; padding: 0; width: 100%; height: 15%;  text-align: center;}
+.footer-pointChange span{display:table-cell; vertical-align:middle; font-weight: bold; font-size:28px; color: #000000;}
+
+.updown { border: 1px solid #E0E0E0; width: 0.1px; height: 85%; float: left; margin: 40px 10px 0 10px;}
