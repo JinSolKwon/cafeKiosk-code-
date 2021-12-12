@@ -31,10 +31,15 @@ public class PosMainController {
 	public String posMain(HttpSession session) {
 		logger.info("pos 메인 요청 : 관리자 로그인 페이지");
 		
+		session.removeAttribute("categoryNum");
+		session.removeAttribute("menuOrderList");
+		session.removeAttribute("paymentInfo");
+		
 		ManagerVo loginCheck = (ManagerVo) session.getAttribute("login");
 		
 		if(loginCheck == null) {
 			logger.info("pos get요청 시 로그인된 정보가 없음");
+			
 			return "/pos/posMain";
 		} else {
 			logger.info("pos get요청 시 로그인된 정보가 있음");

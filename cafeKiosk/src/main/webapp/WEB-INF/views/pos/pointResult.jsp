@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@
 							</tr>
 							<tr>
 								<th>보유포인트</th>
-								<td>${memberPointCheck.point }P</td>
+								<td><fmt:formatNumber value="${memberPointCheck.point }" pattern="#,###"/>P</td>
 							</tr>
 						</table>
 					</div>

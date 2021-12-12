@@ -1,3 +1,28 @@
 @charset "UTF-8";
 
-.scroll-1::-webkit-scrollbar {display: none; /* Chrome, Safari, Opera*/ width: 0 !important;}
+.scroll-1::-webkit-scrollbar {
+	display: none; 
+	/* Chrome, Safari, Opera*/ 
+	width: 0 !important;
+}
+
+div.scroll-2{
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scroll-2 a {
+  display: inline-block;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  padding: 14px;
+}
+
+div.scroll-2 a:hover {
+  background-color: rgba(229, 242, 208, 0.797);
+}
+
+div.scroll-2 a::-webkit-scrollbar-button {
+	display:none;
+}

@@ -30,6 +30,9 @@ public class PosOrderListController {
 	@RequestMapping(value = "/pos/orderList", method = RequestMethod.GET)
 	public String orderList(Model model, HttpSession session, RedirectAttributes rttr) {
 		logger.info("orderList 기본 경로 요청");
+		session.removeAttribute("categoryNum");
+		session.removeAttribute("menuOrderList");
+		session.removeAttribute("paymentInfo");
 		
 		ManagerVo loginCheck = (ManagerVo) session.getAttribute("login");
 

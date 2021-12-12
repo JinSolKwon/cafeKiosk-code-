@@ -59,7 +59,7 @@
 		document.getElementById("back").addEventListener("click", back);
 		
 		function back(){
-			location.href="/pos/menuOrder";
+			location.href="/pos/menuOrder/details";
 		}
 		
 		document.getElementById("check").addEventListener("click", pointCheck);
