@@ -32,18 +32,5 @@
 		<div class="footer-btn2-receipe"><button onclick="location.href='<c:url value="/cafeCarp/receipe?type=N" />'"><span>영수증 미출력</span></button></div>
 	</div>
 </div>
-<script type="text/javascript">
-	var setCount = Number(30);
-	document.addEventListener("DOMContentLoaded", function countDown(){
-		document.getElementById("countNumber").innerHTML = setCount;
-		if(setCount === 0){
-			location.href="<c:url value="/cafeCarp/main" />";
-		}else{
-			document.getElementById("countNumber").innerHTML = setCount;
-			setTimeout("countDown()", 30000);
-			setCount--;
-		}
-	});
-</script>
 </body>
 </html>

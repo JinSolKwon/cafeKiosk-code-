@@ -75,15 +75,15 @@
 
 .main-login{margin-top: 5%; padding: 0; width: 100%; height: 60%; text-align: center;}
 .main-login form{height: 100%; margin: 0; padding: 0; }
-.main-login input{width: 80%; height: 20%; font-size: 22px; margin:4%;}
+.main-login input{width: 80%; height: 20%; font-size: 22px; margin:4%; padding-left: 20px;}
 .main-login button{width: 80%; height: 20%;  border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size: 30px; font-weight: bold; margin:2%; padding: 0;}
 
 .main-regist{margin: 0; padding: 0; width: 100%; height: 72%; text-align: center;}
 #registForm{margin: 0; padding: 0; width: 100%; height: 72%; }
 .main-regist1,.main-regist2,.main-regist3{margin: 1%; padding: 0; width: 100%; height: 25%; }
-.main-regist1 input{margin: 0; padding: 0; width: 60%; height: 60%; font-size: 20px;}
+.main-regist1 input{margin: 0; padding: 0; padding-left:20px; width: 60%; height: 60%; font-size: 20px;}
 .main-regist1 button{width: 20%; height: 60%;  border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size:20px; font-weight: bold; margin:1%; padding: 0;}
-.main-regist2 input{margin: 0; padding: 0; width: 83%; height: 60%; font-size: 20px;}
+.main-regist2 input{margin: 0; padding: 0; padding-left:20px; width: 83%; height: 60%; font-size: 20px;}
 .main-regist3{margin: 0;}
 .main-regist3-1{margin: 0; padding-top:1%; width: 30%; height: 70%; font-size: 30px; font-weight: bold; color: #FFFFFF; display: inline-block; vertical-align: middle; text-align: center;}
 .main-regist3-2,.main-regist3-3,.main-regist3-4{margin: 0; padding: 0; width: 15%; height: 80%; display: inline-block; vertical-align: middle;}
@@ -94,7 +94,7 @@
 
 .footer-btn-regist{margin: 0; padding: 0; width: 100%; height: 20%; }
 .footer-btn-regist1,.footer-btn-regist2{width:50%; height:100%; margin: 0; padding: 0; text-align: center; display:inline; float: left;}
-.footer-btn-regist1 button{width:77%; height:80%; border-radius: 5px; background-color: #F4F4F4; color: #FFFFFF; border: 0; font-size: 26px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
+.footer-btn-regist1 button{width:77%; height:80%; border-radius: 5px; background-color: #F4F4F4; color: #46526D; border: 0; font-size: 26px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
 .footer-btn-regist2 button{width:77%; height:80%; border-radius: 5px; background-color: #F05454; color: #FFFFFF; border: 0; font-size: 26px; font-weight: bold; margin: auto; margin-top:10px; padding: 4px 0 4px 0; text-align: center; display: block;}
 
 

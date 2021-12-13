@@ -106,10 +106,10 @@
 		<div id="side2-1"><button onclick="history.go(-1)">취 소</button></div>
 		<div id="side2-2">
 			<c:if test="${not empty sessionScope.member}">
-				<c:set var="nextUrl" value="/cafeCarp/point" />
+				<c:set var="nextUrl" value="/cafeCarp/pay?mem=M" />
 			</c:if>
 			<c:if test="${empty sessionScope.member}">
-				<c:set var="nextUrl" value="/cafeCarp/pay" />
+				<c:set var="nextUrl" value="/cafeCarp/pay?mem=E" />
 			</c:if>
 			<button id="subBtn" onclick="location.href='<c:url value="${nextUrl}" />'">결 제 </button>
 		</div>

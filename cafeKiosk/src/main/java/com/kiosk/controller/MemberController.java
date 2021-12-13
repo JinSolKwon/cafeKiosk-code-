@@ -1,5 +1,7 @@
 package com.kiosk.controller;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,20 @@ public class MemberController {
 	
 	@RequestMapping(value="regist", method=RequestMethod.POST)
 	String registPost(MemberVo member, String month, String day, RedirectAttributes rttr, HttpSession session) throws Exception {
+		String namePattern = "^[ㄱ-ㅎ가-힣a-zA-Z]*$";
 		if(member.getName() == null || member.getName() == "" || member.getBirthYear() == "" || month == "" || day == "") {
 			rttr.addFlashAttribute("member", member);			
 			rttr.addFlashAttribute("month", month);
 			rttr.addFlashAttribute("day", day);		
 			rttr.addFlashAttribute("check", "입력하지 않은 정보가 존재합니다.");
 			rttr.addFlashAttribute("next", "next");
+			return "redirect:/cafeCarp/regist";
+		}else if(!(Pattern.matches(namePattern, member.getName()))){
+			rttr.addFlashAttribute("member", member);			
+			rttr.addFlashAttribute("month", month);
+			rttr.addFlashAttribute("day", day);		
+			rttr.addFlashAttribute("check", "이름을 알맞게 입력해주세요.");
+			rttr.addFlashAttribute("next", "next");		
 			return "redirect:/cafeCarp/regist";
 		}else {
 			if(month.length() <2) month = "0"+month;
@@ -52,7 +62,8 @@ public class MemberController {
 	
 	@RequestMapping(value="phoneCheck", method=RequestMethod.POST)
 	String registCheck(MemberVo member, String month, String day, RedirectAttributes rttr) throws Exception {
-		if(member.getPhone() == null || member.getPhone().length()!=11) {
+		String phonePattern = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
+		if(member.getPhone() == null || member.getPhone().length()!=13 || !(Pattern.matches(phonePattern, member.getPhone()))) {
 			rttr.addFlashAttribute("check", "번호를 알맞게 입력해주세요.");
 			return "redirect:/cafeCarp/regist";			
 		}
@@ -77,7 +88,8 @@ public class MemberController {
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	String login(String phone, HttpSession session, RedirectAttributes rttr) throws Exception {
-		if(phone.equals(null) || phone == "" || phone.isEmpty() || phone.length()!=11) {
+		String phonePattern = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
+		if(phone.equals(null) || phone == "" || phone.isEmpty() || phone.length()!=13 || !(Pattern.matches(phonePattern, phone))) {
 			return "redirect:/cafeCarp/login";
 		}
 		MemberVo exist = memberService.checkPhoneNumber(phone);

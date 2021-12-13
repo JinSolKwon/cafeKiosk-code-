@@ -14,11 +14,11 @@
 		<typeAlias alias="categoryVo" type="com.kiosk.vo.CategoryVo"/>
 		<typeAlias alias="menuVo" type="com.kiosk.vo.MenuVo"/>
 		<typeAlias alias="menuImageVo" type="com.kiosk.vo.MenuImageVo"/>
+		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
+		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
 <!--
 	 	<typeAlias alias="quitMemberVo" type="com.kiosk.vo.QuitMemberVo"/>
 		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
-		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
-		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
 		<typeAlias alias="refundVo" type="com.kiosk.vo.RefundVo"/>
 -->
 	</typeAliases>

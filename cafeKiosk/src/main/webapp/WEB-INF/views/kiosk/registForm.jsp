@@ -18,7 +18,7 @@
 <form id="registForm" method="post">
 <div class="main-regist">
 		<div class="main-regist1">
-			<input id="phone" name="phone" type="text" value="${member.phone}" placeholder="'-'를 제외한 숫자 11자리 입력 "/>
+			<input id="phone" name="phone" type="text" oninput="autoHyphen(this)" maxlength="13" value="${member.phone}" placeholder="'-'를 제외한 숫자 11자리 입력 "/>
 			<button id="phoneCHK" type="submit" onclick="form.action='<c:url value="/cafeCarp/phoneCheck" />'" >중복체크</button>
 		</div>
 		<div class="main-regist2"><input id="name" name="name" type="text" value="${member.name}" placeholder="이름"/></div>
@@ -75,6 +75,11 @@ if(nx === 'next'){
 		$("#subBtn").attr("disabled", false);
 	})
 }
+const autoHyphen = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/, '')
+	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+	}
 </script>
 </body>
 </html>

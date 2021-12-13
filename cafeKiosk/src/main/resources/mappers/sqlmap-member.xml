@@ -13,5 +13,12 @@
 		select * from MEMBER where PHONE=#{phone}
 	</select>
 	
+	<update id="orderPointMinus" parameterType="HashMap">
+		update MEMBER set POINT=POINT-#{point} where NUM=#{num}
+	</update>
+	
+	<update id="orderPointPlus" parameterType="HashMap">
+		update MEMBER set POINT=POINT+#{point} where NUM=#{num}
+	</update>
 	
 </mapper>

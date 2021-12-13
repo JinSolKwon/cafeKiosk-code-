@@ -1,5 +1,7 @@
 package com.kiosk.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,16 @@ public class MemberDaoImpl implements IMemberDao{
 	@Override
 	public MemberVo loginMember(String phone) throws Exception {
 		return sqlSessionTemplate.selectOne("loginMember", phone);
+	}
+	
+	@Override
+	public void orderPointMinus(HashMap<String, Integer> hm) throws Exception {
+		sqlSessionTemplate.update("orderPointMinus", hm);		
+	}
+
+	@Override
+	public void orderPointPlus(HashMap<String, Integer> hm) throws Exception {
+		sqlSessionTemplate.update("orderPointPlus", hm);		
 	}
 	
 }

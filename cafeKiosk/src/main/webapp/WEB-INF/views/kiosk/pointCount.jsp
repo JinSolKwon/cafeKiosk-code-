@@ -22,6 +22,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
+<c:if test="${not empty sessionScope.member}">
 <div class="container2">
 <div class="container1">
 	<div class="header-pointChange"><span>포인트 변동 내역</span></div>
@@ -37,15 +38,27 @@
 			<div class="main-pointChange1">
 				<c:if test="${poType == 'save'}">
 					<c:set var="pointWhat" value="적립예정 포인트" />
-					<fmt:formatNumber var="pointHow" value="${sessionScope.orderTotal}" pattern="#,###" />
+					<c:set var="pointHow3" value="${sessionScope.orderTotal*0.1}" />
+					<fmt:parseNumber var="pointHow4" integerOnly="true" value="${pointHow3}"/>
+					<fmt:formatNumber var="pointHow" value="${pointHow4}" pattern="#,###" />
 					<c:set var="pointHow2" value="+ ${pointHow} P" />
-					<c:set var="pointResult" value="${sessionScope.member.getPoint()+sessionScope.orderTotal}" />
+					<c:set var="pointResult" value="${sessionScope.member.getPoint()+pointHow4}" />
+					<c:set var="buttonResult" value="${sessionScope.orderTotal}" />
 				</c:if>
 				<c:if test="${poType == 'use'}">
-					<c:set var="pointWhat" value="사용예정 포인트" />
-					<fmt:formatNumber var="pointHow" value="${sessionScope.orderTotal}" pattern="#,###" />
-					<c:set var="pointHow2" value="+ ${pointHow} P" />					
-					<c:set var="pointResult" value="${sessionScope.orderTotal-sessionScope.member.getPoint()}" />
+					<c:if test="${sessionScope.member.getPoint() lt sessionScope.orderTotal}">
+						<c:set var="pointWhat" value="사용예정 포인트" />
+						<fmt:formatNumber var="pointHow" value="${sessionScope.member.getPoint()}" pattern="#,###" />
+						<c:set var="pointHow2" value="- ${pointHow} P" />					
+						<c:set var="pointResult" value="0" />
+						<c:set var="buttonResult" value="${sessionScope.orderTotal-sessionScope.member.getPoint()}" />
+					</c:if>
+					<c:if test="${sessionScope.member.getPoint() ge sessionScope.orderTotal}">
+						<c:set var="pointWhat" value="사용예정 포인트" />
+						<fmt:formatNumber var="pointHow" value="${sessionScope.orderTotal}" pattern="#,###" />
+						<c:set var="pointHow2" value="- ${pointHow} P" />					
+						<c:set var="pointResult" value="${sessionScope.member.getPoint()-sessionScope.orderTotal}" />
+					</c:if>
 				</c:if>
 				<span class="p-intro">${pointWhat}</span>
 				<span class="p-set">${pointHow2}</span>
@@ -63,7 +76,7 @@
 	</div>
 </div>
 <div class="updown"></div>
-<c:if test="${sessionScope.member.getPoint() lt sessionScope.orderTotal}">
+<c:if test="${poType == 'save' || sessionScope.member.getPoint() lt sessionScope.orderTotal && poType == 'use' }">
 <div class="container1">
 	<div class="header-count"><span>카드를 넣어주세요.</span></div>
 	<div class="main-count">
@@ -71,35 +84,59 @@
 		<div class="main2-count"><span>초 안에 완료하지 않으실 경우 주문이 취소됩니다.</span></div>
 	</div>
 	<div class="footer-btn-count">
-		<button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/receipe" />'"><fmt:formatNumber var="orTotal" value="${sessionScope.orderTotal}" pattern="#,###" /> ${orTotal} 원 결제</button>
+		<button type="button" onclick="location.href='<c:url value="/cafeCarp/credit?cd=cd" />'">
+			<fmt:formatNumber var="orTotal" value="${buttonResult}" pattern="#,###" />	
+			${orTotal} 원 결제
+		 </button>
 	</div>
 </div>
 </c:if>
-<c:if test="${sessionScope.member.getPoint() ge sessionScope.orderTotal}">
+<c:if test="${poType == 'use' && sessionScope.member.getPoint() ge sessionScope.orderTotal}">
 <div class="container1">
 	<div class="header-receipe"><span>주문 완료</span></div>
 	<div class="main-receipe">
 		<span>영수증을 출력하시겠습니까?</span>
 	</div>
 	<div class="footer-btn-receipe">
-		<div class="footer-btn1-receipe"><button onclick="location.href='<c:url value="/cafeCarp/receipe?type=Y" />'"><span>영수증 출력</span></button></div>
-		<div class="footer-btn2-receipe"><button onclick="location.href='<c:url value="/cafeCarp/receipe?type=N" />'"><span>영수증 미출력</span></button></div>
+		<div class="footer-btn1-receipe"><button type="button" onclick="location.href='<c:url value="/cafeCarp/receipe?type=Y" />'"><span>영수증 출력</span></button></div>
+		<div class="footer-btn2-receipe"><button type="button" onclick="location.href='<c:url value="/cafeCarp/receipe?type=N" />'"><span>영수증 미출력</span></button></div>
 	</div>
 </div>
 </c:if>
 </div>
+</c:if>
+<c:if test="${empty sessionScope.member}">
+<div class="container">
+	<div class="header-count"><span>카드를 넣어주세요.</span></div>
+	<div class="main-count">
+		<div class="main1-count"><span id="countNumber"></span></div>
+		<div class="main2-count"><span>초 안에 완료하지 않으실 경우 주문이 취소됩니다.</span></div>
+	</div>
+	<div class="footer-btn-count">
+		<button type="button" onclick="location.href='<c:url value="/cafeCarp/credit?cd=cd" />'">
+			<fmt:formatNumber var="orTotal" value="${sessionScope.orderTotal}" pattern="#,###" />	
+			${orTotal} 원 결제
+		</button>
+	</div>
+</div>
+</c:if>
 <script type="text/javascript">
-	var setCount = 30;
-	document.addEventListener("DOMContentLoaded", function countDown(){
-		document.getElementById("countNumber").innerHTML = setCount;
-		if(setCount === 0){
-			location.href="<c:url value="/cafeCarp/main" />";
-		}else{
-			document.getElementById("countNumber").innerHTML = setCount;
-			setTimeout("countDown()", 1000);
-			setCount--;
+
+var countStatus = "<c:out value="${countStatus}"/>";
+if(countStatus === 'YES'){
+	var SetCount = 30;	
+	document.getElementById("countNumber").innerHTML = SetCount;
+	function msg_time(){
+		if(SetCount <= 0){
+			window.location.replace('<c:url value="/cafeCarp/main" />');
 		}
-	});
+		document.getElementById("countNumber").innerHTML = SetCount;
+		SetCount--;
+	}
+	
+	window.onload = function TimerStart(){ tid=setInterval('msg_time()',1000) };	
+}
+
 </script>
 </body>
 </html>

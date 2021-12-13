@@ -12,11 +12,11 @@
 <body>
 <div class="container-main">
 <div class="header-main">
-	<img alt="cafeCarp" src="<c:url value="/resources/img/cafeCarp_main.png" />">
+	<a href="<c:url value="/cafeCarp/main" />"><img alt="cafeCarp" src="<c:url value="/resources/img/cafeCarp_main.png" />"></a>
 </div>
 <div class="main-login">
 	<form action="<c:url value="/cafeCarp/login" />" method="post">
-	<input size="50" type="text" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리 입력"/>
+	<input size="50" type="text" id="phone" name="phone" oninput="autoHyphen(this)" maxlength="13" placeholder="'-'를 제외한 숫자 11자리 입력"/>
 	<button type="submit" id="subBtn" disabled="true">회원 주문하기</button>
 	</form>
 </div>	
@@ -30,7 +30,12 @@ $(function(){
 			$("#subBtn").attr("disabled", false);
 		}
 	})
-})
+});
+const autoHyphen = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/, '')
+	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+	}
 </script>
 </body>
 </html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orderListDao">
+	<insert id="orderRegist" parameterType="orderListVo">
+		insert into 
+			ORDER_LIST 
+				("NUM", "ORDER_NUM", "MENU", "TEMPERATURE", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+			values
+				(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{temperature}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)
+	</insert>
+
+</mapper>
