@@ -30,63 +30,65 @@
 	<c:set var="point2" value="${point}P" />
 </c:if>
 <div class="container">
-<div class="header">
-	<div class="header1">
-		<div class="header1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
-		<div class="header1-2">
-			<ul id="cateUl">
+<div class="header-orderForm">
+
+	<div class="header-orderForm1">
+		<div class="header-orderForm1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
+		<div class="header-orderForm1-2">
+			<ul id="cateUl-orderForm">
 			<c:forEach items="${sessionScope.cateList}" var="cateOne" varStatus="status">
-				<li id="cateLi${satus.count}"><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
+				<li id="cateLi-orderForm${satus.count}"><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
 			</c:forEach>
 			</ul>
 		</div>
-		<div class="header1-3"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=N" />'">▶</button></div>
+		<div class="header-orderForm1-3"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=N" />'">▶</button></div>
+
 	</div>
-	<div id="header2">
-		<div id="header2-1">${user}</div>
-		<div id="header2-2">${point2}</div>
-		<div id="header2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
+	<div id="header-orderForm2">
+		<div id="header-orderForm2-1">${user}</div>
+		<div id="header-orderForm2-2">${point2}</div>
+		<div id="header-orderForm2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
 	</div>
 </div>
 <hr style="border: black;">
-<div class="main">
+<div class="main-orderForm">
 	<c:forEach items="${menuList}" var="menuOne">
 		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
-		<div class="main1">
+		<div class="main-orderForm1">
 			<c:if test="${empty menuOne.SAVE_NAME}">
-				<div class="main1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
+				<div class="main-orderForm1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
 			</c:if>
 			<c:if test="${!empty menuOne.SAVE_NAME}">
-				<div class="main1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=${menuOne.SAVE_NAME}" />"></div>
+				<div class="main-orderForm1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=${menuOne.SAVE_NAME}" />"></div>
 			</c:if>
-			<div class="main1-txt">
-				<div class="main1-name">${menuOne.MENU}</div>
-				<div class="main1-price"><fmt:formatNumber var="price" pattern="#,###" value="${menuOne.PRICE}"/>${price} 원</div>
+			<div class="main-orderForm1-txt">
+				<div class="main-orderForm1-name">${menuOne.MENU}</div>
+				<div class="main-orderForm1-price"><fmt:formatNumber var="price" pattern="#,###" value="${menuOne.PRICE}"/>${price} 원</div>
 			</div>
 		</div>
 		</a>
 	</c:forEach>
 </div>
-<div class="side">
-	<div id="side1">
+<div class="side-orderForm">
+	<div id="side-orderForm1">
 		<c:if test="${!empty sessionScope.orderList}">
 		<c:forEach items="${sessionScope.orderList}" var="orderOne" varStatus="status">
-			<div class="side1-1">
-				<div class="side1-2">
-					<div class="side1-2-1">${orderOne.getMenu()}</div>
-					<div class="side1-2-2">( ${orderOne.getTemperature()} )</div>
-					<div class="side1-2-3">
-						<div class="side1-2-3-1">
+			<div class="side-orderForm1-1">
+				<div class="side-orderForm1-2">
+					<div class="side-orderForm1-2-1">${orderOne.getMenu()}</div>
+					<div class="side-orderForm1-2-2">( ${orderOne.getTemperature()} )</div>
+					<div class="side-orderForm1-2-3">
+						<div class="side-orderForm1-2-3-1">
 							<button type="button" onclick="location.href='<c:url value="/cafeCarp/orderDel?num=${status.index}" />'">X</button>
 						</div>
-						<div class="side1-2-3-2">
+						<div class="side-orderForm1-2-3-2">
 							<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
 							<c:set var="oP" value="${orderPrice} 원" />
 							${oP}
 						</div>
 					</div>
 				</div>
-				<div class="side1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
+				<div class="side-orderForm1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
 				<c:choose>
 					<c:when test="${orderOne.getWhipping() eq 'N'}">
 						<c:set var="whip" value="┗ 휘핑 : 없음" />
@@ -95,7 +97,7 @@
 						<c:set var="whip" value="┗ 휘핑 : 있음" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side1-4">${whip}</div>
+				<div class="side-orderForm1-4">${whip}</div>
 				<c:choose>
 					<c:when test="${orderOne.getSyrub() == 0}">
 						<c:set var="syrubOp" value="┗ 시럽 : 없음" />
@@ -104,7 +106,7 @@
 						<c:set var="syrubOp" value="┗ 시럽 : ${orderOne.getSyrub()}" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side1-5">${syrubOp}</div>
+				<div class="side-orderForm1-5">${syrubOp}</div>
 				<c:choose>				
 					<c:when test="${orderOne.getShot() == 0}">
 						<c:set var="shotOp" value="┗ 샷추가: 없음" />
@@ -113,21 +115,21 @@
 						<c:set var="shotOp" value="┗ 샷추가 : ${orderOne.getShot()}" />
 					</c:otherwise>
 				</c:choose>
-				<div class="side1-6">${shotOp}</div>
+				<div class="side-orderForm1-6">${shotOp}</div>
 			</div>
 		</c:forEach>
 		</c:if>
 	</div>
-	<div id="side2">
-		<div class="side2-1"><c:if test="${not empty sessionScope.orderCount}" ><c:set var="orCount" value="수량  : ${sessionScope.orderCount}"/>${orCount}</c:if></div>
-		<div class="side2-2">
+	<div id="side-orderForm2">
+		<div class="side-orderForm2-1"><c:if test="${not empty sessionScope.orderCount}" ><c:set var="orCount" value="수량  : ${sessionScope.orderCount}"/>${orCount}</c:if></div>
+		<div class="side-orderForm2-2">
 			<c:if test="${not empty sessionScope.orderTotal}" >
 				<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
 				<c:set var="orTotal" value="금액 : ${orderTotal1} 원"/>${orTotal}
 			</c:if>
 		</div>
 	</div>
-	<div id="side3">
+	<div id="side-orderForm3">
 		<button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/orderResult"/>'" disabled="true">결 제 하 기</button>
 	</div>
 </div>
@@ -218,15 +220,15 @@ if(${empty sessionScope.orderList}){
 }
 
 var numC = "<c:out value="${sessionScope.pageNum}" />";
-	$("#cateUl").find("LI").eq(numC-1).css('background-color', '#F05454');
+	$("#cateUl-orderForm").find("LI").eq(numC-1).css('background-color', '#F05454');
 	
 /* var scDis = "<c:out value="${scDis}" />";
-var _scrollX = $('.header1-2').scrollLeft();
+var _scrollX = $('.header-orderForm1-2').scrollLeft();
 if(scDis === 'R'){
-	$('.header1-2').scrollTo(_scrollX + 100);
+	$('.header-orderForm1-2').scrollTo(_scrollX + 100);
 }
 if(scDis === 'L'){
-	$('.header1-2').scrollLeft(_scrollX - 100);
+	$('.header-orderForm1-2').scrollLeft(_scrollX - 100);
 }
 	
 if(${not empty sessionScope.orderList}){
@@ -236,7 +238,7 @@ if(${not empty sessionScope.orderList}){
 } */
 
 // 스크롤 마우스로 이동 function
-const slider = document.querySelector('.header1-2');
+const slider = document.querySelector('.header-orderForm1-2');
 let isMouseDown = false;
 let startX, scrollLeft;
 

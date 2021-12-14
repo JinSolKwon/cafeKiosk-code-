@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>cafeCarp 주문페이지</title>
-<link href="<c:url value="/resources/css/userOrderResult.css" />" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/resources/css/userOrder.css" />" rel="stylesheet" type="text/css" />
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <!-- 모달 JQuery -->
@@ -30,25 +30,25 @@
 	<c:set var="point2" value="${point}P" />
 </c:if>
 <div class="container">
-<div class="header">
-	<div class="header1">
+<div class="header-orderResult">
+	<div class="header-orderResult1">
 		<h1>주문내역 확인</h1>
 	</div>
-	<div id="header2">
-		<div id="header2-1">${user}</div>
-		<div id="header2-2">${point2}</div>
-		<div id="header2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
+	<div id="header-orderResult2">
+		<div id="header-orderResult2-1">${user}</div>
+		<div id="header-orderResult2-2">${point2}</div>
+		<div id="header-orderResult2-3"><button onclick="mainBack();">MAIN<br>Go</button></div>
 	</div>
 </div>
 <hr style="border: black;">
-<div class="main">
-	<table>
-		<tr class="th">
-			<td class="th1" colspan="2">메뉴</td><td class="th2">수량</td><td class="th3">가격</td>
+<div class="main-orderResult">
+	<table id="table-orderResult">
+		<tr class="th-orderResult">
+			<td class="th-orderResult1" colspan="2">메뉴</td><td class="th-orderResult2">수량</td><td class="th-orderResult3">가격</td>
 		</tr>
 		<c:forEach items="${sessionScope.orderList}" var="orderOne" varStatus="status">
-			<tr class="tr1">
-				<td class="td1">
+			<tr class="tr-orderResult1">
+				<td class="td-orderResult1">
 					<b>${orderOne.getMenu()}</b>
 					<span>( ${orderOne.getTemperature()} )</span>
 				</td>
@@ -76,9 +76,9 @@
 						<c:set var="shotOp" value=" / 샷추가 : ${orderOne.getShot()}" />
 					</c:otherwise>
 				</c:choose>
-				<td class="td2">사이즈 : ${orderOne.getBeverageSize()}${whip}${syrubOp}${shotOp}</td>
-				<td class="td3">1</td>
-				<td class="td3">
+				<td class="td-orderResult2">사이즈 : ${orderOne.getBeverageSize()}${whip}${syrubOp}${shotOp}</td>
+				<td class="td-orderResult3">1</td>
+				<td class="td-orderResult3">
 					<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
 					${orderPrice}
 				</td>
@@ -86,25 +86,25 @@
 		</c:forEach>
 	</table>
 </div>
-<div class="side">
-	<div id="side1">
-		<div id="side1-1">
-			<div id="side1-2">
-				<div id="side1-2-1">총 수량</div>
-				<div id="side1-2-2">${sessionScope.orderCount}</div>
+<div class="side-orderResult">
+	<div id="side-orderResult1">
+		<div id="side-orderResult1-1">
+			<div id="side-orderResult1-2">
+				<div id="side-orderResult1-2-1">총 수량</div>
+				<div id="side-orderResult1-2-2">${sessionScope.orderCount}</div>
 			</div>
-			<div id="side1-3">
-				<div id="side1-3-1">결제 금액</div>
-				<div id="side1-3-2">
+			<div id="side-orderResult1-3">
+				<div id="side-orderResult1-3-1">결제 금액</div>
+				<div id="side-orderResult1-3-2">
 					<fmt:formatNumber var="orderTotal1" value="${sessionScope.orderTotal}" pattern="#,###"/>
 					${orderTotal1} 원
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="side2">
-		<div id="side2-1"><button onclick="history.go(-1)">취 소</button></div>
-		<div id="side2-2">
+	<div id="side-orderResult2">
+		<div id="side-orderResult2-1"><button onclick="history.go(-1)">취 소</button></div>
+		<div id="side-orderResult2-2">
 			<c:if test="${not empty sessionScope.member}">
 				<c:set var="nextUrl" value="/cafeCarp/pay?mem=M" />
 			</c:if>
