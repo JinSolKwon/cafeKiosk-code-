@@ -279,5 +279,10 @@ public class PosMenuOrderController {
 		
 		return "redirect:/pos/menuOrder/details";
 	}
-
+	
+	@RequestMapping(value = "/pos/menuOrder/register", method = RequestMethod.GET)
+	public String register() {
+		return "/pos/memberRegister";
+	}
+	
 }

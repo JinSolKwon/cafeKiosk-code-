@@ -25,7 +25,7 @@
 				<h3><b>회원조회</b></h3>
 			</div>
 			<div class="col-3">
-				<button onclick="location.href='#'" class="btn btn-secondary text-white" style="width:100px;">회원등록</button>
+				<button onclick="register()" class="btn btn-secondary text-white" style="width:100px;">회원등록</button>
 			</div>
 		</div>
 		
@@ -89,8 +89,7 @@
 		    var _val = this.value.trim();
 		    this.value = autoHypenPhone(_val) ;
 		}	
-	
-	
+		
 		document.getElementById("back").addEventListener("click", back);
 		
 		function back(){
@@ -119,6 +118,10 @@
 				return false;
 			} 
 			form.submit();
+		}
+		
+		function register(){
+			location.href="/pos/menuOrder/register"
 		}
 		
 		</script>
