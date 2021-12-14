@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.command.CancelCmd;
 import com.kiosk.command.MenuOrderCmd;
@@ -83,6 +84,9 @@ public class PosMenuOrderController {
 		List<OptionListVo> optionList = posMenuOrderService.selectOptionList();
 		model.addAttribute("optionList", optionList);
 		
+		// 포인트 관련 세션 삭제
+		session.removeAttribute("pointInfo");
+
 		return "/pos/menuOrder";
 	}
 	
@@ -103,8 +107,8 @@ public class PosMenuOrderController {
 		// List에 주문된 메뉴를 계속 담아줘야함
 		List<MenuOrderCmd> menuOrderList = new ArrayList<MenuOrderCmd>();
 		Map<String, Integer> paymentInfo = new HashMap<String, Integer>();
-		int totalCnt = 0;
-		int totalPrice = 0;
+		int orderCnt = 0;
+		int orderPrice = 0;
 		
 		if(session.getAttribute("menuOrderList") != null) {
 			menuOrderList = (List<MenuOrderCmd>) session.getAttribute("menuOrderList");
@@ -112,16 +116,16 @@ public class PosMenuOrderController {
 		menuOrderList.add(menuOrderCmd);
 		session.setAttribute("menuOrderList", menuOrderList);
 		
-		totalCnt = menuOrderList.size();
+		orderCnt = menuOrderList.size();
 		for(int i = 0; i < menuOrderList.size(); i++) {
-			totalPrice += menuOrderList.get(i).getPrice();
+			orderPrice += menuOrderList.get(i).getPrice();
 		}
 		
-		logger.info("주문 수량" + totalCnt);
-		logger.info("총금액" + totalPrice);
+		logger.info("주문 수량" + orderCnt);
+		logger.info("총금액" + orderPrice);
 		
-		paymentInfo.put("totalCnt", totalCnt);
-		paymentInfo.put("totalPrice", totalPrice);
+		paymentInfo.put("orderCnt", orderCnt);
+		paymentInfo.put("orderPrice", orderPrice);
 		session.setAttribute("paymentInfo", paymentInfo);
 		
 		return "redirect:/pos/menuOrder";
@@ -140,13 +144,13 @@ public class PosMenuOrderController {
 			List<MenuOrderCmd> menuOrderList = (List<MenuOrderCmd>) session.getAttribute("menuOrderList");
 			Map<String, Integer> paymentInfo = (Map<String, Integer>) session.getAttribute("paymentInfo");
 			
-			int totalCnt = paymentInfo.get("totalCnt");
-			paymentInfo.put("totalCnt", --totalCnt);
+			int orderCnt = paymentInfo.get("orderCnt");
+			paymentInfo.put("orderCnt", --orderCnt);
 
-			int totalPrice = paymentInfo.get("totalPrice");
+			int orderPrice = paymentInfo.get("orderPrice");
 			int cancelPrice = menuOrderList.get(cancelCmd.getIndex()).getPrice();
-			totalPrice -= cancelPrice;
-			paymentInfo.put("totalPrice", totalPrice);
+			orderPrice -= cancelPrice;
+			paymentInfo.put("orderPrice", orderPrice);
 			
 			session.setAttribute("paymentInfo", paymentInfo);
 			
@@ -187,15 +191,93 @@ public class PosMenuOrderController {
 	}
 
 	@RequestMapping(value = "/pos/menuOrder/pointCheck", method = RequestMethod.POST)
-	public String memberPointCheck(String phoneNum, Model model) {
+	public String memberPointCheck(String phoneNum, HttpSession session) {
 		logger.info("point 조회 POST 요청 및 point 조회 결과 페이지 요청");
 		
 		// 회원 전화번호로 DB조회
 		logger.info("pointCheck POST요청 받은 phoneNum : " + phoneNum);
 		Map<String, MemberVo> memberPointCheck =  posMenuOrderService.pointCheck(phoneNum);
-		model.addAttribute("memberPointCheck", memberPointCheck.get("pointCheck"));
+		MemberVo memberInfo = memberPointCheck.get("pointCheck");
+		
+		session.setAttribute("memberInfo", memberInfo);
 		return "/pos/pointResult";
 	}
 	
+	@RequestMapping(value = "/pos/menuOrder/pointSave", method = RequestMethod.GET)
+	public String pointSave(HttpSession session) {
+		
+		logger.info("포인트 적립");
+		
+		MemberVo memberInfo = (MemberVo) session.getAttribute("memberInfo");
+		Map<String, Integer> pointInfo = new HashMap<String, Integer>();
+		Map<String, Integer> paymentInfo = (Map<String, Integer>) session.getAttribute("paymentInfo");
+		
+		int orderPrice = paymentInfo.get("orderPrice");
+		double tmp = (double) orderPrice * 0.05;
+		int existPoint = memberInfo.getPoint();
+		int changePoint = (int) Math.round(tmp);
+		int totalPoint = existPoint + changePoint;
+		
+		/*
+		 * pointType : 적립 / 사용관련 내용 저장 
+		 *  - 0 : 적립
+		 *  - 1 : 사용
+		 * changePoint : 적립 / 사용 예정 포인트
+		 *  - 적립(+) : 결제금액의 5%
+		 *  - 사용(-) : 보유포인트가 3,000P 이상일 때 전액
+		 * orderPoint : 기존 포인트에서 적립 / 사용 예정 포인트를 가감한 포인트
+		 *  - 적립 : 기존포인트 + 적립 예정 포인트
+		 *  - 사용 : 기존포인트 - 사용 예정 포인트
+		 */
+		pointInfo.put("pointType", 0);
+		pointInfo.put("changePoint", changePoint);
+		pointInfo.put("totalPoint", totalPoint);
+		pointInfo.put("totalPrice", orderPrice);
+		
+		session.setAttribute("pointInfo", pointInfo);
+		
+		
+		return "redirect:/pos/menuOrder/details";
+	}
 	
+	@RequestMapping(value = "/pos/menuOrder/pointUse", method = RequestMethod.GET)
+	public String pointUse(HttpSession session, RedirectAttributes rttr) {
+		
+		logger.info("포인트 사용");
+		
+		MemberVo memberInfo = (MemberVo) session.getAttribute("memberInfo");
+		
+		Map<String, Integer> pointInfo = new HashMap<String, Integer>();
+		Map<String, Integer> paymentInfo = (Map<String, Integer>) session.getAttribute("paymentInfo");
+		
+		int orderPrice = paymentInfo.get("orderPrice");
+		int existPoint = memberInfo.getPoint();
+		int changePoint = 0; // 사용예정포인트
+		int totalPoint = 0; // 사용 후 잔여 포인트
+		int totalPrice = 0; // 포인트 사용 후 결제 금액
+		
+		// 보유 포인트 3000점 이상인지 확인
+		if(existPoint - 3000 < 0) {
+			rttr.addFlashAttribute("pointUseCheck", false);
+			return "redirect:/pos/menuOrder/pointResult";
+		} else if(orderPrice >= existPoint) {
+			changePoint = existPoint;
+			totalPoint = existPoint - changePoint;
+			totalPrice = orderPrice - existPoint;
+		} else if(orderPrice < existPoint) {
+			changePoint = orderPrice;
+			totalPoint = existPoint - changePoint;
+			totalPrice = 0;
+		} 
+
+		pointInfo.put("pointType", 1);
+		pointInfo.put("changePoint", changePoint);
+		pointInfo.put("totalPoint", totalPoint);
+		pointInfo.put("totalPrice", totalPrice);
+		
+		session.setAttribute("pointInfo", pointInfo);
+		
+		return "redirect:/pos/menuOrder/details";
+	}
+
 }

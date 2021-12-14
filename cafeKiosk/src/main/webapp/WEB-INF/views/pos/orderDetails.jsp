@@ -21,33 +21,113 @@
 		<div class="row my-4 fs-2 justify-content-md-center">
 			주문내역 확인
 		</div>
-		<div class="fs-5 border-bottom border-dark" style="overflow: auto; margin-left: auto; margin-right: auto; height: 500px; width: 1000px;">
-			<table class="table text-center scroll-1">
-				<thead>
-					<tr>
-						<th>주문번호</th>
-						<th>메뉴명</th>
-						<th>가격</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${menuOrderList}" varStatus="status" var="menuOrderList">
-						<tr>
-							<td>${orderNum}</td>
-							<td>${menuOrderList.menu }</td>
-							<td><fmt:formatNumber pattern="#,###" value="${menuOrderList.price }"/>원</td>
-						</tr>			
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="row my-3 justify-content-center">
-			<div class="col-4 fs-3 text-center">주문수량  ${paymentInfo["totalCnt"]}</div>
-			<div class="col-4 fs-3 text-center">주문금액  
-					<fmt:formatNumber value='${paymentInfo["totalPrice"]}' pattern="#,###"/>원
+		<div class="row">
+			<div class="col-5">
+				<div class="fs-5 border-bottom border-dark" style="overflow: auto; margin-left: auto; margin-right: auto; height: 500px; width: auto;">
+					<table class="table text-center scroll-1">
+						<thead class="fs-3">
+							<tr>
+								<td>주문번호</td>
+								<td>메뉴명</td>
+								<td>가격</td>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${menuOrderList}" varStatus="status" var="menuOrderList">
+								<tr>
+									<td>${orderNum}</td>
+									<td>${menuOrderList.menu }</td>
+									<td><fmt:formatNumber pattern="#,###" value="${menuOrderList.price }"/>원</td>
+								</tr>			
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			
+			<div class="col-7">
+				<div class="row my-3 justify-content-center border-bottom">
+					<div class="col fs-3 text-center">주문수량  ${paymentInfo["orderCnt"]}</div>
+					<div class="col fs-3 text-center">주문금액  
+							<fmt:formatNumber value='${paymentInfo["orderPrice"]}' pattern="#,###"/>원
+					</div>
+				</div>
+				<div class="row my-4 justify-content-center">
+					<c:choose>
+						<c:when test="${pointInfo eq null }">
+							<div class="fs-4 text-center">
+								포인트 사용내역이 없습니다.
+							</div>
+						</c:when>
+						<c:otherwise>
+							<table class="table text-center">
+								<thead class="fs-4">
+									<tr>
+										<th colspan="2">포인트 사용 내역</th>
+									</tr>	
+								</thead>
+								<tbody>
+									<tr>
+										<th>기존 포인트</th>
+										<td>
+											<fmt:formatNumber value="${memberInfo.point }" pattern="#,###"/>P
+										</td>
+									</tr>
+									<c:set value="${pointInfo['pointType'] }" var="pointType" />
+									<c:if test="${pointType eq 0 }">
+										<tr>
+											<th>
+												적립 포인트<br>
+											</th>
+											<td>
+												<fmt:formatNumber value="${pointInfo['changePoint']}" pattern="#,###"/>P
+											</td>
+										</tr>
+										<tr>
+											<th>적립 후 포인트</th>
+											<td>
+												<fmt:formatNumber value="${pointInfo['totalPoint']}" pattern="#,###"/>P
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${pointType eq 1 }">
+										<tr>
+											<th>
+												사용 포인트<br>
+											</th>
+											<td>
+												<fmt:formatNumber value="${pointInfo['changePoint']}" pattern="#,###"/>P
+											</td>
+										</tr>
+										<tr>
+											<th>사용 후 포인트</th>
+											<td>
+												<fmt:formatNumber value="${pointInfo['totalPoint']}" pattern="#,###"/>P
+											</td>
+										</tr>
+									</c:if>	
+								</tbody>
+							</table>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<div class="row fs-2 my-4 justify-content-around">
+					<div class="col-5 text-center">
+						<b>총 결제 금액</b>
+					</div>
+					<div class="col-5 text-center">
+						<c:choose>
+							<c:when test="${pointInfo eq null}">
+								<c:set value="${paymentInfo['orderPrice']}" var="price" />
+								<fmt:formatNumber value="${price }" pattern="#,###"/>원
+							</c:when>
+							<c:otherwise>
+								<c:set value="${pointInfo['totalPrice']}" var="price" />
+								<fmt:formatNumber value="${price }" pattern="#,###"/>원
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</div>		
 		</div>
 		
 		<div class="row justify-content-center my-3">

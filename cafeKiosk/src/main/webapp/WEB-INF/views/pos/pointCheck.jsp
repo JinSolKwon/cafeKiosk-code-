@@ -18,7 +18,6 @@
 <body>
 	
 	<div class="container shadow-lg my-5 border" style="width:500px; height:300px;">
-		
 		<div class="row justify-content-end my-5">
 			<div class="col-3">
 			</div>
@@ -39,7 +38,7 @@
 		</form>
 			<div class="row justify-content-end my-4">
 				<div class="col-3">
-					<button type="button" id="back" class="btn btn-light border" style="width:100px;">이전</button>
+					<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
 				</div>
 				<div class="col-3">
 					<button type="button" id="check" class="btn text-white btn-secondary" style="width:100px;">조회하기</button>

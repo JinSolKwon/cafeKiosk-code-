@@ -103,21 +103,21 @@
 	
 	<div class="container">
 		<div class="row align-items-center">
-			<div class="col-3 fs-3">주문수량  ${paymentInfo["totalCnt"]}</div>
+			<div class="col-3 fs-3">주문수량  ${paymentInfo["orderCnt"]}</div>
 			<div class="col-3 fs-3">주문금액  
-				<c:if test='${paymentInfo["totalPrice"] ne null }'>
-					<fmt:formatNumber value='${paymentInfo["totalPrice"]}' pattern="#,###"/>원
+				<c:if test='${paymentInfo["orderPrice"] ne null }'>
+					<fmt:formatNumber value='${paymentInfo["orderPrice"]}' pattern="#,###"/>원
 				</c:if>
 			</div>
 			<c:choose>
-				<c:when test="${paymentInfo['totalCnt'] > 0 }">
+				<c:when test="${paymentInfo['orderCnt'] > 0 }">
 					<div class="col-3 text-end">
 						<button class="btn btn-outline-primary my-2" style="width: 180px;"
 							onclick="location.href='/pos/menuOrder/details'">결제하기</button>
 					</div>
 					<div class="col-3 text-center">
 						<button class="btn btn-outline-danger my-2" style="width: 180px;"
-							onclick="cancelAll()">취소하기</button>
+							onclick="cancelAll()">주문취소</button>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -127,7 +127,7 @@
 					</div>
 					<div class="col-3 text-center">
 						<button class="btn btn-outline-danger my-2" style="width: 180px;"
-							onclick="cancelAll()" disabled>취소하기</button>
+							onclick="cancelAll()" disabled>주문취소</button>
 					</div>
 				</c:otherwise>					
 			</c:choose>

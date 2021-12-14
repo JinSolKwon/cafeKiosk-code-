@@ -19,6 +19,12 @@
 </head>
 <body>
 	
+	<c:if test="${pointUseCheck eq false }">
+		<script>
+			alert("보유 포인트가 3,000포인트 이상이어야 합니다.");
+		</script>
+	</c:if>
+	
 	<div class="container shadow-lg my-5 border" style="width:500px; height:300px;">
 		
 		<div class="row text-center my-4 fs-3">
@@ -27,41 +33,54 @@
 		
 		<div class="row my-4 text-center" style="height: 130px;">
 			<c:choose>
-				<c:when test="${memberPointCheck ne null }">
+				<c:when test="${memberInfo ne null }">
 					<table class="table table-borderless fs-5" style="width: 300px; margin-left: auto; margin-right: auto;">
 						<tr>
 							<th>이름</th>
-							<td>${memberPointCheck.name }</td>
+							<td>${memberInfo.name }</td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td>${memberPointCheck.phone }</td>
+							<td>${memberInfo.phone }</td>
 						</tr>
 						<tr>
 							<th>보유포인트</th>
-							<td><fmt:formatNumber value="${memberPointCheck.point }" pattern="#,###"/>P</td>
+							<td><fmt:formatNumber value="${memberInfo.point }" pattern="#,###"/>P</td>
 						</tr>
 					</table>
+					<div class="row my-2 justify-content-end">
+						<div class="col-3">
+							<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
+						</div>
+						
+						<div class="col-3">
+							<button type="button" id="pointSave" class="btn text-white btn-secondary" style="width:100px;">적립하기</button>
+						</div>
+						<div class="col-3">
+							<button type="button" id="pointUse" class="btn text-white btn-secondary" style="width:100px;">사용하기</button>
+						</div>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<div class="fs-2 my-4">
 						<b>등록된 회원정보가 없습니다</b>
 					</div>
+					<div class="row my-3 justify-content-end">
+						<div class="col-3">
+							<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
+						</div>
+						
+						<div class="col-3">
+							<button type="button" class="btn text-white btn-secondary" style="width:100px;" disabled>적립하기</button>
+						</div>
+						<div class="col-3">
+							<button type="button" class="btn text-white btn-secondary" style="width:100px;" disabled>사용하기</button>
+						</div>
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
 		
-		<div class="row my-3 justify-content-end">
-			<div class="col-3">
-				<button type="button" id="back" class="btn btn-light border" style="width:100px;">이전</button>
-			</div>
-			<div class="col-3">
-				<button type="button" id="pointSave" class="btn text-white btn-secondary" style="width:100px;">적립하기</button>
-			</div>
-			<div class="col-3">
-				<button type="button" id="pointUse" class="btn text-white btn-secondary" style="width:100px;">사용하기</button>
-			</div>
-		</div>
 		
 	</div>
 	
@@ -88,7 +107,14 @@
 		document.getElementById("pointUse").addEventListener("click", pointUse);
 		
 		function pointUse(){
-			location.href="/pos/menuOrder/pointUse";
+			var memberPoint = "${memberInfo.point }";
+			
+			if(memberPoint - 3000 >= 0){
+				location.href="/pos/menuOrder/pointUse";
+			} else {
+				alert("보유 포인트가 3,000포인트 이상이어야 합니다.");
+				return false;
+			}
 		}
 	
 	</script>
