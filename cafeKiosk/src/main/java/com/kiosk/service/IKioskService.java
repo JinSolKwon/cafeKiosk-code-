@@ -6,9 +6,10 @@ import java.util.List;
 import com.kiosk.command.MenuOrderCommand;
 import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
+import com.kiosk.vo.OptionListVo;
 import com.kiosk.vo.PaymentVo;
 
-public interface IMemberService {
+public interface IKioskService {
 	//회원가입
 	public void registMember(MemberVo member) throws Exception;
 	//전화번호 확인 및 로그인
@@ -23,4 +24,8 @@ public interface IMemberService {
 	public void userPayment(MemberVo member, int orderTotal, int totalPayment, String payWhat, int orderNum) throws Exception;
 	//주문번호
 	public int orderNumChange();
+	//옵션 목록 가져오기
+	public List<OptionListVo> optionList() throws Exception;
+	//메뉴 정보 가져오기
+	public HashMap<String, String> menuOption(int num) throws Exception;
 }

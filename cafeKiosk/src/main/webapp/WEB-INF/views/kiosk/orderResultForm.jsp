@@ -29,7 +29,7 @@
 	<fmt:formatNumber var="point" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
 	<c:set var="point2" value="${point}P" />
 </c:if>
-<div class="container">
+<div id="container">
 <div class="header-orderResult">
 	<div class="header-orderResult1">
 		<h1>주문내역 확인</h1>

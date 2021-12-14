@@ -19,6 +19,11 @@ public class MenuDaoImpl implements IMenuDao{
 	public List<HashMap<String, String>> menuList(int num) throws Exception {
 		return sqlSessionTemplate.selectList("menuList", num);
 	}
+
+	@Override
+	public HashMap<String, String> menuOption(int num) throws Exception {
+		return sqlSessionTemplate.selectOne("menuOption", num);
+	}
 	
 
 }

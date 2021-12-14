@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.command.MenuOrderCommand;
-import com.kiosk.service.IMemberService;
+import com.kiosk.service.IKioskService;
 import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
-import com.kiosk.vo.PaymentVo;
+import com.kiosk.vo.OptionListVo;
 
 @Controller
 @RequestMapping(value="/cafeCarp/")
@@ -30,21 +30,31 @@ public class OrderController {
 	//logger.info();		sysout 대신
 	
 	@Autowired		//	@Inject
-	private IMemberService memberService;
+	private IKioskService kioskService;
 	
 	@RequestMapping(value="order", method=RequestMethod.GET)
 	String order(@RequestParam(value="num", defaultValue="1") int num, HttpSession session, Model model) throws Exception {
 		if(session.getAttribute("cateList") == null) {
-			List<CategoryVo> cateList = memberService.categoryList();
+			List<CategoryVo> cateList = kioskService.categoryList();
 			session.setAttribute("cateList", cateList);			
 		}
-		List<HashMap<String, String>> menuList = memberService.menuList(num);
+		List<HashMap<String, String>> menuList = kioskService.menuList(num);
 		model.addAttribute("menuList", menuList);
 		if(session.getAttribute("pageNum") != null) {
 			session.removeAttribute("pageNum");
 		}
 		session.setAttribute("pageNum", num);
 		return "kiosk/orderForm";
+	}
+
+	@RequestMapping(value="option")
+	public String option(@RequestParam(value="num") int num, HttpSession session, Model model) throws Exception {
+		if(num == 0) {
+			return "redirect:/cafeCarp/order";
+		}
+		HashMap<String, String> selectMenu = kioskService.menuOption(num);
+		model.addAttribute("selectMenu", selectMenu);
+		return "kiosk/optionForm";
 	}
 	
 	@RequestMapping(value="orderSet", method=RequestMethod.POST)
@@ -91,7 +101,7 @@ public class OrderController {
 	@RequestMapping(value="scroll")
 	public String scroll(@RequestParam(value="type") String type, HttpSession session, RedirectAttributes rttr) throws Exception {
 		int page =(Integer) session.getAttribute("pageNum");
-		int cateLen = memberService.categoryList().size();
+		int cateLen = kioskService.categoryList().size();
 		if(type.equals("N") || type == "N") { 
 			if(page < cateLen) {
 				page += 1; 	
@@ -130,22 +140,22 @@ public class OrderController {
 			int orderTotal = (Integer) session.getAttribute("orderTotal");
 			System.out.println(orderTotal);
 			String payWhat = (String) session.getAttribute("payWhat");
-			int orderNum = memberService.orderNumChange();
+			int orderNum = kioskService.orderNumChange();
 			System.out.println("credit orNum:: "+orderNum);
 			if(member != null) {
 				int totalPayment = (Integer) session.getAttribute("totalPayment");
 				System.out.println("!! credit1m : " + orderTotal);	
 				System.out.println("!! credit2m : " + totalPayment);	
 				//회원 주문 저장
-				memberService.userOrder(member, orderList, orderNum);
-				memberService.userPayment(member, orderTotal, totalPayment, payWhat, orderNum);
+				kioskService.userOrder(member, orderList, orderNum);
+				kioskService.userPayment(member, orderTotal, totalPayment, payWhat, orderNum);
 			return "kiosk/payReceipe";
 			}else {
 				//비회원 주문 저장
 				System.out.println("!! credit1 : " + orderTotal);	
 				System.out.println("!! credit2 : " + orderTotal);	
-				memberService.userOrder(member, orderList, orderNum);
-				memberService.userPayment(member, orderTotal, orderTotal, payWhat, orderNum);				
+				kioskService.userOrder(member, orderList, orderNum);
+				kioskService.userPayment(member, orderTotal, orderTotal, payWhat, orderNum);				
 			
 			}
 			return "kiosk/payReceipe";
@@ -161,7 +171,7 @@ public class OrderController {
 		orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 		int orderTotal = (Integer) session.getAttribute("orderTotal");
 		int totalPayment = 0;
-		int orderNum = memberService.orderNumChange();
+		int orderNum = kioskService.orderNumChange();
 		if(member != null && type.equals("S")) {
 			totalPayment = orderTotal + member.getPoint();
 			session.setAttribute("totalPayment", totalPayment);		
@@ -191,8 +201,8 @@ public class OrderController {
 				model.addAttribute("countStatus", "NO");
 				System.out.println("pointPay E: " + type);
 				System.out.println("pointPay E: " + totalPayment);
-				memberService.userOrder(member, orderList, orderNum);
-				memberService.userPayment(member, orderTotal, totalPayment, "point", orderNum);				
+				kioskService.userOrder(member, orderList, orderNum);
+				kioskService.userPayment(member, orderTotal, totalPayment, "point", orderNum);				
 				return "kiosk/pointCount";
 			}
 		}else {

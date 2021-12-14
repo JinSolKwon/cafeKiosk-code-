@@ -166,3 +166,89 @@
 .footer-pointChange span{display:table-cell; vertical-align:middle; font-weight: bold; font-size:28px; color: #000000;}
 
 .updown { border: 1px solid #E0E0E0; width: 0.1px; height: 85%; float: left; margin: 40px 10px 0 10px;}
+
+
+
+
+#background-optionForm{width: 100%; height: 100%; background-color: #000000; }
+#container-optionForm{
+	margin:0;
+	padding:0;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	z-index:10001;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);	
+	width:70%;
+	height:50%;
+	background-color: #FFFFFF;
+	border:1px solid #EAEAEA;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 3px gray;
+}
+#container-optionForm form{height: 100%; width: 100%;}
+.header-optionForm{margin: 0; margin-top:3%; padding: 0; padding-left:5%; padding-right:5%; width: 100%; height: 28%; text-align: center; display: flex;}
+.header-optionForm1{margin: 0; padding: auto; width: 30%; height: 100%; display: inline-flex; vertical-align: middle; text-align: center;}
+.header-optionForm1 img{margin: 0; margin-left:10%; padding: 0; height: 100%;}
+.header-optionForm2{margin: 0; padding:0; width: 30%; height: 100%; text-align: center; display: table;}
+.header-optionForm2 span{margin: 0; padding: 0; width: 100%; height: 30%;display:inline-block; vertical-align:middle;}
+#header-optionForm-menu{margin-top:20%; margin-bottom:3%; font-weight: bold; font-size: 22px; color: #000000;  text-align: left;}
+#header-optionForm-price{font-size: 17px; color: #000000; text-align: left;}
+.header-optionForm3{margin: 0; padding:0; width: 25%; height: 100%; align-items: center; display: inline-flex; font-size: 18px;}
+
+.main-optionForm{margin: 0; padding: 0; width: 100%; height: 50%; text-align: center;}
+.main-optionForm1{margin: 0; padding: 0; width: 100%; height: 25%; display: flex;}
+.main-optionForm1-1{margin: 0; padding: 0; width: 30%; height: 100%; display: inline-table;}
+.main-optionForm1-1 span{margin: 0; padding: 0; padding-left:40%; width: 100%; height: 20%;display:table-cell; vertical-align:middle; text-align: left; font-weight: bold; font-size: 22px;}
+.main-optionForm1-2{margin: 0; padding: 0; padding-top:2.5%; width: 70%; height: 100%; display: inline-table; text-align: left;font-size: 18px;}
+
+.main-optionForm1-2 input[type=text]{margin: 0; padding: 0; width: 17%; height: 50%; font-size: 20px; border: 1px solid #F0F0F0;}
+.main-optionForm1-2 button{margin: 0; padding: 0; width: 7%; height: 50%; background-color: #000000; color: #FFFFFF; font-size: 25px; border-radius: 5px;}
+
+.footer-optionForm{margin: 0; padding: 0; width: 100%; height: 15%; display: table; table-layout: fixed;}
+.footer-optionForm1,.footer-optionForm2{margin: 0; padding: 0; width: 50%; height: 100%; display:table-cell; vertical-align:middle; }
+.footer-optionForm1{display: table;}
+.footer-optionForm1 p{margin: 0; padding: 0; width: 100%; height: 50%;display:inline; max-width:100%; font-weight: bold; font-size: 22px; color: #000000; }
+.footer-optionForm2-1, .footer-optionForm2-2{
+  display:inline;
+  width:50%;                      /*2개 버튼 각각 50% 영역*/
+  height:80%;                    /*50px*/
+  float:left;                     /*좌측배치*/
+  color:#ffffff;                  /*글자색*/
+  cursor:pointer;                 /*마우스 포인터 효과*/
+  margin: 0;
+  padding: 0;
+  padding-top: 7%;
+}
+.footer-optionForm2-1 button{
+	display:block;
+	width:80%;
+	height:80%;
+	border-radius: 5px;
+	background-color: #5E5E5E;
+	color: #FFFFFF;
+	border: 0;
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+.footer-optionForm2-2 button{
+	display:block;
+	width:80%;
+	height:80%;
+	border-radius: 5px;
+	background-color: #F05454;
+	color: #FFFFFF;
+	border: 0;
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.container{display : grid; grid-template-columns : 1fr 30%; grid-template-rows : 80px 1fr; height : 100%; grid-template-areas :  "header header"  "main side"}
+#container{display : grid; grid-template-columns : 1fr 30%; grid-template-rows : 80px 1fr; height : 100%; grid-template-areas :  "header header"  "main side"}
 
 .header-orderForm{grid-area : header; margin:0; overflow: hidden; display : flex; height: 100%;}
 .main-orderForm{grid-area : main; padding:10px; margin:0; text-align: center; height: 1000px; overflow-y: scroll; -ms-overflow-style: none; /* IE and Edge */scrollbar-width: none; /* Firefox */}
@@ -78,15 +78,14 @@ a:visited {text-decoration: none !important;}
     }
     
     
-/* Modal Content/Box */
 .modal-content{
     background-color: #E0E0E0;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */ 
+    width: 80%;
     height:80%; 
-    border-radius: 10px;	/*모서리 둥글둥글*/     
+    border-radius: 10px;  
     overflow: hidden;                   
     }
 

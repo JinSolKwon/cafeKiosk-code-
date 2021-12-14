@@ -29,9 +29,8 @@
 	<fmt:formatNumber var="point" pattern="#,###" value="${sessionScope.member.getPoint()}"></fmt:formatNumber>
 	<c:set var="point2" value="${point}P" />
 </c:if>
-<div class="container">
+<div id="container">
 <div class="header-orderForm">
-
 	<div class="header-orderForm1">
 		<div class="header-orderForm1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
 		<div class="header-orderForm1-2">
@@ -42,7 +41,6 @@
 			</ul>
 		</div>
 		<div class="header-orderForm1-3"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=N" />'">▶</button></div>
-
 	</div>
 	<div id="header-orderForm2">
 		<div id="header-orderForm2-1">${user}</div>
@@ -53,7 +51,8 @@
 <hr style="border: black;">
 <div class="main-orderForm">
 	<c:forEach items="${menuList}" var="menuOne">
-		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
+<%-- 		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
+ --%>		<a href="<c:url value="/cafeCarp/option?num=${menuOne.NUM}" />">
 		<div class="main-orderForm1">
 			<c:if test="${empty menuOne.SAVE_NAME}">
 				<div class="main-orderForm1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
@@ -268,6 +267,10 @@ slider.addEventListener('mousemove', (e) => {
 	
 	
 var modal = document.getElementById("optionModal");
+var divWidth = $(window).outerWidth(true); 
+var divHeight = $(window).outerHeight(true); 
+modal.style.width = divWidth +'px';
+modal.style.height = divHeight+'px';
 function modalOpen(menu,price,save,cateNum){
 	if(save == null || save == ""){save = 'noimage.gif';}
 	document.getElementById("modal-name").innerHTML = menu;
@@ -279,17 +282,11 @@ function modalOpen(menu,price,save,cateNum){
 	var imgSrc = "<c:url value='/display?saveName=" + save + "'/>";
 	$('#modal-img').attr("src", imgSrc);
 	$('#modal-img').attr("alt", save);
-	
-	var divWidth = $(window).width(); 
-	var divHeight = $(window).height(); //화면을 가리는 레이어의 사이즈 조정 $(".backLayer").width(width); $(".backLayer").height(height);
-	$('#optionModal').css({'width':divWidth,'height':divHeight});
 	modal.style.display="block";
 }
 function modalClose(){
 	modal.style.display="none";
 }
-
-
 function fnCalCount(type){
     var $input = $(".modal-body3").find("input[name='syrub']");
     var tCount = Number($input.val());
@@ -301,9 +298,11 @@ function fnCalCount(type){
     var total;
     if(type==='sp'){
         $input.val(Number(tCount)+1);
+        total = price+300;
     }else if(type==='sm'){
        if(tCount >0){
-        	$input.val(Number(tCount)-1);
+        	$input.val(Number(tCount)-1);  
+        	total = price-300; 
         }
     }
     if(type==='p'){

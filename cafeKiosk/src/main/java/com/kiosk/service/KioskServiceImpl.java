@@ -11,15 +11,17 @@ import com.kiosk.command.MenuOrderCommand;
 import com.kiosk.dao.ICategoryDao;
 import com.kiosk.dao.IMemberDao;
 import com.kiosk.dao.IMenuDao;
+import com.kiosk.dao.IOptionListDao;
 import com.kiosk.dao.IOrderListDao;
 import com.kiosk.dao.IPaymentDao;
 import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
+import com.kiosk.vo.OptionListVo;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
 
 @Service
-public class MemberServiceImpl implements IMemberService{
+public class KioskServiceImpl implements IKioskService{
 	@Autowired
 	private IMemberDao memberDao;
 	@Autowired
@@ -30,6 +32,8 @@ public class MemberServiceImpl implements IMemberService{
 	private IOrderListDao orderListDao;
 	@Autowired
 	private IPaymentDao paymentDao;
+	@Autowired
+	private IOptionListDao optionListDao;
 	
 	private static int orderNum = 0;
 
@@ -93,16 +97,25 @@ public class MemberServiceImpl implements IMemberService{
 		paymentDao.paymentRegist(payment);
 	}
 	
-	
 	public int orderNumChange() {
 		LocalTime currentTime = LocalTime.now();
 		System.out.println(currentTime);
 		System.out.println(currentTime.getHour());
-		if(currentTime.getHour() == 00) {
+		//밤12시(24시)가 되면 번호 리셋
+		if(currentTime.getHour() == 0) {
 			orderNum = 0;
 		}
 		++orderNum;
 		return orderNum;
+	}
+	
+	public List<OptionListVo> optionList() throws Exception{
+		return optionListDao.optionList();
+	}
+
+	@Override
+	public HashMap<String, String> menuOption(int num) throws Exception {
+		return menuDao.menuOption(num);
 	}
 	
 }

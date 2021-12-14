@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kiosk.service.IMemberService;
+import com.kiosk.service.IKioskService;
 import com.kiosk.vo.MemberVo;
 
 @Controller
 @RequestMapping(value="/cafeCarp/")
-public class MemberController {
+public class KioskController {
 
 	@Autowired
-	private IMemberService memberService;
+	private IKioskService kioskService;
 	
 	@RequestMapping(value="main")
 	String mainPage(HttpSession session) {
@@ -52,8 +52,8 @@ public class MemberController {
 			if(month.length() <2) month = "0"+month;
 			if(day.length() <2) day = "0"+day;
 			member.setBirth(month + day);
-			memberService.registMember(member);
-			MemberVo exist = memberService.checkPhoneNumber(member.getPhone());
+			kioskService.registMember(member);
+			MemberVo exist = kioskService.checkPhoneNumber(member.getPhone());
 			session.setAttribute("member", exist);
 			rttr.addFlashAttribute("success", "hello");			
 			return "redirect:/cafeCarp/order";
@@ -67,7 +67,7 @@ public class MemberController {
 			rttr.addFlashAttribute("check", "번호를 알맞게 입력해주세요.");
 			return "redirect:/cafeCarp/regist";			
 		}
-		MemberVo exist = memberService.checkPhoneNumber(member.getPhone());
+		MemberVo exist = kioskService.checkPhoneNumber(member.getPhone());
 		if(exist != null) {
 			rttr.addFlashAttribute("check", "이미 등록된 번호입니다.");
 			return "redirect:/cafeCarp/regist";
@@ -92,7 +92,7 @@ public class MemberController {
 		if(phone.equals(null) || phone == "" || phone.isEmpty() || phone.length()!=13 || !(Pattern.matches(phonePattern, phone))) {
 			return "redirect:/cafeCarp/login";
 		}
-		MemberVo exist = memberService.checkPhoneNumber(phone);
+		MemberVo exist = kioskService.checkPhoneNumber(phone);
 		if(exist == null) {
 			rttr.addFlashAttribute("fail", "no");
 			return "redirect:/cafeCarp/main";
