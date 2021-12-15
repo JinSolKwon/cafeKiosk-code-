@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ManagerDao">
+	
+	<!-- 관리자 계정 수 가져오기 -->
+	<select id="countManager" parameterType="String" resultType="int">
+		select count(*)	from MANAGER
+		<if test='value!=null or !value.equals("")'>
+	  			where ID like '%' || #{value} || '%'
+	  	  </if>
+	</select>
+	
+	<!-- 회원 목록 가져오기 -->
+	<select id="managerList" parameterType="hashmap" resultType="managerVo">
+      select * from (select rownum RNUM, NUM, ID, PW, STATUS, REGDATE 
+		  from (select * from MANAGER
+		  <if test='id!=null or !id.equals("")'>
+	  			where ID like '%' || #{id} ||'%'
+	  	  </if>
+		  order by NUM asc))
+			  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 마스터 패스워드 가져오기 -->
+	<select id="masterPass" resultType="managerVo">
+		select * from MANAGER where STATUS = 'master'
+	</select>
+	
+	<!-- 탈퇴회원 테이블로 입력 -->
+	<insert id="insertmanager" parameterType="managerVo">
+		INSERT INTO QUIT_MEMBER(NUM, NAME, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT)
+			VALUES(QUIT_MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, #{regdate}, #{point})
+	</insert> 
+	
+	<!-- 회원 삭제 -->
+	<delete id="managerDelete" parameterType="String">
+		DELETE FROM MANAGER
+		WHERE NUM = #{value}
+	</delete>
+	
+</mapper>

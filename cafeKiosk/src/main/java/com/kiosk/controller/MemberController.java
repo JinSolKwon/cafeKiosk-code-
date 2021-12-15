@@ -218,10 +218,4 @@ public class MemberController {
 		return "managerPage/menuControl";
 	}
 	
-	// 이전 매출 관리 페이지
-	@GetMapping("idControl")
-	public String managerId(Model model, HttpSession session) throws Exception{
-			
-		return "managerPage/idControl";
-	}
 }

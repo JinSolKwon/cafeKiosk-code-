@@ -13,5 +13,6 @@
 	
 	<typeAliases> 
 		<typeAlias alias="memberVo" type="com.kiosk.vo.MemberVo"/>
+		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
 	</typeAliases>
 </configuration>

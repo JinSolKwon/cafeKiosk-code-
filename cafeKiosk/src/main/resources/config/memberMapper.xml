@@ -92,37 +92,4 @@
 		WHERE NUM = #{num} 
 	</update>
 	
-	<!-- ==============================아래는 예시로 보는것===================================== -->
-	<!-- 로그인 -->
-	<select id="login" resultType="memberVo">
-		SELECT MEMBER_NO as memberNo, ID, PASSWORD, NAME, EMAIL
-		  FROM MEMBER
-		 WHERE ID = #{id}
-		   AND PASSWORD = #{password}   
-	</select>
-
-	<!-- 회원가입 -->
-	<insert id="register" parameterType="memberVo">
-		INSERT INTO MEMBER(MEMBER_NO,
-						   ID ,
-						   PASSWORD,
-						   NAME,
-						   EMAIL,
-						   CREATE_AT
-					)VALUES(MEMBER_NO_SEQ.nextval, 
-							#{id},										  
-							 #{password},											  
-							  #{name},
-								#{email},
-								SYSDATE
-								)
-	</insert>
-	
-	<!-- 정보 수정 -->
-	<update id="memberUpdate" parameterType="memberVo">
-		UPDATE MEMBER SET
-		PASSWORD = #{pw2}
-		WHERE ID = #{id} 
-	</update>
-	
 </mapper>

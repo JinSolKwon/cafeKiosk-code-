@@ -158,7 +158,7 @@
     else{
 		var chk = Swal.fire({
                   title: '회원삭제',
-                  text: "선택하신 회원을 삭제하시겠습니까?",
+                  text: "정말 삭제하시겠습니까?",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#444444',
