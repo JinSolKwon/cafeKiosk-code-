@@ -62,8 +62,15 @@
 			</li>
 			<li id="topline"></li>
 			<li class="mb-1">
-				<button class="btn" data-bs-toggle="collapse" aria-expanded="false"
-				 style="font-size:x-large;font-weight:bold;" onclick="location.href='<c:url value="menuControl"/>'">메뉴관리</button>
+				<button class="btn btn-toggle align-items-center rounded collapsed"
+					data-bs-toggle="collapse" data-bs-target="#menu-collapse"
+					aria-expanded="false" style="font-size:x-large;font-weight:bold;">메뉴관리</button>
+				<div class="collapse" id="menu-collapse" style="">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="${pageContext.request.contextPath}/managerPage/menuControl" class="link-dark rounded" id="underline">메뉴 관리</a></li>
+						<li><a href="${pageContext.request.contextPath}/managerPage/categoryControl" class="link-dark rounded" id="underline">카테고리 관리</a></li>
+					</ul>
+				</div>
 			</li>
 			<li id="topline"></li>
 			<li class="mb-1">

@@ -32,4 +32,54 @@ public class MemberDaoImpl implements MemberDao{
 	public List<MemberVo> memberList(HashMap<String, String> map) {
 		return sqlSessionTemplate.selectList("memberList", map);
 	}
+	
+	@Override
+	public MemberVo member(int num) {
+		return sqlSessionTemplate.selectOne("selectMember", num);
+	}
+	
+	@Override
+	public void insertQuitMember(MemberVo vo) {
+		sqlSessionTemplate.insert("insertQuitMember", vo);
+	}
+	
+	@Override
+	public int memberDelete(String number) {
+		return sqlSessionTemplate.delete("memberDelete", number);
+	}
+	
+	@Override
+	public int updateMember(MemberVo vo) {
+		return sqlSessionTemplate.update("updateMember", vo);
+	}
+	
+	@Override
+	public int quitMemberCount(String backNumber) {
+		return sqlSessionTemplate.selectOne("countQuitMember", backNumber);
+	}
+	
+	@Override
+	public List<MemberVo> quitMemberList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("quitMemberList",map);
+	}
+	
+	@Override
+	public MemberVo quitMember(int num) {
+		return sqlSessionTemplate.selectOne("selectQuitMember", num);
+	}
+	
+	@Override
+	public void insertRestoreMember(MemberVo vo) {
+		sqlSessionTemplate.insert("restoreMember", vo);
+	}
+	
+	@Override
+	public int quitMemberDelete(String number) {
+		return sqlSessionTemplate.delete("quitMemberDelete", number);
+	}
+	
+	@Override
+	public int updateQuitMember(MemberVo vo) {
+		return sqlSessionTemplate.update("updateQuitMember", vo);
+	}
 }

@@ -20,7 +20,7 @@ public class MemberVo {
 	public String getPhone() {
 		return phone;
 	}
-	public String getBirth_year() {
+	public String getBirthYear() {
 		return birthYear;
 	}
 	public String getBirth() {
@@ -41,7 +41,7 @@ public class MemberVo {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setBirth_year(String birth_year) {
+	public void setBirthYear(String birth_year) {
 		this.birthYear = birth_year;
 	}
 	public void setBirth(String birth) {
