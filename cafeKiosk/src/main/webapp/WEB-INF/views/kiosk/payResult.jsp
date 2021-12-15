@@ -25,14 +25,17 @@
 <div class="container">
 	<div class="header-result"><span>주문 번호</span></div>
 	<div class="main-result">
-		<span>몇번일까아ㅏㅏㅏ</span>
+		<span>${sessionScope.orderNum}</span>
 	</div>
 	<div class="footer-result">
 		<img alt="cafeCarp" src="<c:url value="/resources/img/cafeCarp.png" />"><span> 를 이용해주셔서 감사합니다.</span>
 	</div>
 </div>
 <script type="text/javascript">
-
+	function mainMove(){
+		window.location.replace('<c:url value="/cafeCarp/main" />');
+	}
+	setTimeout(mainMove, 5000);
 </script>
 </body>
 </html>

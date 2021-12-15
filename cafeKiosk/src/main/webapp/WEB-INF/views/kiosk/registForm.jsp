@@ -27,8 +27,9 @@
 			<div class="main-regist3-2">
 				<select id="year" name="birthYear">
 					<option value="">년도</option>
-					<c:forEach var="i" begin="1930" end="${thisYear}" step="1">
-						<option value="${i}" <c:if test="${!empty member.birthYear && i == member.birthYear}">selected="selected"</c:if>>${i}</option>
+					<c:forEach var="i" begin="1900" end="${thisYear}" step="1">
+					<c:set var="optionYear" value="${thisYear-i+1900}" />
+						<option value="${optionYear}" <c:if test="${!empty member.birthYear && optionYear == member.birthYear}">selected="selected"</c:if>>${optionYear}</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -42,7 +43,7 @@
 			</div>
 			<div class="main-regist3-4">	
 				<select id="day" name="day">
-					<option value="">일</option>				
+					<option value="">일</option>		
 					<c:forEach var="i" begin="1" end="31" step="1">			
 						<option value="${i}" <c:if test="${!empty day && i == day}">selected="selected"</c:if>>${i}</option>
 					</c:forEach>				

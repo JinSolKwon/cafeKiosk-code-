@@ -83,7 +83,6 @@
 </div>
 <div class="footer-optionForm">
 	<div class="footer-optionForm1">
-		<input type="hidden" name="price" id="modal-price-hidden"/>
 		<p id="modal-price-total"></p>
 	</div>
 	<div class="footer-optionForm2">
@@ -95,10 +94,17 @@
 		</div>		
 	</div>
 </div>
+	<input type="hidden" name="menu" value="${selectMenu.MENU}" />
+	<input type="hidden" name="price" id="modal-price-hidden"/>
 </form>
 </div>
 </div>
 <script type="text/javascript">
+var backDiv = document.getElementById("background-optionForm");
+var divWidth = $(window).outerWidth(true); 
+var divHeight = $(window).outerHeight(true); 
+backDiv.style.width = divWidth +'px';
+backDiv.style.height = divHeight+'px';
 var price = "<c:out value="${selectMenu.PRICE}"/>";
 console.log(price);
 document.getElementById("modal-price-total").innerHTML = price + ' 원';

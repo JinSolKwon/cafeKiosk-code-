@@ -170,7 +170,9 @@
 
 
 
-#background-optionForm{width: 100%; height: 100%; background-color: #000000; }
+#background-optionForm{width: 100%; height: 100%; 	
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.8); /* Black w/ opacity */}
 #container-optionForm{
 	margin:0;
 	padding:0;
@@ -190,13 +192,13 @@
 	border-radius: 10px;
 	box-shadow: 3px 3px 3px 3px gray;
 }
-#container-optionForm form{height: 100%; width: 100%;}
+#container-optionForm form{height: 95%; width: 100%;}
 .header-optionForm{margin: 0; margin-top:3%; padding: 0; padding-left:5%; padding-right:5%; width: 100%; height: 28%; text-align: center; display: flex;}
 .header-optionForm1{margin: 0; padding: auto; width: 30%; height: 100%; display: inline-flex; vertical-align: middle; text-align: center;}
 .header-optionForm1 img{margin: 0; margin-left:10%; padding: 0; height: 100%;}
 .header-optionForm2{margin: 0; padding:0; width: 30%; height: 100%; text-align: center; display: table;}
 .header-optionForm2 span{margin: 0; padding: 0; width: 100%; height: 30%;display:inline-block; vertical-align:middle;}
-#header-optionForm-menu{margin-top:20%; margin-bottom:3%; font-weight: bold; font-size: 22px; color: #000000;  text-align: left;}
+#header-optionForm-menu{margin-top:10%; font-weight: bold; font-size: 22px; color: #000000;  text-align: left;}
 #header-optionForm-price{font-size: 17px; color: #000000; text-align: left;}
 .header-optionForm3{margin: 0; padding:0; width: 25%; height: 100%; align-items: center; display: inline-flex; font-size: 18px;}
 
@@ -210,8 +212,8 @@
 .main-optionForm1-2 button{margin: 0; padding: 0; width: 7%; height: 50%; background-color: #000000; color: #FFFFFF; font-size: 25px; border-radius: 5px;}
 
 .footer-optionForm{margin: 0; padding: 0; width: 100%; height: 15%; display: table; table-layout: fixed;}
-.footer-optionForm1,.footer-optionForm2{margin: 0; padding: 0; width: 50%; height: 100%; display:table-cell; vertical-align:middle; }
-.footer-optionForm1{display: table;}
+.footer-optionForm1,.footer-optionForm2{margin: 0; padding: 0; width: 50%; height: 100%; display:table-cell; vertical-align:middle;}
+.footer-optionForm1{padding-left: 12%;}
 .footer-optionForm1 p{margin: 0; padding: 0; width: 100%; height: 50%;display:inline; max-width:100%; font-weight: bold; font-size: 22px; color: #000000; }
 .footer-optionForm2-1, .footer-optionForm2-2{
   display:inline;

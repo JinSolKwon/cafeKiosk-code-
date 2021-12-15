@@ -149,14 +149,15 @@ public class OrderController {
 				//회원 주문 저장
 				kioskService.userOrder(member, orderList, orderNum);
 				kioskService.userPayment(member, orderTotal, totalPayment, payWhat, orderNum);
-			return "kiosk/payReceipe";
+				session.setAttribute("orderNum", orderNum);
+				return "kiosk/payReceipe";
 			}else {
 				//비회원 주문 저장
 				System.out.println("!! credit1 : " + orderTotal);	
 				System.out.println("!! credit2 : " + orderTotal);	
 				kioskService.userOrder(member, orderList, orderNum);
 				kioskService.userPayment(member, orderTotal, orderTotal, payWhat, orderNum);				
-			
+				session.setAttribute("orderNum", orderNum);			
 			}
 			return "kiosk/payReceipe";
 		}else {
