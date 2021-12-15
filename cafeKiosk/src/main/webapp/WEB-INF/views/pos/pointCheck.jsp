@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,11 @@
 <title>포인트 조회</title>
 </head>
 <body>
+	<c:if test="${insertResult eq true }">
+		<script type="text/javascript">
+			alert("회원등록이 완료되었습니다.");
+		</script>
+	</c:if>
 	
 	<div class="container shadow-lg my-5 border" style="width:500px; height:300px;">
 		<div class="row justify-content-end my-5">
@@ -25,7 +31,7 @@
 				<h3><b>회원조회</b></h3>
 			</div>
 			<div class="col-3">
-				<button onclick="register()" class="btn btn-secondary text-white" style="width:100px;">회원등록</button>
+				<button onclick="register()" class="btn btn-secondary" style="width:100px;">회원등록</button>
 			</div>
 		</div>
 		
@@ -36,12 +42,12 @@
 				</div>
 			</div>
 		</form>
-			<div class="row justify-content-end my-4">
-				<div class="col-3">
-					<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
+			<div class="row my-4">
+				<div class="col-6">
+					<button type="button" id="back" class="btn btn-light border" style="width:225px;">돌아가기</button>
 				</div>
-				<div class="col-3">
-					<button type="button" id="check" class="btn text-white btn-secondary" style="width:100px;">조회하기</button>
+				<div class="col-6">
+					<button type="button" id="check" class="btn btn-secondary" style="width:225px;">조회하기</button>
 				</div>
 			</div>
 	</div>

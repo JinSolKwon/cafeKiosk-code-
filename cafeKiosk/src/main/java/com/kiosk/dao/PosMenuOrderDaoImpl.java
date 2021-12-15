@@ -39,8 +39,12 @@ public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
 	}
 	
 	@Override
-	public MemberVo pointCheck(String phoneNum) {
+	public MemberVo memberCheck(String phoneNum) {
 		return sqlSessionTemplate.selectOne("posMenuOrderMapper.selectMember", phoneNum);
 	}
 	
+	@Override
+	public int insertMember(MemberVo memberVo) {
+		return sqlSessionTemplate.insert("posMenuOrderMapper.insertMember", memberVo);
+	}
 }

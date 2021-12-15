@@ -15,19 +15,31 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <title>회원등록</title>
 </head>
 <body>
-	
+	<c:if test="${insertResult eq false }">
+		<script type="text/javascript">
+			alert("회원등록에 실패하였습니다.");
+		</script>
+	</c:if>
 	<div class="container shadow-lg my-5 border" style="width: 500px;">
 		<div class="row text-center fs-2 my-4">
 			<b>회원등록</b>
 		</div>
 		<div class="row">
 			<form name="regiInfo" class="center" method="post">
-				<div class="mb-3">
-					<input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="전화번호를 입력하세요" maxlength="13">
+				<div class="row mb-3">
+					<div class="col-9 text-center">
+						<input type="text" class="form-control" id="phone" name="phone" placeholder="전화번호를 입력하세요" maxlength="13">
+					</div>
 					<!-- <div id="phoneVal"></div> -->
+					<div class="col-3 text-start">
+						<button class="btn btn-secondary" type="button" onclick="phoneCheck();" style="width: 100px;">중복확인</button>
+					</div>
+					<div class="phoneValid my-1" id="phoneValid"></div>
 				</div>
 				<div class="mb-3">
 					<input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요">
@@ -38,7 +50,7 @@
 						  <option selected disabled hidden>년도</option>
 						  <jsp:useBean id="toDay" class="java.util.Date"/>
 						  <fmt:formatDate value="${toDay}" pattern="yyyy" var="year"/>
-						  <c:forEach begin="0" end="70" var="i">
+						  <c:forEach begin="0" end="90" var="i">
 							  <option value="${year-i }">${year-i }</option>
 						  </c:forEach>
 						</select>
@@ -64,10 +76,10 @@
 		</div>
 		<div class="row my-2">
 			<div class="col-6 text-start">
-				<button class="btn btn-outline-danger" style="width: 225px;" onclick="cancel()">가입취소</button>		
+				<button class="btn btn-light border" style="width: 225px;" onclick="cancel()">가입취소</button>		
 			</div>
 			<div class="col-6 text-end">
-				<button class="btn btn-outline-primary" style="width: 225px;" onclick="submit()">회원등록</button>		
+				<button class="btn btn-secondary" style="width: 225px;" onclick="submit()">회원등록</button>		
 			</div>
 		</div>
 	</div>
@@ -107,9 +119,9 @@
 	        return str;
 	    }
 	
-		var phoneNum = document.getElementById('phoneNum');
+		var phone = document.getElementById('phone');
 		// onkeyup : 사용자가 키보드를 눌렀다가 땠을 때
-		phoneNum.onkeyup = function(event){
+		phone.onkeyup = function(event){
 		    event = event || window.event;
 		    var _val = this.value.trim();
 		    this.value = autoHypenPhone(_val) ;
@@ -117,7 +129,7 @@
 		
 		/*
 		function nameCheck(nameVal){
-			nameVal = nameVal.replace(/[^(ㄱ-힣a-zA-Z)]/gi, '');
+			nameVal = nameVal.replace(/[^(ㄱ-힣a-zA-Z)]/g, '');
 	        return nameVal;
 	    }
 		
@@ -131,7 +143,7 @@
 		
 		function submit(){
 			var form = document.regiInfo;
-			var phone = form.phoneNum.value;
+			var phone = form.phone.value;
 			var name = form.name.value;
 			var year = form.year.value;
 			var month = form.month.value;
@@ -140,9 +152,9 @@
 			if(phone == ""){
 				//document.getElementById('phoneVal').innerHTML='전화번호를 입력하세요'
 				//document.getElementById('phoneVal').style.color='red'
-				//form.phoneNum.focus();
+				//form.phone.focus();
 				alert("전화번호를 입력하세요");
-				form.phoneNum.focus();
+				form.phone.focus();
 				return false;
 			} else if(name == ""){
 				alert("이름을 입력하세요");
@@ -168,6 +180,26 @@
 		
 		function cancel(){
 			location.href="/pos/menuOrder/pointCheck";
+		}
+		
+		function phoneCheck(){
+			$.ajax({
+				url : "/pos/menuOrder/phoneCheck",
+				type : "post",
+				data : {phone: $('#phone').val()},
+				dataType : 'json',
+				success : function(result){
+					if(result == 1){
+						document.getElementById('phoneValid').innerHTML='등록된 회원의 전화번호입니다.'
+			            document.getElementById('phoneValid').style.color='red';
+						alert("등록된 회원의 전화번호입니다.");
+					}else if(result == 0){
+						document.getElementById('phoneValid').innerHTML='등록되지 않은 회원의 전화번호입니다.'
+			            document.getElementById('phoneValid').style.color='blue';
+						alert("등록되지 않은 회원의 전화번호입니다.");
+					}
+				}
+			})
 		}
 		
 	</script>

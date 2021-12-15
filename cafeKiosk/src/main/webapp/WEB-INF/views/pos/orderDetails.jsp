@@ -131,17 +131,17 @@
 		</div>
 		
 		<div class="row justify-content-center my-3">
-			<div class="col-2 text-center">
-				<button type="button" class="btn btn-outline-secondary my-2 btn-lg" style="width:120px;" onclick="location.href='/pos/menuOrder/pointCheck'">포인트</button>&nbsp;
+			<div class="col-3 text-center">
+				<button type="button" class="btn btn-outline-secondary my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder/pointCheck'">포인트</button>&nbsp;
 			</div>
-			<div class="col-2 text-center">
-				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:120px;" onclick="location.href='#'">카드</button>&nbsp;
+			<div class="col-3 text-center">
+				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="location.href='#'">카드</button>&nbsp;
 			</div>
-			<div class="col-2 text-center">
-				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:120px;" onclick="location.href='#'">현금</button>&nbsp;
+			<div class="col-3 text-center">
+				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="location.href='#'">현금</button>&nbsp;
 			</div>
-			<div class="col-2 text-center">
-				<button type="button" class="btn btn-outline-danger my-2 btn-lg" style="width:120px;" onclick="location.href='/pos/menuOrder'">돌아가기</button>&nbsp;
+			<div class="col-3 text-center">
+				<button type="button" class="btn btn-outline-danger my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder'">돌아가기</button>&nbsp;
 			</div>
 		</div>
 	</div>

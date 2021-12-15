@@ -3,6 +3,7 @@ package com.kiosk.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kiosk.command.RegisterCmd;
 import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
 import com.kiosk.vo.MenuVo;
@@ -25,4 +26,9 @@ public interface PosMenuOrderService {
 	// 회원 전화번호로 포인트 조회
 	public Map<String, MemberVo> pointCheck(String phoneNum);
 	
+	// 회원등록
+	public boolean insertMember(RegisterCmd registerCmd);
+	
+	// 회원 전화번호로 중복검사 조회
+	public int phoneCheck(RegisterCmd registerCmd);
 }

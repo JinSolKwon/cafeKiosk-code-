@@ -15,6 +15,14 @@ public class MemberVo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public MemberVo(String name, String phone, String birthYear, String birth) {
+		super();
+		this.name = name;
+		this.phone = phone;
+		this.birthYear = birthYear;
+		this.birth = birth;
+	}
 
 	public MemberVo(int num, String name, String phone, String birthYear, String birth, Date regdate, int point) {
 		super();

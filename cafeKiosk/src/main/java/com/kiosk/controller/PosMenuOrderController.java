@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.command.CancelCmd;
 import com.kiosk.command.MenuOrderCmd;
+import com.kiosk.command.RegisterCmd;
 import com.kiosk.service.PosMenuOrderService;
 import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
@@ -185,8 +189,13 @@ public class PosMenuOrderController {
 	}
 	
 	@RequestMapping(value = "/pos/menuOrder/pointCheck", method = RequestMethod.GET)
-	public String menuOrederPoint() {
+	public String menuOrederPoint(Boolean insertResult, Model model) {
 		logger.info("point 조회 페이지 GET 요청");
+		
+		if(insertResult != null && insertResult == true) {
+			model.addAttribute("insertResult", true);
+		}
+		
 		return "/pos/pointCheck";
 	}
 
@@ -281,8 +290,37 @@ public class PosMenuOrderController {
 	}
 	
 	@RequestMapping(value = "/pos/menuOrder/register", method = RequestMethod.GET)
-	public String register() {
+	public String registerGet(Boolean insertResult, Model model) {
+		logger.info("memberRegister GET요청");
+		
+		if(insertResult != null && insertResult == false) {
+			model.addAttribute("insertResult", false);
+		}
+		
 		return "/pos/memberRegister";
 	}
 	
+	@RequestMapping(value = "/pos/menuOrder/register", method = RequestMethod.POST)
+	public String registerPost(@Valid RegisterCmd registerCmd, RedirectAttributes rttr) {
+		logger.info("memberRegister POST요청");
+		
+		// 회원등록
+		boolean result = posMenuOrderService.insertMember(registerCmd);
+		
+		if(result == true) {
+			rttr.addAttribute("insertResult", true);
+			return "redirect:/pos/menuOrder/pointCheck";
+		} else {
+			rttr.addAttribute("insertResult", false);
+			return "redirect:/pos/menuOrder/register";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/pos/menuOrder/phoneCheck", method = RequestMethod.POST)
+	public int phoneCheck(RegisterCmd registerCmd) {
+		logger.info("회원 전화번호 중복검사");
+		int result = posMenuOrderService.phoneCheck(registerCmd);
+		return result;
+	}
 }
