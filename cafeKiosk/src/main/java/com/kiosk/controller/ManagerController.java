@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kiosk.service.ManagerService;
 import com.kiosk.vo.ManagerVo;
-import com.kiosk.vo.MemberVo;
 
 @Controller
 @RequestMapping("/managerPage/*")
@@ -77,14 +76,30 @@ public class ManagerController {
 		return "managerPage/idControl";
 	}
 	
-	// 회원 탈퇴
+	// 매니저 탈퇴
 	@PostMapping("deleteManager")
-	public String deleteMember(HttpSession session, HttpServletRequest request) {
+	public String deleteManager(HttpSession session, HttpServletRequest request) {
 		
 		String[] ajaxMsg = request.getParameterValues("valueArr");
 		for (int i = 0 ; i < ajaxMsg.length; i++) {
 			service.managerDelete(ajaxMsg[i]);
 		}
+		
+		return "redirect:idControl";
+	}
+	
+	// 매니저 정보 수정
+	@PostMapping("updateManager")
+	public String updateManager(HttpSession session, HttpServletRequest request) {
+		
+		String num = request.getParameter("num");
+		String pw = request.getParameter("str");
+		
+		ManagerVo vo = new ManagerVo();
+		vo.setNum(Integer.parseInt(num));
+		vo.setPw(pw);
+
+		service.managerUpdate(vo);
 		
 		return "redirect:idControl";
 	}

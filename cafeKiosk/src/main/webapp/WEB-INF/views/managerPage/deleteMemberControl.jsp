@@ -248,7 +248,7 @@
 	// 테이블의 Row 클릭시 탈퇴회원 정보 가져온 후 수정
 	$("#example-table-1 tr").click(function(){ 	
 
-		var str = ""
+		var str = "";
 		
 		// 현재 클릭된 Row(<tr>)
 		var tr = $(this);

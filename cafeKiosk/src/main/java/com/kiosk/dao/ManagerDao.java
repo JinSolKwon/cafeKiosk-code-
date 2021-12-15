@@ -22,5 +22,8 @@ public interface ManagerDao {
 	//매니저 계정 삭제 메서드
 	public abstract int managerDelete(String number);
 	
+	//매니저 계정 수정 메서드
+	public abstract int managerUpdate(ManagerVo vo);
+	
 
 }

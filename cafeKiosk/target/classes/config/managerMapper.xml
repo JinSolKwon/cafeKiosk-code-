@@ -28,6 +28,13 @@
 		select * from MANAGER where STATUS = 'master'
 	</select>
 	
+	<!-- 탈퇴회원 정보 수정 -->
+	<update id="updateManager" parameterType="memberVo">
+		UPDATE MANAGER SET
+		PW = #{pw}
+		WHERE NUM = #{num} 
+	</update>
+	
 	<!-- 탈퇴회원 테이블로 입력 -->
 	<insert id="insertmanager" parameterType="managerVo">
 		INSERT INTO QUIT_MEMBER(NUM, NAME, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT)

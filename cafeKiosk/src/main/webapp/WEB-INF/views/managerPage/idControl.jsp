@@ -42,7 +42,7 @@
 		</c:if>
 		
 		<c:if test="${count > 0}">
-		<form action="<c:url value="#"/>" method="POST">
+		<form name="managerForm">
 			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;margin-top:1px;"
 				onclick="deleteValue(${masterPass});">
 			
@@ -54,9 +54,10 @@
 						</th>
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
-						<th>아이디</th>
-						<th>직위</th>
-						<th>가입일자</th>
+						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
+						<th onclick="event.cancelBubble=true">아이디</th>
+						<th onclick="event.cancelBubble=true">직위</th>
+						<th onclick="event.cancelBubble=true">가입일자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -75,6 +76,7 @@
 							<c:set var="number" value="${number + 1}"/>
 						</td>
 						<td class="hidden-col">${manager.num}</td>
+						<td class="hidden-col">${masterPass}</td>
 						<td style="cursor:pointer;">${manager.id}</td>
 						<td style="cursor:pointer;">${manager.status}</td>
 						<td style="cursor:pointer;">
@@ -177,7 +179,7 @@
                                   swal.showValidationMessage("마스터 패스워드가 입력되지 않았습니다."); // Show error when validation fails.
                                   swal.enableConfirmButton(); // Enable the confirm button again.
                               } else if ($('#swal-input').val() != masterPass) { 
-                            	  swal.showValidationMessage("마스터 패스워드가 일치하지 않습니다."); // Show error when validation fails.
+                            	  swal.showValidationMessage("마스터 패스워드와 일치하지 않습니다."); // Show error when validation fails.
                                   swal.enableConfirmButton(); // Enable the confirm button again.	
                           	  }	else {
                                   swal.resetValidationMessage(); // Reset the validation message.
@@ -210,6 +212,80 @@
               })				 
 		}
 	}
+	
+	
+	// 테이블의 Row 클릭시 관리자 계정 정보 가져온 후 수정
+	$("#example-table-1 tr").click(function(){ 	
+
+		var str = "";
+		
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+		
+		// td.eq(index)를 통해 값을 가져올 수도 있다.
+		var num = td.eq(2).text();
+		var masterPass = td.eq(3).text() ;
+		var id = td.eq(4).text();
+		var status = td.eq(5).text();
+		var regdate = td.eq(6).text();
+		
+		var chk = Swal.fire({
+            title: 'admin 계정 수정',
+            html:
+            	'<h4>아이디 : ' + id + '</h4><br>' + 
+                '<input id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
+                '<input id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
+                '<input id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
+                ,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    // Validate input 
+                    if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
+                        swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        swal.enableConfirmButton(); // Enable the confirm button again.
+                    } else if (("\'" + $('#swal-input1').val() + "\'") != masterPass){
+                    	swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
+                        swal.enableConfirmButton(); // Enable the confirm button again.
+                	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
+                		swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
+                        swal.enableConfirmButton(); // Enable the confirm button again.
+                	} else {
+                        swal.resetValidationMessage(); // Reset the validation message.
+                        resolve([
+                            str = $('#swal-input2').val(),
+                        ]);
+                    }
+                })
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#444444',
+            cancelButtonColor: '#DDDDDD',
+            confirmButtonText: '수정완료',
+            cancelButtonText: '수정취소'
+        }).then((result) => {
+            if (result.value) {
+			$.ajax({ 
+			    url : 'updateManager',        // 전송 URL
+			    type : 'POST',                // POST 방식
+			    traditional : true,
+			    data : {
+			    	str : str,   		// 보내고자 하는 data 변수 설정
+			    	num : num
+			    },
+              success: function(jdata){
+                  if(jdata = 1) {
+                      alert("수정 성공");
+                      location.replace("idControl") //list 로 페이지 새로고침
+                  }
+                  else{
+                      alert("수정 실패");
+                  }
+              }
+			});       
+            }
+        })            
+	});
 	</script>
 </body>
 </html>

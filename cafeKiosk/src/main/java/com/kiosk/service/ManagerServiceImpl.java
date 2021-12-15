@@ -47,4 +47,9 @@ public class ManagerServiceImpl implements ManagerService{
 		return managerDao.managerDelete(number);
 	}
 	
+	@Override
+	public int managerUpdate(ManagerVo vo) {
+		return managerDao.managerUpdate(vo);
+	}
+	
 }

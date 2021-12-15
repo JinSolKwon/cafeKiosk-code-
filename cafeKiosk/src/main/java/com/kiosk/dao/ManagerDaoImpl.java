@@ -48,4 +48,9 @@ public class ManagerDaoImpl implements ManagerDao{
 		return sqlSessionTemplate.delete("managerDelete", number);
 	}
 	
+	@Override
+	public int managerUpdate(ManagerVo vo) {
+		return sqlSessionTemplate.update("updateManager", vo);
+	}
+	
 }

@@ -17,4 +17,5 @@ public interface ManagerService {
 	
 	public abstract int managerDelete(String number);
 
+	public abstract int managerUpdate(ManagerVo vo);
 }
