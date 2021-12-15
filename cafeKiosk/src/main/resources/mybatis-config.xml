@@ -21,6 +21,7 @@
 		<typeAlias alias="categoryVo" type="com.kiosk.vo.CategoryVo"/>
 		<typeAlias alias="menuVo" type="com.kiosk.vo.MenuVo"/>
 		<typeAlias alias="optionListVo" type="com.kiosk.vo.OptionListVo"/>
+		<typeAlias alias="refundPaymentCmd" type="com.kiosk.command.RefundPaymentCmd"/>
         
 	</typeAliases>
  	

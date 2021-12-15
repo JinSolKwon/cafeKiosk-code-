@@ -2,6 +2,7 @@ package com.kiosk.dao;
 
 import java.util.List;
 
+import com.kiosk.command.RefundPaymentCmd;
 import com.kiosk.command.RefundPointCmd;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
@@ -9,7 +10,7 @@ import com.kiosk.vo.PaymentVo;
 public interface PosOrderListDao {
 	
 	// 미제공 메뉴 내역 조회
-	public List<OrderListVo> notProvidedOrder();
+	public List<OrderListVo> notProvidedOrder(String today);
 	
 	// 메뉴 제공 완료
 	public int menuProvided(int orderNum);
@@ -18,7 +19,7 @@ public interface PosOrderListDao {
 	public int menuRefund(int orderNum);
 	
 	// 결제정보 조회 : 단일 조회
-	public PaymentVo selectPayment(int orderNum);
+	public PaymentVo selectPayment(RefundPaymentCmd refundPaymentCmd);
 
 	// 환불정보 입력
 	public int insertRefund(PaymentVo paymentVo);

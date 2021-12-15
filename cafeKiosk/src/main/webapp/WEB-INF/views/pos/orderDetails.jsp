@@ -132,16 +132,16 @@
 		
 		<div class="row justify-content-center my-3">
 			<div class="col-3 text-center">
-				<button type="button" class="btn btn-outline-secondary my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder/pointCheck'">포인트</button>&nbsp;
+				<button type="button" class="btn btn-outline-secondary my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder/pointCheck'">포인트</button>
 			</div>
 			<div class="col-3 text-center">
-				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="location.href='#'">카드</button>&nbsp;
+				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="card()">카드</button>
 			</div>
 			<div class="col-3 text-center">
-				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="location.href='#'">현금</button>&nbsp;
+				<button type="button" class="btn btn-outline-info my-2 btn-lg" style="width:225px;" onclick="cash()">현금</button>
 			</div>
 			<div class="col-3 text-center">
-				<button type="button" class="btn btn-outline-danger my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder'">돌아가기</button>&nbsp;
+				<button type="button" class="btn btn-outline-danger my-2 btn-lg" style="width:225px;" onclick="location.href='/pos/menuOrder'">돌아가기</button>
 			</div>
 		</div>
 	</div>
@@ -151,6 +151,24 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous">
+	</script>
+	
+	<script type="text/javascript">
+		function card(){
+			if(confirm('카드로 결제하시겠습니까?')){
+				location.href="/pos/menuOrder/payment?type=card";
+			} else{
+				return false;
+			}
+		}
+	
+		function cash(){
+			if(confirm('현금으로 결제하시겠습니까?')){
+				location.href="/pos/menuOrder/payment?type=cash";
+			} else{
+				return false;
+			}
+		}
 	</script>
 	
 </body>

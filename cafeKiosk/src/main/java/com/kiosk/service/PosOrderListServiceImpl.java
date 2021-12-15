@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.command.RefundPaymentCmd;
 import com.kiosk.command.RefundPointCmd;
 import com.kiosk.dao.PosOrderListDao;
 import com.kiosk.vo.OrderListVo;
@@ -18,8 +19,8 @@ public class PosOrderListServiceImpl implements PosOrderListService {
 	private PosOrderListDao posOrderListDao;
 
 	@Override
-	public List<OrderListVo> notProvidedOrder() {
-		return posOrderListDao.notProvidedOrder();
+	public List<OrderListVo> notProvidedOrder(String today) {
+		return posOrderListDao.notProvidedOrder(today);
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class PosOrderListServiceImpl implements PosOrderListService {
 	}
 
 	@Override
-	public PaymentVo selectPayment(int orderNum) {
-		return posOrderListDao.selectPayment(orderNum);
+	public PaymentVo selectPayment(RefundPaymentCmd refundPaymentCmd) {
+		return posOrderListDao.selectPayment(refundPaymentCmd);
 	}
 
 	@Override

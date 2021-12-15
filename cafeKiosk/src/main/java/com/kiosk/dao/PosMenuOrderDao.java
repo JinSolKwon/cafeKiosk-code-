@@ -6,6 +6,8 @@ import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
 import com.kiosk.vo.MenuVo;
 import com.kiosk.vo.OptionListVo;
+import com.kiosk.vo.OrderListVo;
+import com.kiosk.vo.PaymentVo;
 
 public interface PosMenuOrderDao {
 	
@@ -27,4 +29,12 @@ public interface PosMenuOrderDao {
 	// 회원등록
 	public int insertMember(MemberVo memberVo);
 	
+	// 주문 내역 테이블 삽입(menuOrderList)
+	public int insertOrderList(OrderListVo orderListVo);
+	
+	// 결제 내역 테이블 삽입(payment)
+	public int insertPayment(PaymentVo paymentVo);
+	
+	// 포인트 변동
+	public int updateMemberPoint(MemberVo memberVo);
 }

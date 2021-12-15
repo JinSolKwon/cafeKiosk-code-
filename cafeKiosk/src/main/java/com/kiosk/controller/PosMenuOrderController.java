@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,6 +29,8 @@ import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
 import com.kiosk.vo.MenuVo;
 import com.kiosk.vo.OptionListVo;
+import com.kiosk.vo.OrderListVo;
+import com.kiosk.vo.PaymentVo;
 
 @Controller
 public class PosMenuOrderController {
@@ -238,6 +240,7 @@ public class PosMenuOrderController {
 		 *  - 적립 : 기존포인트 + 적립 예정 포인트
 		 *  - 사용 : 기존포인트 - 사용 예정 포인트
 		 */
+		
 		pointInfo.put("pointType", 0);
 		pointInfo.put("changePoint", changePoint);
 		pointInfo.put("totalPoint", totalPoint);
@@ -322,5 +325,137 @@ public class PosMenuOrderController {
 		logger.info("회원 전화번호 중복검사");
 		int result = posMenuOrderService.phoneCheck(registerCmd);
 		return result;
+	}
+	
+	@RequestMapping(value = "/pos/menuOrder/payment", method = RequestMethod.GET)
+	public String payment(String type, HttpSession session) {
+		// order_list 테이블에 insert
+		// orderNum 세션, menuOrderList 세션 사용
+		List<MenuOrderCmd> menuOrderList = (List<MenuOrderCmd>) session.getAttribute("menuOrderList");
+		int orderNum = (int) session.getAttribute("orderNum");
+		
+		for (int i = 0; i < menuOrderList.size(); i++) {
+			OrderListVo orderListVo = new OrderListVo(
+					orderNum, 
+					menuOrderList.get(i).getMenu(), 
+					menuOrderList.get(i).getPrice()
+					);
+			int orderListResult = posMenuOrderService.insertOrderList(orderListVo);
+			if(orderListResult > 0) {
+				int resultIndex = i;
+				++resultIndex;
+				logger.info(resultIndex+"번째 주문 등록 성공");
+			} else {
+				int resultIndex = i;
+				++resultIndex;
+				logger.info(resultIndex+"번째 주문 등록 실패");
+			}
+		}
+		
+		// payment 테이블에 insert
+		// orderNum 세션, memberInfo 세션, pointInfo 세션, paymentInfo 세션 사용
+		MemberVo memberInfo = (MemberVo) session.getAttribute("memberInfo");
+		Map<String, Integer> pointInfo = (Map<String, Integer>) session.getAttribute("pointInfo");
+		Map<String, Integer> paymentInfo = (Map<String, Integer>) session.getAttribute("paymentInfo");
+		PaymentVo paymentVo = new PaymentVo();
+		
+
+		if(pointInfo == null) {
+			// 비회원 결제
+			paymentVo.setOrderNum(orderNum);
+			if(type.equals("card")) {
+				paymentVo.setCard(paymentInfo.get("orderPrice"));
+				paymentVo.setCash(0);
+			} else if(type.equals("cash")) {
+				paymentVo.setCard(0);
+				paymentVo.setCash(paymentInfo.get("orderPrice"));
+			}
+			paymentVo.setTotal(paymentInfo.get("orderPrice"));
+			
+			
+		} else {
+			// 회원결제
+			System.out.println("pointInfo보기 : " + pointInfo);
+			
+			Set<String> keySet = pointInfo.keySet();
+			for (String key : keySet) {
+				System.out.println(key + " : " + pointInfo.get(key));
+			}
+			int pointType = pointInfo.get("pointType"); 
+			int changePoint = pointInfo.get("changePoint");
+			int totalPoint = pointInfo.get("totalPoint");
+			int totalPrice = pointInfo.get("totalPrice");
+			
+			if(pointType == 0) {
+				// 포인트 적립
+				paymentVo.setOrderNum(orderNum);
+				if(type.equals("card")) {
+					paymentVo.setCard(totalPrice);
+					paymentVo.setCash(0);
+				} else if(type.equals("cash")) {
+					paymentVo.setCard(0);
+					paymentVo.setCash(totalPrice);
+				}
+				paymentVo.setTotal(totalPrice);
+			
+			} else if(pointType == 1){
+				// 포인트 사용
+				paymentVo.setOrderNum(orderNum);
+				paymentVo.setMemberNum(memberInfo.getNum());
+				paymentVo.setPoint(changePoint);
+				if(type.equals("card")) {
+					paymentVo.setCard(totalPrice);
+					paymentVo.setCash(0);
+				} else if(type.equals("cash")) {
+					paymentVo.setCard(0);
+					paymentVo.setCash(totalPrice);
+				}
+				paymentVo.setTotal(totalPrice);
+				
+				
+			}
+			// member 테이블에 update
+			// pointInfo 세션 중 totalPoint로 덮어씌우기
+			MemberVo memberVo = new MemberVo();
+			memberVo.setNum(memberInfo.getNum());
+			memberVo.setPoint(totalPoint);
+			int updatePoint = posMenuOrderService.updateMemberPoint(memberVo);
+			if(updatePoint > 0) {
+				logger.info(memberInfo.getNum()+"번 회원 포인트 업데이트 성공");
+			} else {
+				logger.info(memberInfo.getNum()+"번 회원 포인트 업데이트 실패");
+			}
+		} 
+		
+		// payment 테이블 저장
+		int paymentResult = posMenuOrderService.insertPayment(paymentVo);
+		if(paymentResult > 0) {
+			logger.info(orderNum+"번째 결제정보 등록 성공");
+		} else {
+			logger.info(orderNum+"번째 결제정보 등록 실패");
+		}
+		
+		
+		// category, menuOrderList, paymentInfo, orderNum, memberInfo, pointInfo 세션 삭제
+		session.removeAttribute("category");
+		logger.info("category세션 삭제");
+		session.removeAttribute("menuOrderList");
+		logger.info("menuOrderList세션 삭제");
+		session.removeAttribute("paymentInfo");
+		logger.info("paymentInfo세션 삭제");
+		session.removeAttribute("orderNum");
+		logger.info("orderNum세션 삭제");
+		session.removeAttribute("memberInfo");
+		logger.info("memberInfo세션 삭제");
+		session.removeAttribute("pointInfo");
+		logger.info("pointInfo세션 삭제");
+		
+//		return "/pos/paymentSuccess";
+		return "redirect:/pos/menuOrder/paymentSuccess";
+	}
+	
+	@RequestMapping(value = "/pos/menuOrder/paymentSuccess", method = RequestMethod.GET)
+	public String paymentSuccess() {
+		return "/pos/paymentSuccess";
 	}
 }

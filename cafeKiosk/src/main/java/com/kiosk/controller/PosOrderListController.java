@@ -1,5 +1,7 @@
 package com.kiosk.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kiosk.command.RefundPaymentCmd;
 import com.kiosk.command.RefundPointCmd;
 import com.kiosk.service.PosOrderListService;
 import com.kiosk.vo.ManagerVo;
@@ -40,8 +43,12 @@ public class PosOrderListController {
 			rttr.addFlashAttribute("orderListLogin", false);
 			return "redirect:/pos/main";
 		}
-
-		List<OrderListVo> notProvidedOrder = posOrderListService.notProvidedOrder();
+		
+		Date date = new Date();
+		SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
+		String today = fmtToday.format(date);
+		
+		List<OrderListVo> notProvidedOrder = posOrderListService.notProvidedOrder(today);
 
 		if (notProvidedOrder.isEmpty()) {
 			logger.info("notProvidedOrder : null");
@@ -77,7 +84,15 @@ public class PosOrderListController {
 
 		if (payRefundResult == true) {
 			// payment 테이블의 refund 칼럼 update성공
-			PaymentVo paymentVo = posOrderListService.selectPayment(orderNum);
+			
+			// orderNum하고 날짜같이 들가야함
+			Date date = new Date();
+			SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
+			String today = fmtToday.format(date);
+			
+			RefundPaymentCmd refundPaymentCmd = new RefundPaymentCmd(orderNum, today);
+			
+			PaymentVo paymentVo = posOrderListService.selectPayment(refundPaymentCmd);
 			logger.info(paymentVo.toString());
 
 			// 환불정보 테이블에 정보입력

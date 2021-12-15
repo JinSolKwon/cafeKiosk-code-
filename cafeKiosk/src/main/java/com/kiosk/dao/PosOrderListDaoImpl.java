@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.command.RefundPaymentCmd;
 import com.kiosk.command.RefundPointCmd;
 import com.kiosk.vo.OrderListVo;
 import com.kiosk.vo.PaymentVo;
@@ -18,8 +19,8 @@ public class PosOrderListDaoImpl implements PosOrderListDao {
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List<OrderListVo> notProvidedOrder() {
-		return sqlSessionTemplate.selectList("posOrderListMapper.notProvidedOrder");
+	public List<OrderListVo> notProvidedOrder(String today) {
+		return sqlSessionTemplate.selectList("posOrderListMapper.notProvidedOrder", today);
 	}
 
 	@Override
@@ -33,8 +34,8 @@ public class PosOrderListDaoImpl implements PosOrderListDao {
 	}
 
 	@Override
-	public PaymentVo selectPayment(int orderNum) {
-		return sqlSessionTemplate.selectOne("posOrderListMapper.selectPayment", orderNum);
+	public PaymentVo selectPayment(RefundPaymentCmd refundPaymentCmd) {
+		return sqlSessionTemplate.selectOne("posOrderListMapper.selectPayment", refundPaymentCmd);
 	}
 
 	@Override

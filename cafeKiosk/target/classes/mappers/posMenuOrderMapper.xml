@@ -34,7 +34,7 @@
 	
 	<select id="getMaxOrderNum" parameterType="String" resultType="String">
 		select
-			*
+			max(order_num)
 		from
 			order_list
 		where
@@ -64,4 +64,62 @@
 		)
 	</insert>
 	
+	<insert id="insertOrderList" parameterType="orderListVo">
+		insert into 
+			order_list(
+				num,
+				order_num,
+				menu,
+				price,
+				order_date
+			) 
+		values(
+			order_list_seq.nextval, 
+			#{orderNum}, 
+			#{menu}, 
+			#{price}, 
+			systimestamp
+		)
+	</insert>
+	
+	<insert id="insertPayment" parameterType="paymentVo">
+		insert into 
+			payment(
+		        num,
+		        order_num,
+		        <if test='!memberNum.equals("") and memberNum != null and memberNum != 0'>
+				member_num, 
+				point, 
+				</if>
+		        card,
+		        cash,
+		        total,
+		        provision,
+		        refund,
+		        order_date
+		    ) 
+		values(
+			payment_seq.nextval, 
+			#{orderNum}, 
+			<if test='!memberNum.equals("") and memberNum != null and memberNum != 0'>
+			#{memberNum}, 
+			#{point}, 
+			</if>
+			#{card}, 
+			#{cash}, 
+			#{total}, 
+			'N', 
+			'N', 
+			sysdate
+		)
+	</insert>
+	
+	<update id="updateMemberPoint" parameterType="memberVo">
+		update 
+			member
+		set
+			point = #{point}
+		where
+			num = #{num}
+	</update>
 </mapper>

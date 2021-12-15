@@ -11,6 +11,8 @@ import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
 import com.kiosk.vo.MenuVo;
 import com.kiosk.vo.OptionListVo;
+import com.kiosk.vo.OrderListVo;
+import com.kiosk.vo.PaymentVo;
 
 @Repository
 public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
@@ -46,5 +48,20 @@ public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
 	@Override
 	public int insertMember(MemberVo memberVo) {
 		return sqlSessionTemplate.insert("posMenuOrderMapper.insertMember", memberVo);
+	}
+	
+	@Override
+	public int insertOrderList(OrderListVo orderListVo) {
+		return sqlSessionTemplate.insert("posMenuOrderMapper.insertOrderList", orderListVo);
+	}
+	
+	@Override
+	public int insertPayment(PaymentVo paymentVo) {
+		return sqlSessionTemplate.insert("posMenuOrderMapper.insertPayment", paymentVo);
+	}
+	
+	@Override
+	public int updateMemberPoint(MemberVo memberVo) {
+		return sqlSessionTemplate.update("posMenuOrderMapper.updateMemberPoint", memberVo);
 	}
 }

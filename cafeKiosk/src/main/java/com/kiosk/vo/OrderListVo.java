@@ -18,6 +18,13 @@ public class OrderListVo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public OrderListVo(int orderNum, String menu, int price) {
+		super();
+		this.orderNum = orderNum;
+		this.menu = menu;
+		this.price = price;
+	}
 
 	public OrderListVo(int num, int orderNum, String menu, String temperature, String beverageSize, int shot, int syrub,
 			String whipping, int price, Timestamp orderDate) {

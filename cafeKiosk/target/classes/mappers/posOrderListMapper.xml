@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="posOrderListMapper">
 
-	<select id="notProvidedOrder" resultType="orderListVo">
+	<select id="notProvidedOrder" parameterType="String" resultType="orderListVo">
 		select 
 		    A.num,
 		    A.order_num,
@@ -23,6 +23,9 @@
 		    A.order_num = B.order_num
 		    and B.provision = 'N'
 		    and B.refund = 'N'
+		    and to_char(A.order_date,'YYYYMMDD') = #{today}
+		order by
+            A.num asc
 	</select>
 	
 	<update id="menuProvided" parameterType="int">
@@ -43,13 +46,14 @@
 			order_num = #{orderNum}
 	</update>
 	
-	<select id="selectPayment" parameterType="int" resultType="paymentVo">
+	<select id="selectPayment" parameterType="refundPaymentCmd" resultType="paymentVo">
 		select
 			*
 		from
 			payment
 		where
 			order_num = #{orderNum}
+			and to_char(order_date,'YYYYMMDD') = #{today}
 	</select>
 	
 	<insert id="insertRefund" parameterType="paymentVo">

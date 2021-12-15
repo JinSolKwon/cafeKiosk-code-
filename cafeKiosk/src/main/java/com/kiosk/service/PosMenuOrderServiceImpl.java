@@ -14,6 +14,8 @@ import com.kiosk.vo.CategoryVo;
 import com.kiosk.vo.MemberVo;
 import com.kiosk.vo.MenuVo;
 import com.kiosk.vo.OptionListVo;
+import com.kiosk.vo.OrderListVo;
+import com.kiosk.vo.PaymentVo;
 
 @Repository
 public class PosMenuOrderServiceImpl implements PosMenuOrderService{
@@ -104,5 +106,20 @@ public class PosMenuOrderServiceImpl implements PosMenuOrderService{
 		}
 		return 0;
 		
+	}
+	
+	@Override
+	public int insertOrderList(OrderListVo orderListVo) {
+		return posMenuOrderDao.insertOrderList(orderListVo);
+	}
+	
+	@Override
+	public int insertPayment(PaymentVo paymentVo) {
+		return posMenuOrderDao.insertPayment(paymentVo);
+	}
+
+	@Override
+	public int updateMemberPoint(MemberVo memberVo) {
+		return posMenuOrderDao.updateMemberPoint(memberVo);
 	}
 }
