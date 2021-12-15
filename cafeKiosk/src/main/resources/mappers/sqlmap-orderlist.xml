@@ -5,11 +5,29 @@
 
 <mapper namespace="orderListDao">
 	<insert id="orderRegist" parameterType="orderListVo">
-		insert into 
-			ORDER_LIST 
-				("NUM", "ORDER_NUM", "MENU", "TEMPERATURE", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
-			values
-				(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{temperature}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)
+		<choose>
+			<when test="temperature == null and beverageSize == null">
+				insert into 
+				ORDER_LIST 
+					("NUM", "ORDER_NUM", "MENU", "PRICE", "ORDER_DATE")
+				values
+					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{price}, systimestamp)			
+			</when>
+			<when test="temperature == null">
+				insert into 
+				ORDER_LIST 
+					("NUM", "ORDER_NUM", "MENU", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+				values
+					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)
+			</when>
+			<otherwise>
+				insert into 
+					ORDER_LIST 
+						("NUM", "ORDER_NUM", "MENU", "TEMPERATURE", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+					values
+						(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{temperature}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)			
+			</otherwise>
+		</choose>
 	</insert>
 
 </mapper>

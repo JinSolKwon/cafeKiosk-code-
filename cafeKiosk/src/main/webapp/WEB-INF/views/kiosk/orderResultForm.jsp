@@ -50,8 +50,9 @@
 			<tr class="tr-orderResult1">
 				<td class="td-orderResult1">
 					<b>${orderOne.getMenu()}</b>
-					<span>( ${orderOne.getTemperature()} )</span>
+					<span><c:if test="${not empty orderOne.getTemperature()}">( ${orderOne.getTemperature()} )</c:if></span>
 				</td>
+				<c:if test="${not empty orderOne.getWhipping()}">
 				<c:choose>
 					<c:when test="${orderOne.getWhipping() eq 'N'}">
 						<c:set var="whip" value=" / 휘핑 : 없음" />
@@ -76,7 +77,9 @@
 						<c:set var="shotOp" value=" / 샷추가 : ${orderOne.getShot()}" />
 					</c:otherwise>
 				</c:choose>
-				<td class="td-orderResult2">사이즈 : ${orderOne.getBeverageSize()}${whip}${syrubOp}${shotOp}</td>
+				<c:set var="bever" value="사이즈 : ${orderOne.getBeverageSize()}"></c:set>
+				</c:if>
+				<td class="td-orderResult2">${bever}${whip}${syrubOp}${shotOp}</td>
 				<td class="td-orderResult3">1</td>
 				<td class="td-orderResult3">
 					<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>

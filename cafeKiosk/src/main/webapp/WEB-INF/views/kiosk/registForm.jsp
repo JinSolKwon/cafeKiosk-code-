@@ -63,12 +63,21 @@
 </form>
 </div>
 <script type="text/javascript">
+const autoHyphen = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/, '')
+	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+	}
 var chk = "<c:out value="${checkOK}"/>";
 if(chk === 'noexist'){
 	$(function(){
-		$("#phone").attr("readonly", true);		
+		$("#phone").attr("readonly", true);	
 	})
-	alert('사용 가능한 번호입니다.');
+	Swal.fire(
+		  'Good job!',
+		  'You clicked the button!',
+		  'success'
+		)
 }
 var nx = "<c:out value="${next}"/>";
 if(nx === 'next'){
@@ -76,11 +85,8 @@ if(nx === 'next'){
 		$("#subBtn").attr("disabled", false);
 	})
 }
-const autoHyphen = (target) => {
-	 target.value = target.value
-	   .replace(/[^0-9]/, '')
-	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-	}
 </script>
 </body>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

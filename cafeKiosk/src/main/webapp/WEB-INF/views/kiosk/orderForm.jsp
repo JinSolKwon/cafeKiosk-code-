@@ -18,8 +18,6 @@
 <!-- toast -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<!-- sweetalert -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <c:if test="${!empty sessionScope.member}">
@@ -75,7 +73,7 @@
 			<div class="side-orderForm1-1">
 				<div class="side-orderForm1-2">
 					<div class="side-orderForm1-2-1">${orderOne.getMenu()}</div>
-					<div class="side-orderForm1-2-2">( ${orderOne.getTemperature()} )</div>
+					<div class="side-orderForm1-2-2"><c:if test="${orderOne.getTemperature() != null}">( ${orderOne.getTemperature()} )</c:if></div>
 					<div class="side-orderForm1-2-3">
 						<div class="side-orderForm1-2-3-1">
 							<button type="button" onclick="location.href='<c:url value="/cafeCarp/orderDel?num=${status.index}" />'">X</button>
@@ -87,34 +85,36 @@
 						</div>
 					</div>
 				</div>
-				<div class="side-orderForm1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
-				<c:choose>
-					<c:when test="${orderOne.getWhipping() eq 'N'}">
-						<c:set var="whip" value="┗ 휘핑 : 없음" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="whip" value="┗ 휘핑 : 있음" />
-					</c:otherwise>
-				</c:choose>
-				<div class="side-orderForm1-4">${whip}</div>
-				<c:choose>
-					<c:when test="${orderOne.getSyrub() == 0}">
-						<c:set var="syrubOp" value="┗ 시럽 : 없음" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="syrubOp" value="┗ 시럽 : ${orderOne.getSyrub()}" />
-					</c:otherwise>
-				</c:choose>
-				<div class="side-orderForm1-5">${syrubOp}</div>
-				<c:choose>				
-					<c:when test="${orderOne.getShot() == 0}">
-						<c:set var="shotOp" value="┗ 샷추가: 없음" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="shotOp" value="┗ 샷추가 : ${orderOne.getShot()}" />
-					</c:otherwise>
-				</c:choose>
-				<div class="side-orderForm1-6">${shotOp}</div>
+				<c:if test="${orderOne.getBeverageSize() != null}">
+					<div class="side-orderForm1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
+					<c:choose>
+						<c:when test="${orderOne.getWhipping() eq 'N'}">
+							<c:set var="whip" value="┗ 휘핑 : 없음" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="whip" value="┗ 휘핑 : 있음" />
+						</c:otherwise>
+					</c:choose>
+					<div class="side-orderForm1-4">${whip}</div>
+					<c:choose>
+						<c:when test="${orderOne.getSyrub() == 0}">
+							<c:set var="syrubOp" value="┗ 시럽 : 없음" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="syrubOp" value="┗ 시럽 : ${orderOne.getSyrub()}" />
+						</c:otherwise>
+					</c:choose>
+					<div class="side-orderForm1-5">${syrubOp}</div>
+					<c:choose>				
+						<c:when test="${orderOne.getShot() == 0}">
+							<c:set var="shotOp" value="┗ 샷추가: 없음" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="shotOp" value="┗ 샷추가 : ${orderOne.getShot()}" />
+						</c:otherwise>
+					</c:choose>
+					<div class="side-orderForm1-6">${shotOp}</div>
+				</c:if>
 			</div>
 		</c:forEach>
 		</c:if>
@@ -199,15 +199,37 @@
 var login = "<c:out value="${success}" />";
 var user = "<c:out value="${sessionScope.member.getName()}" />";
 if(login == 'hello'){
-	alert(user + "님 환영합니다.");
+	const Toast = Swal.mixin({   
+		toast: true,   
+		position: 'top-end',   
+		showConfirmButton: false,   
+		timer: 3000,   
+		timerProgressBar: true,   
+		didOpen: (toast) => {     
+			toast.addEventListener('mouseenter', Swal.stopTimer)     
+			toast.addEventListener('mouseleave', Swal.resumeTimer)   
+		} 
+	})  
+		Toast.fire({   
+			icon: 'success',   
+			title: 'Signed in successfully' 
+		})
 }
 function mainBack(){
-	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
-		location.href="<c:url value="/cafeCarp/main"/>";
-		return true;
-	}else{
-		return false;
-	}
+	Swal.fire({
+		  title: '메인페이지로 이동하시겠습니까?',
+		  html: "메인페이지 이동 시 선택된 모든 메뉴가 삭제되며<br>로그아웃 처리 됩니다.",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '이동',
+		  cancelButtonText: '취소'
+		}).then((result) => {
+		  if (result.value) {
+				location.href="<c:url value="/cafeCarp/main"/>";
+		  }
+		})
 }
 
 if(${empty sessionScope.orderList}){
@@ -326,4 +348,6 @@ function fnCalCount(type){
 }
 </script>
 </body>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

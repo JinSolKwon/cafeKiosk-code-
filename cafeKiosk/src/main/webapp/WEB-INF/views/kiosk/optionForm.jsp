@@ -96,6 +96,7 @@
 </div>
 	<input type="hidden" name="menu" value="${selectMenu.MENU}" />
 	<input type="hidden" name="price" id="modal-price-hidden"/>
+	<input type="hidden" name="categoryNum" value="${selectMenu.CATEGORY_NUM}" />
 </form>
 </div>
 </div>
@@ -105,10 +106,40 @@ var divWidth = $(window).outerWidth(true);
 var divHeight = $(window).outerHeight(true); 
 backDiv.style.width = divWidth +'px';
 backDiv.style.height = divHeight+'px';
-var price = "<c:out value="${selectMenu.PRICE}"/>";
-console.log(price);
-document.getElementById("modal-price-total").innerHTML = price + ' 원';
+var setPrice = "<c:out value="${selectMenu.PRICE}"/>";
+console.log(setPrice);
+document.getElementById("modal-price-total").innerHTML = setPrice + ' 원';
+$("#modal-price-hidden").val(Number(setPrice));
+
+$("input[name='beverageSize']").change(function(){
+    var $input = $(".main-optionForm1-2").find("input[name='syrub']");
+    var $input2 = $(".main-optionForm1-2").find("input[name='shot']");
+    var price = "<c:out value="${selectMenu.PRICE}"/>";
+    var priceHidden = $("#container-optionForm").find("input[name='price']");
+	if($("input[name='beverageSize']:checked").val()=="M"){
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';		
+        priceHidden.val(Number(price));
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}else if($("input[name='beverageSize']:checked").val() == "L"){
+		price = Number(price)+500;
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';
+        priceHidden.val(Number(price));
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}else if($("input[name='beverageSize']:checked").val() == "XL"){
+		price = Number(price)+1000;
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';	
+        priceHidden.val(Number(price));
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}
+});
+
+
+
 function fnCalCount(type){
+	var price = $("#modal-price-hidden").val();
     var $input = $(".main-optionForm1-2").find("input[name='syrub']");
     var tCount = Number($input.val());
     var $input2 = $(".main-optionForm1-2").find("input[name='shot']");
@@ -124,23 +155,23 @@ function fnCalCount(type){
     if(type==='p'){
     	console.log(price);
        $input2.val(Number(tCount2)+1);
-       total = price+500;
-       console.log(price);
+       total = Number(price)+500;
+       console.log(total);
     }else if(type==='m'){
     	if(tCount2 >0){
     		console.log(price);
         	$input2.val(Number(tCount2)-1);    
-       		total = price-500;   
-       		console.log(price);
+       		total = Number(price)-500;   
+       		console.log(total);
         }
     }
     if(type==='p'){
 		document.getElementById("modal-price-total").innerHTML = total + ' 원';
-		$("#modal-price-hidden").val(total);
+		$("#modal-price-hidden").val(Number(total));
     }else if(type==='m'){
        	if(tCount >0 || tCount2 >0){   	
     		document.getElementById("modal-price-total").innerHTML = total + ' 원';
-    		$("#modal-price-hidden").val(total);       		
+    		$("#modal-price-hidden").val(Number(total));       		
        	}
     }
 }

@@ -72,6 +72,9 @@ public class OrderController {
 		if(session.getAttribute("pageNum") != null) {
 			session.removeAttribute("pageNum");
 		}
+		for(MenuOrderCommand m : orderList) {
+			System.out.println(m.toString());
+		}
 		session.setAttribute("pageNum", moc.getCategoryNum());
 		session.setAttribute("orderList", orderList);
 		session.setAttribute("orderCount", orderList.size());
@@ -179,9 +182,6 @@ public class OrderController {
 			session.setAttribute("payWhat", "card");
 			model.addAttribute("poType", "save");
 			model.addAttribute("countStatus", "YES");
-			System.out.println("credit orNum:: "+orderNum);
-			System.out.println("pointPay S: " + type);
-			System.out.println("pointPay S: " + totalPayment);
 			return "kiosk/pointCount";	
 		}else if(member != null && type.equals("U")) {
 			if(member.getPoint() < orderTotal) {
@@ -191,8 +191,6 @@ public class OrderController {
 				session.setAttribute("payWhat", "cardPoint");				
 				model.addAttribute("poType", "use");
 				model.addAttribute("countStatus", "YES");
-				System.out.println("pointPay U: " + type);
-				System.out.println("pointPay U: " + totalPayment);
 				return "kiosk/pointCount";		
 			}else {
 				//포인트가 더 많은 경우 일로---여기서 저장			
@@ -200,10 +198,9 @@ public class OrderController {
 				session.setAttribute("totalPayment", totalPayment);
 				model.addAttribute("poType", "use");	
 				model.addAttribute("countStatus", "NO");
-				System.out.println("pointPay E: " + type);
-				System.out.println("pointPay E: " + totalPayment);
 				kioskService.userOrder(member, orderList, orderNum);
 				kioskService.userPayment(member, orderTotal, totalPayment, "point", orderNum);				
+				session.setAttribute("orderNum", orderNum);
 				return "kiosk/pointCount";
 			}
 		}else {
