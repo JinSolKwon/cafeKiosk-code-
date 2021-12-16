@@ -8,8 +8,10 @@
 <meta charset="UTF-8">
 <title>cafeCarp 회원가입</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate value="${now}" pattern="yyyy" var="thisYear"/>
@@ -18,7 +20,8 @@
 <form id="registForm" method="post">
 <div class="main-regist">
 		<div class="main-regist1">
-			<input id="phone" name="phone" type="text" oninput="autoHyphen(this)" maxlength="13" value="${member.phone}" placeholder="'-'를 제외한 숫자 11자리 입력 "/>
+		<%-- 	<input id="phone" name="phone" type="text" oninput="autoHyphen(this)" maxlength="13" value="${member.phone}" placeholder="'-'를 제외한 숫자 11자리 입력 "/> --%>
+			<input id="phone" name="phone" type="text" maxlength="13" value="${member.phone}" placeholder="'-'를 제외한 숫자 11자리 입력 "/>
 			<button id="phoneCHK" type="submit" onclick="form.action='<c:url value="/cafeCarp/phoneCheck" />'" >중복체크</button>
 		</div>
 		<div class="main-regist2"><input id="name" name="name" type="text" value="${member.name}" placeholder="이름"/></div>
@@ -27,8 +30,8 @@
 			<div class="main-regist3-2">
 				<select id="year" name="birthYear">
 					<option value="">년도</option>
-					<c:forEach var="i" begin="1900" end="${thisYear}" step="1">
-					<c:set var="optionYear" value="${thisYear-i+1900}" />
+					<c:forEach var="i" begin="0" end="100" step="1">
+					<c:set var="optionYear" value="${thisYear-i}" />
 						<option value="${optionYear}" <c:if test="${!empty member.birthYear && optionYear == member.birthYear}">selected="selected"</c:if>>${optionYear}</option>
 					</c:forEach>
 				</select>
@@ -63,22 +66,61 @@
 </form>
 </div>
 <script type="text/javascript">
-const autoHyphen = (target) => {
+/* const autoHyphen = (target) => {
 	 target.value = target.value
 	   .replace(/[^0-9]/, '')
 	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+	} */
+	function autoHypenPhone(str){
+        str = str.replace(/[^0-9]/g, '');
+        var tmp = '';
+        if( str.length < 4){
+            return str;
+        }else if(str.length < 7){
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3);
+            return tmp;
+        }else if(str.length < 11){
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3, 3);
+            tmp += '-';
+            tmp += str.substr(6);
+            return tmp;
+        }else{              
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3, 4);
+            tmp += '-';
+            tmp += str.substr(7);
+            return tmp;
+        }
+        return str;
+    }
+
+	var phone = document.getElementById('phone');
+	// onkeyup : 사용자가 키보드를 눌렀다가 땠을 때
+	phone.onkeyup = function(event){
+	    event = event || window.event;
+	    var _val = this.value.trim();
+	    this.value = autoHypenPhone(_val) ;
 	}
-var chk = "<c:out value="${checkOK}"/>";
-if(chk === 'noexist'){
-	$(function(){
+	
+var chk = "<c:out value="${checkOK}"/>";		
+$(document).ready(function(){
+	var registDiv = $('.container-main')
+	if(chk === 'noexist'){
+		Swal.fire({
+			  icon: 'success',
+			  title: '확인 완료',
+			  text: '사용 가능한 번호입니다.'
+			}).then{
+			.style.zIndex = 1000;
+		}
 		$("#phone").attr("readonly", true);	
-	})
-	Swal.fire(
-		  'Good job!',
-		  'You clicked the button!',
-		  'success'
-		)
-}
+	}
+});
 var nx = "<c:out value="${next}"/>";
 if(nx === 'next'){
 	$(function(){
@@ -87,6 +129,4 @@ if(nx === 'next'){
 }
 </script>
 </body>
-<!-- sweetalert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

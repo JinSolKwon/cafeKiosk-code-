@@ -73,6 +73,9 @@ public class KioskController {
 			return "redirect:/cafeCarp/regist";
 		}
 			rttr.addFlashAttribute("checkOK", "noexist");
+			rttr.addFlashAttribute("swalIcon", "success");
+			rttr.addFlashAttribute("swalTitle", "확인 완료");
+			rttr.addFlashAttribute("swalText", "등록 가능한 번호입니다.");
 			rttr.addFlashAttribute("member", member);
 			rttr.addFlashAttribute("month", month);
 			rttr.addFlashAttribute("day", day);

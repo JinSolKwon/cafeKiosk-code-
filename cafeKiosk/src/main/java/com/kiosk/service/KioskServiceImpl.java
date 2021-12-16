@@ -61,10 +61,8 @@ public class KioskServiceImpl implements IKioskService{
 	public void userOrder(MemberVo member, List<MenuOrderCommand> orderList, int orderNum) throws Exception {
 		for(MenuOrderCommand moc : orderList) {
 			OrderListVo order = new OrderListVo(orderNum, moc.getMenu(), moc.getTemperature(), moc.getBeverageSize(), moc.getShot(), moc.getSyrub(), moc.getWhipping(), moc.getPrice());
-			System.out.println("userorderfor: "+order.toString());	
 			orderListDao.orderRegist(order);
 		}
-		System.out.println("userorder: ");		
 	}
 
 	@Override

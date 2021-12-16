@@ -9,16 +9,11 @@
 <meta charset="UTF-8">
 <title>cafeCarp 주문페이지</title>
 <link href="<c:url value="/resources/css/userOrder.css" />" rel="stylesheet" type="text/css" />
+</head>
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<!-- 모달 JQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-<!-- toast -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-</head>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
 <c:if test="${!empty sessionScope.member}">
 	<c:set var="length" value="${fn:length(sessionScope.member.getPhone())}" />
@@ -197,24 +192,26 @@
 </div>
 <script type="text/javascript">
 var login = "<c:out value="${success}" />";
-var user = "<c:out value="${sessionScope.member.getName()}" />";
-if(login == 'hello'){
-	const Toast = Swal.mixin({   
-		toast: true,   
-		position: 'top-end',   
-		showConfirmButton: false,   
-		timer: 3000,   
-		timerProgressBar: true,   
-		didOpen: (toast) => {     
-			toast.addEventListener('mouseenter', Swal.stopTimer)     
-			toast.addEventListener('mouseleave', Swal.resumeTimer)   
-		} 
-	})  
-		Toast.fire({   
-			icon: 'success',   
-			title: 'Signed in successfully' 
-		})
-}
+
+$(document).ready(function(){	
+	if(login == 'hello'){
+			const Toast = Swal.mixin({   
+			toast: true,   
+			position: 'top-end',   
+			showConfirmButton: false,   
+			timer: 3000,   
+			timerProgressBar: true,   
+			didOpen: (toast) => {     
+				toast.addEventListener('mouseenter', Swal.stopTimer)     
+				toast.addEventListener('mouseleave', Swal.resumeTimer)   
+			} 
+		})  
+			Toast.fire({   
+				icon: 'success',   
+				title: '${sessionScope.member.getName()}님 환영합니다.' 
+			})
+	}
+});
 function mainBack(){
 	Swal.fire({
 		  title: '메인페이지로 이동하시겠습니까?',
@@ -344,6 +341,4 @@ function fnCalCount(type){
 }
 </script>
 </body>
-<!-- sweetalert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
