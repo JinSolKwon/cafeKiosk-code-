@@ -252,11 +252,7 @@ if(scDis === 'L'){
 	$('.header-orderForm1-2').scrollLeft(_scrollX - 100);
 }
 	
-if(${not empty sessionScope.orderList}){
-	$(function(){
-		$("#subBtn").attr("disabled", false);
-	})
-} */
+ */
 
 // 스크롤 마우스로 이동 function
 const slider = document.querySelector('.header-orderForm1-2');

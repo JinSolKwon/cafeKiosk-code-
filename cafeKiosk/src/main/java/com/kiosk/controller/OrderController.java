@@ -123,10 +123,8 @@ public class OrderController {
 	@RequestMapping(value="pay")
 	public String pay(@RequestParam(value="mem") String mem, Model model, HttpSession session) {
 		if(mem.equals("M")) {
-			System.out.println("pay M: " + mem);
 			return "kiosk/point";	
 		}else if(mem.equals("E")) {
-			//session.setAttribute("totalPayment", totalPayment);		
 			model.addAttribute("countStatus", "YES");
 			return "kiosk/pointCount";			
 		}else {
@@ -147,17 +145,13 @@ public class OrderController {
 			System.out.println("credit orNum:: "+orderNum);
 			if(member != null) {
 				int totalPayment = (Integer) session.getAttribute("totalPayment");
-				System.out.println("!! credit1m : " + orderTotal);	
-				System.out.println("!! credit2m : " + totalPayment);	
 				//회원 주문 저장
 				kioskService.userOrder(member, orderList, orderNum);
 				kioskService.userPayment(member, orderTotal, totalPayment, payWhat, orderNum);
 				session.setAttribute("orderNum", orderNum);
 				return "kiosk/payReceipe";
 			}else {
-				//비회원 주문 저장
-				System.out.println("!! credit1 : " + orderTotal);	
-				System.out.println("!! credit2 : " + orderTotal);	
+				//비회원 주문 저장	
 				kioskService.userOrder(member, orderList, orderNum);
 				kioskService.userPayment(member, orderTotal, orderTotal, payWhat, orderNum);				
 				session.setAttribute("orderNum", orderNum);			
@@ -210,15 +204,13 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="receipe")
-	public String payRecipe(@RequestParam(value="type") String type, HttpSession session) {
-		if(type==null || type=="" || !type.equals("Y") || !type.equals("N") || !type.equals("S")) {
-			return "redirect:/cafeCarp/main";			
-		}
+	public String payRecipe(@RequestParam(value="type") String type) {
 		if(type.equals("Y")) {
 			return "redirect:/cafeCarp/main";
-		}else {
+		}else if(type.equals("N")){
 			return "kiosk/payResult";
 		}
+		return "redirect:/cafeCarp/main";	
 	}
 	
 }

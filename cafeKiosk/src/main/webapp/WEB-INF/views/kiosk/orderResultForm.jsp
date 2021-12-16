@@ -52,7 +52,7 @@
 					<b>${orderOne.getMenu()}</b>
 					<span><c:if test="${not empty orderOne.getTemperature()}">( ${orderOne.getTemperature()} )</c:if></span>
 				</td>
-				<c:if test="${not empty orderOne.getWhipping()}">
+				<c:if test="${orderOne.getCategoryNum() != 7 || orderOne.getCategoryNum() != 8}">
 				<c:choose>
 					<c:when test="${orderOne.getWhipping() eq 'N'}">
 						<c:set var="whip" value=" / 휘핑 : 없음" />
