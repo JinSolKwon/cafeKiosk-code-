@@ -9,9 +9,9 @@
 <title>cafeCarp 회원가입</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
 </head>
+<!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<!-- sweetalert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <body>
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate value="${now}" pattern="yyyy" var="thisYear"/>
@@ -109,18 +109,20 @@
 	
 var chk = "<c:out value="${checkOK}"/>";		
 $(document).ready(function(){
-	var registDiv = $('.container-main')
 	if(chk === 'noexist'){
+		$("#phone").attr("readonly", true);
+		$('.container-main').css('z-index',0);	
 		Swal.fire({
 			  icon: 'success',
 			  title: '확인 완료',
 			  text: '사용 가능한 번호입니다.'
-			}).then{
-			.style.zIndex = 1000;
-		}
-		$("#phone").attr("readonly", true);	
+			}).then(function(){
+				$('.container-main').css('z-index',10001);		
+			});
+
 	}
 });
+
 var nx = "<c:out value="${next}"/>";
 if(nx === 'next'){
 	$(function(){
@@ -128,5 +130,7 @@ if(nx === 'next'){
 	})
 }
 </script>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

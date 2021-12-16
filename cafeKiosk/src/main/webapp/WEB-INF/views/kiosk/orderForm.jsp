@@ -192,7 +192,6 @@
 </div>
 <script type="text/javascript">
 var login = "<c:out value="${success}" />";
-
 $(document).ready(function(){	
 	if(login == 'hello'){
 			const Toast = Swal.mixin({   
