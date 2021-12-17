@@ -95,7 +95,7 @@ public class KioskController {
 		MemberVo exist = kioskService.checkPhoneNumber(phone);
 		if(exist == null) {
 			rttr.addFlashAttribute("fail", "no");
-			return "redirect:/cafeCarp/main";
+			return "redirect:/cafeCarp/login";
 		}
 		session.setAttribute("member", exist);
 		rttr.addFlashAttribute("success", "hello");

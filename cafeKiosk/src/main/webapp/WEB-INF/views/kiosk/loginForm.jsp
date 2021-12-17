@@ -7,8 +7,11 @@
 <meta charset="UTF-8">
 <title>cafeCarp 로그인</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
 <div class="container-main">
 <div class="header-main">
@@ -23,6 +26,21 @@
 </div>	
 </div>
 <script type="text/javascript">
+var noMem = "<c:out value="${fail}" />";
+$(document).ready(function(){
+	if(noMem == 'no'){
+		$('.container-main').css('z-index',0);	
+		Swal.fire({
+			  icon: 'error',
+			  title: '존재하지 않는 회원입니다.',
+			  text: '메인페이지로 이동합니다.'
+			}).then(function(){
+				window.location.replace('<c:url value="/cafeCarp/main"/>');	
+			});
+	}	
+});
+
+
 $(function(){
 	$("#phone").on('input', function(){
 		if($("#phone").val()==''){

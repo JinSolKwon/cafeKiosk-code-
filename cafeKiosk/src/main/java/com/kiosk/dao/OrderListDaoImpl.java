@@ -19,5 +19,10 @@ public class OrderListDaoImpl implements IOrderListDao{
 	public void orderRegist(OrderListVo order) throws Exception {
 		sqlSessionTemplate.insert("orderRegist", order);
 	}
+
+	@Override
+	public Integer orderNumCHK(String nowDate) throws Exception {
+		return sqlSessionTemplate.selectOne("orderNumCHK", nowDate);
+	}
 	
 }

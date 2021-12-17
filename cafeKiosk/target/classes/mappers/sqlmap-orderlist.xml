@@ -29,5 +29,9 @@
 			</otherwise>
 		</choose>
 	</insert>
+	
+	<select id="orderNumCHK" parameterType="String" resultType="Integer">
+		select max(ORDER_NUM) from ORDER_LIST where to_char(ORDER_DATE, 'YYYYMMDD')=#{nowDate}
+	</select>
 
 </mapper>

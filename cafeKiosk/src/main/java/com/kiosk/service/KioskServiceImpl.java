@@ -1,6 +1,7 @@
 package com.kiosk.service;
 
-import java.time.LocalTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,18 +100,6 @@ public class KioskServiceImpl implements IKioskService{
 		paymentDao.paymentRegist(payment);
 	}
 	
-	public int orderNumChange() {
-		LocalTime currentTime = LocalTime.now();
-		System.out.println(currentTime);
-		System.out.println(currentTime.getHour());
-		//밤12시(24시)가 되면 번호 리셋
-		if(currentTime.getHour() == 0) {
-			orderNum = 0;
-		}
-		++orderNum;
-		return orderNum;
-	}
-	
 	public List<OptionListVo> optionList() throws Exception{
 		return optionListDao.optionList();
 	}
@@ -118,6 +107,25 @@ public class KioskServiceImpl implements IKioskService{
 	@Override
 	public HashMap<String, String> menuOption(int num) throws Exception {
 		return menuDao.menuOption(num);
+	}
+
+	@Override
+	public String dateFormat() throws Exception {
+		Date now = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		String nowDate = simpleDateFormat.format(now);
+		return nowDate;
+	}
+
+	@Override
+	public int orderNumCheck() throws Exception {
+		Integer orderNum = orderListDao.orderNumCHK(dateFormat());
+		if(orderNum == null) {
+			return 1;
+		}else {
+			orderNum += 1;			
+		}
+		return orderNum;
 	}
 	
 }

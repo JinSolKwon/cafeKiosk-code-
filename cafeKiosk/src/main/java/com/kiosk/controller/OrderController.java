@@ -77,9 +77,6 @@ public class OrderController {
 		if(session.getAttribute("pageNum") != null) {
 			session.removeAttribute("pageNum");
 		}
-		for(MenuOrderCommand m : orderList) {
-			System.out.println(m.toString());
-		}
 		session.setAttribute("pageNum", moc.getCategoryNum());
 		session.setAttribute("orderList", orderList);
 		session.setAttribute("orderCount", orderList.size());
@@ -144,10 +141,8 @@ public class OrderController {
 			List<MenuOrderCommand> orderList = new ArrayList<>();
 			orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 			int orderTotal = (Integer) session.getAttribute("orderTotal");
-			System.out.println(orderTotal);
 			String payWhat = (String) session.getAttribute("payWhat");
-			int orderNum = kioskService.orderNumChange();
-			System.out.println("credit orNum:: "+orderNum);
+			int orderNum = kioskService.orderNumCheck();
 			if(member != null) {
 				int totalPayment = (Integer) session.getAttribute("totalPayment");
 				//회원 주문 저장
@@ -174,7 +169,7 @@ public class OrderController {
 		orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 		int orderTotal = (Integer) session.getAttribute("orderTotal");
 		int totalPayment = 0;
-		int orderNum = kioskService.orderNumChange();
+		int orderNum = kioskService.orderNumCheck();
 		if(member != null && type.equals("S")) {
 			totalPayment = orderTotal + member.getPoint();
 			session.setAttribute("totalPayment", totalPayment);		

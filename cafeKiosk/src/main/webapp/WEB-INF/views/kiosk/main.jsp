@@ -8,15 +8,11 @@
 <meta charset="UTF-8">
 <title>cafeCarp</title>
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-var noMem = "<c:out value="${fail}" />";
-if(noMem == 'no'){
-	swal("존재하지 않는 회원입니다.", "메인페이지로 이동합니다.", "error");
-	alert("존재하지 않는 회원입니다.");
-}
-</script>
 </head>
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!-- sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
 <div class="container-main">
 <div class="header-main">

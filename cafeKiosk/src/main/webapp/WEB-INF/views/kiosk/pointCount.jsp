@@ -121,7 +121,6 @@
 </div>
 </c:if>
 <script type="text/javascript">
-
 var countStatus = "<c:out value="${countStatus}"/>";
 if(countStatus === 'YES'){
 	var SetCount = 30;	
@@ -136,7 +135,6 @@ if(countStatus === 'YES'){
 	
 	window.onload = function TimerStart(){ tid=setInterval('msg_time()',1000) };	
 }
-
 </script>
 </body>
 </html>
