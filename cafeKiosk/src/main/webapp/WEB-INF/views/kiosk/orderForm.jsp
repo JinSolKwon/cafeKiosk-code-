@@ -44,7 +44,7 @@
 <hr style="border: black;">
 <div class="main-orderForm">
 	<c:forEach items="${menuList}" var="menuOne">
-		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
+		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}','${menuOne.TYPE}')">
 <%-- 	<a href="<c:url value="/cafeCarp/option?num=${menuOne.NUM}" />"> --%>	
 		<div class="main-orderForm1">
 			<c:if test="${empty menuOne.SAVE_NAME}">
@@ -68,7 +68,7 @@
 			<div class="side-orderForm1-1">
 				<div class="side-orderForm1-2">
 					<div class="side-orderForm1-2-1">${orderOne.getMenu()}</div>
-					<div class="side-orderForm1-2-2"><c:if test="${orderOne.getTemperature() != null}">( ${orderOne.getTemperature()} )</c:if></div>
+					<div class="side-orderForm1-2-2"><c:if test="${orderOne.getType() == 1}">( ${orderOne.getTemperature()} )</c:if></div>
 					<div class="side-orderForm1-2-3">
 						<div class="side-orderForm1-2-3-1">
 							<button type="button" onclick="location.href='<c:url value="/cafeCarp/orderDel?num=${status.index}" />'">X</button>
@@ -80,7 +80,7 @@
 						</div>
 					</div>
 				</div>
-				<c:if test="${orderOne.getBeverageSize() != null}">
+				<c:if test="${orderOne.getType() == 1}">
 					<div class="side-orderForm1-3">┗ 사이즈 : ${orderOne.getBeverageSize()}</div>
 					<c:choose>
 						<c:when test="${orderOne.getWhipping() eq 'N'}">
@@ -137,11 +137,11 @@
 			<div class="modal-header1"><img id="modal-img" alt="" src=""></div>
 			<div class="modal-header2">
 				<div class="modal-header2-1">
-					<h3 id="modal-name"></h3>
+					<span id="modal-name"></span>
 					<input type="hidden" name="menu" id="modal-name-hidden"/>
 				</div>
 				<div class="modal-header2-2">
-					<h4 id="modal-price"></h4>
+					<span id="modal-price"></span>
 				</div>
 			</div>
 			<div class="modal-header3">
@@ -150,33 +150,42 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="modal-body1">
-				<h3>사이즈</h3>
-				<label><input type="radio" name="beverageSize" value="M" checked="checked" />M</label>
-				<label><input type="radio" name="beverageSize" value="L" />L(+500)</label>
-				<label><input type="radio" name="beverageSize" value="XL" />XL(+1000)</label>
+			<div class="main-optionForm1">
+				<div class="main-optionForm1-1"><span>사이즈</span></div>
+				<div class="main-optionForm1-2">
+					<label><input type="radio" name="beverageSize" value="M" checked="checked" />M</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					<label><input type="radio" name="beverageSize" value="L" />L(+500)</label>&nbsp;&nbsp;&nbsp;&nbsp;
+					<label><input type="radio" name="beverageSize" value="XL" />XL(+1000)</label>			
+				</div>
 			</div>
-			<div class="modal-body2">
-				<h3>휘핑</h3>
-				<label><input type="radio" name="whipping" value="N" checked="checked" />없음</label>
-				<label><input type="radio" name="whipping" value="Y" />휘핑추가</label>
+			<div class="main-optionForm1">
+				<div class="main-optionForm1-1"><span>휘핑</span></div>
+				<div class="main-optionForm1-2">
+					<label><input type="radio" name="whipping" value="N" checked="checked" />없음</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<label><input type="radio" name="whipping" value="Y" />휘핑추가</label>
+				</div>
 			</div>
-			<div class="modal-body3">
-				<h3>시럽추가</h3>
-		        <button type="button" onclick="fnCalCount('sm');">-</button>
-		        <input size="5px" type="text" name="syrub" value="0" readonly="readonly" style="text-align:center;"/>
-				<button type ="button" onclick="fnCalCount('sp');">+</button>
+			<div class="main-optionForm1">
+				<div class="main-optionForm1-1"><span>시럽추가</span></div>
+				<div class="main-optionForm1-2">
+		        	<button type="button" onclick="fnCalCount('sm');">-</button>
+			        <input size="5px" type="text" name="syrub" value="0" readonly="readonly" style="text-align:center;"/>
+					<button type ="button" onclick="fnCalCount('sp');">+</button>
+				</div>
 			</div>
-			<div class="modal-body4">
-				<h3>샷추가</h3>
-		        <button type="button" onclick="fnCalCount('m');">-</button>
-		        <input size="5px" type="text" name="shot" value="0" readonly="readonly" style="text-align:center;"/>
+			<div class="main-optionForm1">
+				<div class="main-optionForm1-1"><span>샷추가</span></div>
+				<div class="main-optionForm1-2">
+	       	 		<button type="button" onclick="fnCalCount('m');">-</button>
+		        	<input size="5px" type="text" name="shot" value="0" readonly="readonly" style="text-align:center;"/>
 				<button type ="button" onclick="fnCalCount('p');">+</button>			
+			</div>			
 			</div>
-			<div class="modal-body5">
+			<div class="main-optionForm1">
 				<p id="modal-price-total"></p>
 				<input type="hidden" name="price" id="modal-price-hidden"/>
 				<input type="hidden" name="origiPrice" id="modal-origin-price-hidden"/>
+				<input type="hidden" name="type" id="modal-type-hidden"/>
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -284,9 +293,8 @@ slider.addEventListener('mousemove', (e) => {
 var modal = document.getElementById("optionModal");
 var divWidth = $(window).outerWidth(true); 
 var divHeight = $(window).outerHeight(true); 
-modal.style.width = divWidth +'px';
-modal.style.height = divHeight+'px';
-function modalOpen(menu,price,save,cateNum){
+
+function modalOpen(menu,price,save,cateNum,type){
 	if(save == null || save == ""){save = 'noimage.gif';}
 	document.getElementById("modal-name").innerHTML = menu;
 	document.getElementById("modal-name-hidden").value = menu;
@@ -294,20 +302,19 @@ function modalOpen(menu,price,save,cateNum){
 	document.getElementById("modal-price-total").innerHTML = price + ' 원';
 	document.getElementById("modal-price-hidden").value = price;
 	document.getElementById("modal-origin-price-hidden").value = price;
+	document.getElementById("modal-type-hidden").value = type;
 	document.getElementById("modal-cateNum-hidden").value = cateNum;
 	var imgSrc = "<c:url value='/display?saveName=" + save + "'/>";
 	$('#modal-img').attr("src", imgSrc);
 	$('#modal-img').attr("alt", save);
 	console.log(cateNum);
-	if(cateNum == 4 || cateNum == 5){
-		var hidDiv = $(".modal-header3");
-		hidDiv.style.display="none";
+	if(cateNum == 4 || cateNum == 5 || cateNum == 6){
+		$(".modal-header3").css("display", "none");
 	}
-	if(cateNum == 7 || cateNum == 8){
-		var hidDiv = $(".modal-header3");
-		var hidDiv2 = $(".modal-body");
-		hidDiv.style.display="none";
-		hidDiv2.style.display="none";	
+	if(type == 2){
+		$(".modal-header3").css("display", "none");
+		$(".main-optionForm1-1").css("display", "none");
+		$(".main-optionForm1-2").css("display", "none");
 	}
 	modal.style.display="block";
 }
@@ -316,34 +323,33 @@ function modalClose(){
 }
 
 $("input[name='beverageSize']").change(function(){
-    var $input = $(".modal-body3").find("input[name='syrub']");
-    var $input2 = $(".modal-body4").find("input[name='shot']");
+    var $input = $(".main-optionForm1-2").find("input[name='syrub']");
+    var $input2 = $(".main-optionForm1-2").find("input[name='shot']");
     var price = document.getElementById("modal-origin-price-hidden").value;
-    var priceHidden = document.getElementById("modal-price-hidden").value;
 	if($("input[name='beverageSize']:checked").val()=="M"){
 		document.getElementById("modal-price-total").innerHTML = price + ' 원';		
-        priceHidden.value=Number(price);
+		document.getElementById("modal-price-hidden").value=Number(price);
         $input.val(Number(0));
         $input2.val(Number(0));
 	}else if($("input[name='beverageSize']:checked").val() == "L"){
 		price = Number(price)+500;
 		document.getElementById("modal-price-total").innerHTML = price + ' 원';
-        priceHidden.value=Number(price);
+		document.getElementById("modal-price-hidden").value=Number(price);
         $input.val(Number(0));
         $input2.val(Number(0));
 	}else if($("input[name='beverageSize']:checked").val() == "XL"){
 		price = Number(price)+1000;
 		document.getElementById("modal-price-total").innerHTML = price + ' 원';	
-        priceHidden.value=Number(price);
+		document.getElementById("modal-price-hidden").value=Number(price);
         $input.val(Number(0));
         $input2.val(Number(0));
 	}
 });
 
 function fnCalCount(type){
-    var $input = $(".modal-body3").find("input[name='syrub']");
+    var $input = $(".main-optionForm1-2").find("input[name='syrub']");
     var tCount = Number($input.val());
-    var $input2 = $(".modal-body4").find("input[name='shot']");
+    var $input2 = $(".main-optionForm1-2").find("input[name='shot']");
     var tCount2 = Number($input2.val());
     var price = Number($("#modal-price-hidden").val());
     console.log(price);

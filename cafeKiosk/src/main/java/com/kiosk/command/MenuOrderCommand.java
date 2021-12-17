@@ -2,6 +2,7 @@ package com.kiosk.command;
 
 public class MenuOrderCommand {
 	private int categoryNum;
+	private int type;
 	private String menu;
 	private int price;
 	private String temperature;
@@ -14,6 +15,12 @@ public class MenuOrderCommand {
 	}
 	public void setCategoryNum(int categoryNum) {
 		this.categoryNum = categoryNum;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
 	}
 	public String getMenu() {
 		return menu;
@@ -59,9 +66,8 @@ public class MenuOrderCommand {
 	}
 	@Override
 	public String toString() {
-		return "MenuOrderCommand [categoryNum=" + categoryNum + ", menu=" + menu + ", price=" + price + ", temperature="
-				+ temperature + ", beverageSize=" + beverageSize + ", whipping=" + whipping + ", syrub=" + syrub
-				+ ", shot=" + shot + "]";
+		return "MenuOrderCommand [categoryNum=" + categoryNum + ", type=" + type + ", menu=" + menu + ", price=" + price
+				+ ", temperature=" + temperature + ", beverageSize=" + beverageSize + ", whipping=" + whipping
+				+ ", syrub=" + syrub + ", shot=" + shot + "]";
 	}
-	
 }

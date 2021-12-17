@@ -5,9 +5,16 @@
 
 <mapper namespace="menuDao">
 	<select id="menuList" parameterType="Integer" resultType="HashMap">
-		select * from (select MENU.NUM, MENU.CATEGORY_NUM, MENU.MENU, MENU.PRICE, MENU.USING, MENU_IMAGE.SAVE_NAME
-		from MENU left outer join MENU_IMAGE on MENU.MENU = MENU_IMAGE.MENU) M
-		where M.USING =1 and M.CATEGORY_NUM=#{num} order by M.NUM
+		select * from
+       		(select M.NUM, M.CATEGORY_NUM, M.MENU, M.PRICE, M.USING, M.SAVE_NAME, CATEGORY.TYPE
+        			from
+	        	(select MENU.NUM, MENU.CATEGORY_NUM, MENU.MENU, MENU.PRICE, MENU.USING, MENU_IMAGE.SAVE_NAME
+						from MENU 
+							left outer join MENU_IMAGE 
+							on MENU.MENU = MENU_IMAGE.MENU) M 
+	       		 	left outer join CATEGORY 
+	       		 	on M.CATEGORY_NUM = CATEGORY.NUM) C
+		where C.USING =1 and C.CATEGORY_NUM=#{num} order by C.NUM
 	</select>
 	
 	<select id="menuOption" parameterType="Integer" resultType="HashMap">

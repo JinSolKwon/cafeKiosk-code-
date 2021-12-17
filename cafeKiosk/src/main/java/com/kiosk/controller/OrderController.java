@@ -68,6 +68,11 @@ public class OrderController {
 			session.removeAttribute("orderCount");
 			session.removeAttribute("orderTotal");
 		}
+		if(moc.getType() ==2) {
+			moc.setTemperature(null);
+			moc.setBeverageSize(null);
+			moc.setWhipping(null);
+		}
 		orderList.add(moc);
 		if(session.getAttribute("pageNum") != null) {
 			session.removeAttribute("pageNum");

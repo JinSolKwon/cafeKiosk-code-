@@ -60,6 +60,10 @@ public class KioskServiceImpl implements IKioskService{
 	@Override
 	public void userOrder(MemberVo member, List<MenuOrderCommand> orderList, int orderNum) throws Exception {
 		for(MenuOrderCommand moc : orderList) {
+			if(moc.getType() == 2) {
+				moc.setTemperature(null);
+				moc.setWhipping(null);
+			}
 			OrderListVo order = new OrderListVo(orderNum, moc.getMenu(), moc.getTemperature(), moc.getBeverageSize(), moc.getShot(), moc.getSyrub(), moc.getWhipping(), moc.getPrice());
 			orderListDao.orderRegist(order);
 		}
