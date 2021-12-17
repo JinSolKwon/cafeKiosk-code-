@@ -44,8 +44,8 @@
 <hr style="border: black;">
 <div class="main-orderForm">
 	<c:forEach items="${menuList}" var="menuOne">
-<%-- 		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
- --%>		<a href="<c:url value="/cafeCarp/option?num=${menuOne.NUM}" />">
+		<a onclick="modalOpen('${menuOne.MENU}','${menuOne.PRICE}','${menuOne.SAVE_NAME}','${menuOne.CATEGORY_NUM}')">
+<%-- 	<a href="<c:url value="/cafeCarp/option?num=${menuOne.NUM}" />"> --%>	
 		<div class="main-orderForm1">
 			<c:if test="${empty menuOne.SAVE_NAME}">
 				<div class="main-orderForm1-image"><img alt="${menuOne.MENU}" src="<c:url value="/display?saveName=noimage.gif" />"></div>		
@@ -176,6 +176,7 @@
 			<div class="modal-body5">
 				<p id="modal-price-total"></p>
 				<input type="hidden" name="price" id="modal-price-hidden"/>
+				<input type="hidden" name="origiPrice" id="modal-origin-price-hidden"/>
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -292,15 +293,53 @@ function modalOpen(menu,price,save,cateNum){
 	document.getElementById("modal-price").innerHTML = price + ' 원';
 	document.getElementById("modal-price-total").innerHTML = price + ' 원';
 	document.getElementById("modal-price-hidden").value = price;
+	document.getElementById("modal-origin-price-hidden").value = price;
 	document.getElementById("modal-cateNum-hidden").value = cateNum;
 	var imgSrc = "<c:url value='/display?saveName=" + save + "'/>";
 	$('#modal-img').attr("src", imgSrc);
 	$('#modal-img').attr("alt", save);
+	console.log(cateNum);
+	if(cateNum == 4 || cateNum == 5){
+		var hidDiv = $(".modal-header3");
+		hidDiv.style.display="none";
+	}
+	if(cateNum == 7 || cateNum == 8){
+		var hidDiv = $(".modal-header3");
+		var hidDiv2 = $(".modal-body");
+		hidDiv.style.display="none";
+		hidDiv2.style.display="none";	
+	}
 	modal.style.display="block";
 }
 function modalClose(){
 	modal.style.display="none";
 }
+
+$("input[name='beverageSize']").change(function(){
+    var $input = $(".modal-body3").find("input[name='syrub']");
+    var $input2 = $(".modal-body4").find("input[name='shot']");
+    var price = document.getElementById("modal-origin-price-hidden").value;
+    var priceHidden = document.getElementById("modal-price-hidden").value;
+	if($("input[name='beverageSize']:checked").val()=="M"){
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';		
+        priceHidden.value=Number(price);
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}else if($("input[name='beverageSize']:checked").val() == "L"){
+		price = Number(price)+500;
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';
+        priceHidden.value=Number(price);
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}else if($("input[name='beverageSize']:checked").val() == "XL"){
+		price = Number(price)+1000;
+		document.getElementById("modal-price-total").innerHTML = price + ' 원';	
+        priceHidden.value=Number(price);
+        $input.val(Number(0));
+        $input2.val(Number(0));
+	}
+});
+
 function fnCalCount(type){
     var $input = $(".modal-body3").find("input[name='syrub']");
     var tCount = Number($input.val());
@@ -312,29 +351,31 @@ function fnCalCount(type){
     var total;
     if(type==='sp'){
         $input.val(Number(tCount)+1);
-        total = price+300;
     }else if(type==='sm'){
        if(tCount >0){
-        	$input.val(Number(tCount)-1);  
-        	total = price-300; 
+        	$input.val(Number(tCount)-1);
         }
     }
     if(type==='p'){
+    	console.log(price);
        $input2.val(Number(tCount2)+1);
-       total = price+500;
+       total = Number(price)+500;
+       console.log(total);
     }else if(type==='m'){
     	if(tCount2 >0){
+    		console.log(price);
         	$input2.val(Number(tCount2)-1);    
-       		total = price-500;      
+       		total = Number(price)-500;   
+       		console.log(total);
         }
     }
-    if(type==='sp' || type==='p'){
+    if(type==='p'){
 		document.getElementById("modal-price-total").innerHTML = total + ' 원';
-		$("#modal-price-hidden").val(total);
-    }else if(type==='sm' || type==='m'){
+		$("#modal-price-hidden").val(Number(total));
+    }else if(type==='m'){
        	if(tCount >0 || tCount2 >0){   	
     		document.getElementById("modal-price-total").innerHTML = total + ' 원';
-    		$("#modal-price-hidden").val(total);       		
+    		$("#modal-price-hidden").val(Number(total));       		
        	}
     }
 }
