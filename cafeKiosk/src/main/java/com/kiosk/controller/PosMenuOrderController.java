@@ -385,6 +385,7 @@ public class PosMenuOrderController {
 			int changePoint = pointInfo.get("changePoint");
 			int totalPoint = pointInfo.get("totalPoint");
 			int totalPrice = pointInfo.get("totalPrice");
+			int orderPrice = paymentInfo.get("orderPrice");
 			
 			if(pointType == 0) {
 				// 포인트 적립
@@ -396,7 +397,7 @@ public class PosMenuOrderController {
 					paymentVo.setCard(0);
 					paymentVo.setCash(totalPrice);
 				}
-				paymentVo.setTotal(totalPrice);
+				paymentVo.setTotal(orderPrice);
 			
 			} else if(pointType == 1){
 				// 포인트 사용
@@ -410,7 +411,7 @@ public class PosMenuOrderController {
 					paymentVo.setCard(0);
 					paymentVo.setCash(totalPrice);
 				}
-				paymentVo.setTotal(totalPrice);
+				paymentVo.setTotal(orderPrice);
 				
 				
 			}

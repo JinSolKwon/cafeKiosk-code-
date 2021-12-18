@@ -44,10 +44,10 @@
 		</form>
 			<div class="row my-4">
 				<div class="col-6">
-					<button type="button" id="back" class="btn btn-light border" style="width:225px;">돌아가기</button>
+					<button type="button" id="check" class="btn btn-secondary" style="width:225px;">조회하기</button>
 				</div>
 				<div class="col-6">
-					<button type="button" id="check" class="btn btn-secondary" style="width:225px;">조회하기</button>
+					<button type="button" id="back" class="btn btn-light border" style="width:225px;">돌아가기</button>
 				</div>
 			</div>
 	</div>

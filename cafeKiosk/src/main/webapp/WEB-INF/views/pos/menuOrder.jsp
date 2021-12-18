@@ -94,7 +94,7 @@
 								onclick="location.href='/pos/menuOrder/order?menu=${optionList.optionName }&price=${optionList.price}'">
 								${optionList.optionName }(+${optionList.price })
 							</button>
-							</c:forEach>
+						</c:forEach>
 					</div>
 				</div>
 			</div>

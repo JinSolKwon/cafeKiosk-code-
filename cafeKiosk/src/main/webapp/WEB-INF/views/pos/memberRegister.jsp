@@ -37,7 +37,7 @@
 					</div>
 					<!-- <div id="phoneVal"></div> -->
 					<div class="col-3 text-start">
-						<button class="btn btn-secondary" type="button" onclick="phoneCheck();" style="width: 100px;">중복확인</button>
+						<button class="btn btn-secondary" id="phoneChk" value="N" type="button" onclick="phoneCheck()" style="width: 100px;">중복확인</button>
 					</div>
 					<div class="phoneValid my-1" id="phoneValid"></div>
 				</div>
@@ -75,11 +75,11 @@
 			</form>
 		</div>
 		<div class="row my-2">
-			<div class="col-6 text-start">
-				<button class="btn btn-light border" style="width: 225px;" onclick="cancel()">가입취소</button>		
-			</div>
 			<div class="col-6 text-end">
 				<button class="btn btn-secondary" style="width: 225px;" onclick="submit()">회원등록</button>		
+			</div>
+			<div class="col-6 text-start">
+				<button class="btn btn-light border" style="width: 225px;" onclick="cancel()">가입취소</button>		
 			</div>
 		</div>
 	</div>
@@ -144,6 +144,7 @@
 		function submit(){
 			var form = document.regiInfo;
 			var phone = form.phone.value;
+			var phoneChk = form.phoneChk.value;
 			var name = form.name.value;
 			var year = form.year.value;
 			var month = form.month.value;
@@ -155,6 +156,10 @@
 				//form.phone.focus();
 				alert("전화번호를 입력하세요");
 				form.phone.focus();
+				return false;
+			} else if(phoneChk == "N") {
+				alert("전화번호 중복확인을 해주세요");
+				form.phoneChk.focus();
 				return false;
 			} else if(name == ""){
 				alert("이름을 입력하세요");
@@ -194,6 +199,7 @@
 			            document.getElementById('phoneValid').style.color='red';
 						alert("등록된 회원의 전화번호입니다.");
 					}else if(result == 0){
+						$("#phoneChk").attr("value", "Y");
 						document.getElementById('phoneValid').innerHTML='등록되지 않은 회원의 전화번호입니다.'
 			            document.getElementById('phoneValid').style.color='blue';
 						alert("등록되지 않은 회원의 전화번호입니다.");

@@ -25,7 +25,7 @@
 		</script>
 	</c:if>
 	
-	<div class="container shadow-lg my-5 border" style="width:500px; height:300px;">
+	<div class="container shadow-lg my-5 border" style="width:470px; height:400px;">
 		
 		<div class="row text-center my-4 fs-3">
 			<b>조회결과</b>
@@ -48,18 +48,15 @@
 							<td><fmt:formatNumber value="${memberInfo.point }" pattern="#,###"/>P</td>
 						</tr>
 					</table>
-					<div class="row my-2 justify-content-end">
-						<div class="col-3">
-							<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
+						<div class="col-12 my-1">
+							<button type="button" id="pointSave" class="btn text-white btn-secondary" style="width:300px;">적립하기</button>
 						</div>
-						
-						<div class="col-3">
-							<button type="button" id="pointSave" class="btn text-white btn-secondary" style="width:100px;">적립하기</button>
+						<div class="col-12 my-1">
+							<button type="button" id="pointUse" class="btn text-white btn-secondary" style="width:300px;">사용하기</button>
 						</div>
-						<div class="col-3">
-							<button type="button" id="pointUse" class="btn text-white btn-secondary" style="width:100px;">사용하기</button>
+						<div class="col-12 my-1">
+							<button type="button" id="back" class="btn btn-light border" style="width: 300px;">돌아가기</button>
 						</div>
-					</div>
 				</c:when>
 				<c:otherwise>
 					<div class="fs-2 my-4">
@@ -67,14 +64,13 @@
 					</div>
 					<div class="row my-3 justify-content-end">
 						<div class="col-3">
-							<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
-						</div>
-						
-						<div class="col-3">
 							<button type="button" class="btn text-white btn-secondary" style="width:100px;" disabled>적립하기</button>
 						</div>
 						<div class="col-3">
 							<button type="button" class="btn text-white btn-secondary" style="width:100px;" disabled>사용하기</button>
+						</div>
+						<div class="col-3">
+							<button type="button" id="back" class="btn btn-light border" style="width:100px;">돌아가기</button>
 						</div>
 					</div>
 				</c:otherwise>
