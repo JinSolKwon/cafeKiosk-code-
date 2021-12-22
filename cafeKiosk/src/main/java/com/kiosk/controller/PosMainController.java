@@ -1,11 +1,13 @@
 package com.kiosk.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -76,5 +78,27 @@ public class PosMainController {
 		return "redirect:/pos/main";
 	}
 	
-	
+	// 에러페이지 설정
+	@RequestMapping(value= "/pageError", method = RequestMethod.GET)
+	public String error(HttpServletRequest request, Model model) {
+		
+		int errorCode = (int) request.getAttribute("javax.servlet.error.status_code");
+		String errorExceptionType = (String) request.getAttribute("javax.servlet.error.exception_type");
+		String errorMsg = (String) request.getAttribute("javax.servlet.error.message");
+		String errorRequestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+		String errorException = (String) request.getAttribute("javax.servlet.error.exception");
+		String errorServletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
+		
+		logger.info("#####error");
+		logger.info("status_code : " + errorCode);
+		logger.info("exception_type : " + errorExceptionType);
+		logger.info("message : " + errorMsg);
+		logger.info("request_uri : " + errorRequestUri);
+		logger.info("exception : " + errorException);
+		logger.info("servlet_name : " + errorServletName);
+		
+		model.addAttribute("errorCode", errorCode);
+		
+		return "/error/errorPage";
+	}
 }

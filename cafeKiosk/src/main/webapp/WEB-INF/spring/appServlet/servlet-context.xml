@@ -23,6 +23,18 @@
 	
 	<context:component-scan base-package="com.kiosk.controller" />
 	
-	
+    <!-- 인터셉터 객체 생성 -->
+    <beans:bean id="authenticationInterceptor" class="com.kiosk.controller.AuthenticationInterceptor">
+    </beans:bean>
+    <!-- Interceptor 설정 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/pos/**"/>
+            <exclude-mapping path="/pos"/>
+            <exclude-mapping path="/pos/main"/>
+            <beans:ref bean="authenticationInterceptor"/>
+        </interceptor>
+    </interceptors>
+
 	
 </beans:beans>

@@ -150,7 +150,7 @@
 				location.href="/pos/menuOrder/cancel?type=all";
 			}
 		}
-	
+		
 	</script>
 
 </body>

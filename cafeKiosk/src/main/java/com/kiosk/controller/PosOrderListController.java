@@ -37,13 +37,6 @@ public class PosOrderListController {
 		session.removeAttribute("menuOrderList");
 		session.removeAttribute("paymentInfo");
 		
-		ManagerVo loginCheck = (ManagerVo) session.getAttribute("login");
-
-		if (loginCheck == null) {
-			rttr.addFlashAttribute("orderListLogin", false);
-			return "redirect:/pos/main";
-		}
-		
 		Date date = new Date();
 		SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
 		String today = fmtToday.format(date);

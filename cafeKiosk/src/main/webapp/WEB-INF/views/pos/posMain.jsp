@@ -46,11 +46,6 @@
 				 <!-- 로그인 실패 메세지 표시 -->
 				<p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
 			</c:if>
-			<c:if test="${orderListLogin == false}">
-				<script>
-					alert("로그인 후 사용가능합니다.");
-				</script>
-			</c:if>
 		</form>
 	</div>
 
