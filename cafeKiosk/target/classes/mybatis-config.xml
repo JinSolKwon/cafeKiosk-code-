@@ -10,12 +10,12 @@
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<typeAliases>
-		<typeAlias alias="memberVo" type="com.kiosk.vo.MemberVo"/>
-		<typeAlias alias="categoryVo" type="com.kiosk.vo.CategoryVo"/>
-		<typeAlias alias="menuVo" type="com.kiosk.vo.MenuVo"/>
-		<typeAlias alias="menuImageVo" type="com.kiosk.vo.MenuImageVo"/>
-		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
-		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
-		<typeAlias alias="optionListVo" type="com.kiosk.vo.OptionListVo"/>
+		<typeAlias alias="memberVo" type="com.kiosk.JEvo.MemberVo"/>
+		<typeAlias alias="categoryVo" type="com.kiosk.JEvo.CategoryVo"/>
+		<typeAlias alias="menuVo" type="com.kiosk.JEvo.MenuVo"/>
+		<typeAlias alias="menuImageVo" type="com.kiosk.JEvo.MenuImageVo"/>
+		<typeAlias alias="orderListVo" type="com.kiosk.JEvo.OrderListVo"/>
+		<typeAlias alias="paymentVo" type="com.kiosk.JEvo.PaymentVo"/>
+		<typeAlias alias="optionListVo" type="com.kiosk.JEvo.OptionListVo"/>
 	</typeAliases>
 </configuration>
