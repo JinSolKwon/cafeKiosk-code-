@@ -28,9 +28,9 @@
 		<constructor-arg ref="sqlSessionFactory"/>
 	</bean>
 	
-	<context:component-scan base-package="com.kiosk.command" ></context:component-scan>
-	<context:component-scan base-package="com.kiosk.dao" ></context:component-scan>
-	<context:component-scan base-package="com.kiosk.service" ></context:component-scan>
-	<context:component-scan base-package="com.kiosk.vo" ></context:component-scan>
+	<context:component-scan base-package="com.kiosk.HScommand" ></context:component-scan>
+	<context:component-scan base-package="com.kiosk.HSdao" ></context:component-scan>
+	<context:component-scan base-package="com.kiosk.HSservice" ></context:component-scan>
+	<context:component-scan base-package="com.kiosk.HSvo" ></context:component-scan>
 	
 </beans>
