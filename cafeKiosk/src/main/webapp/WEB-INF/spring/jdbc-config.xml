@@ -42,22 +42,11 @@
 		</property>
 	</bean>
 
-	<bean id="memberDao" class="com.kiosk.dao.MemberDaoImpl">
-		<constructor-arg ref="sqlSessionTemplate"/> 
-	</bean>
-	
-	<bean id="managerDao" class="com.kiosk.dao.ManagerDaoImpl">
-		<constructor-arg ref="sqlSessionTemplate"/> 
-	</bean>
-	
-	<bean id="menuDao" class="com.kiosk.dao.MenuDaoImpl">
-		<constructor-arg ref="sqlSessionTemplate"/> 
-	</bean>
+
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean> 
 	
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 </beans>

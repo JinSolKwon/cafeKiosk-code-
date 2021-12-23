@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiosk.dao.ManagerDao;
-import com.kiosk.vo.ManagerVo;
+import com.kiosk.HSvo.ManagerVo;
 
 
 @Service

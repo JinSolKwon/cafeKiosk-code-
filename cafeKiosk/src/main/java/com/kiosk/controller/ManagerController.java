@@ -32,7 +32,7 @@ public class ManagerController {
 	@Inject
 	ManagerService service;
 	
-	// íšŒì›ê´€ë¦¬ í˜ì´ì§€
+	// È¸¿ø°ü¸® ÆäÀÌÁö
 	@RequestMapping("idControl")
 	public String manager(@RequestParam(name="pageNum", required=false, defaultValue="0")int pageNum, 
 			@RequestParam(name="id", required=false, defaultValue="")String id
@@ -78,7 +78,7 @@ public class ManagerController {
 		return "managerPage/idControl";
 	}
 	
-	// ë§¤ë‹ˆì € íƒˆí‡´
+	// ¸Å´ÏÀú Å»Åğ
 	@PostMapping("deleteManager")
 	public String deleteManager(HttpSession session, HttpServletRequest request) {
 		
@@ -90,7 +90,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	// ë§¤ë‹ˆì € ì •ë³´ ìˆ˜ì •
+	// ¸Å´ÏÀú Á¤º¸ ¼öÁ¤
 	@PostMapping("updateManager")
 	public String updateManager(HttpSession session, HttpServletRequest request, ManagerVo vo) {
 		
@@ -105,7 +105,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	// ë§¤ë‹ˆì € ì •ë³´ ë“±ë¡
+	// ¸Å´ÏÀú Á¤º¸ µî·Ï
 	@PostMapping("insertManager")
 	public String insertManager(Model model, HttpSession session, HttpServletRequest request,ManagerVo vo) {
 		
@@ -124,7 +124,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	//ì•„ì´ë”” ì¤‘ë³µì²´í¬
+	//¾ÆÀÌµğ Áßº¹Ã¼Å©
 	@ResponseBody
 	@PostMapping(value="/idChk")
 	public int idChk(HttpServletRequest request,ManagerVo vo) throws Exception{

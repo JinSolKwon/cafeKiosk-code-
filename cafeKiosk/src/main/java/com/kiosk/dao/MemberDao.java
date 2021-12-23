@@ -3,7 +3,7 @@ package com.kiosk.dao;
 import java.util.HashMap;
 import java.util.List;
 
-import com.kiosk.vo.MemberVo;
+import com.kiosk.HSvo.MemberVo;
 
 public interface MemberDao {
 	

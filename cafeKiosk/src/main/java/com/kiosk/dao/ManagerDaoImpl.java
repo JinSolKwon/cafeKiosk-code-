@@ -7,7 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import com.kiosk.vo.ManagerVo;
+import com.kiosk.HSvo.ManagerVo;
+
 
 @Primary
 @Repository

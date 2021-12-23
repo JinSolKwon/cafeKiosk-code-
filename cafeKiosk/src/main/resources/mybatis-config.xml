@@ -12,16 +12,18 @@
 	
 	<typeAliases>
 		
-		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
-		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
-		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
-		<typeAlias alias="refundVo" type="com.kiosk.vo.RefundVo"/>
-		<typeAlias alias="refundPointCmd" type="com.kiosk.command.RefundPointCmd"/>
-		<typeAlias alias="memberVo" type="com.kiosk.vo.MemberVo"/>
-		<typeAlias alias="categoryVo" type="com.kiosk.vo.CategoryVo"/>
-		<typeAlias alias="menuVo" type="com.kiosk.vo.MenuVo"/>
-		<typeAlias alias="optionListVo" type="com.kiosk.vo.OptionListVo"/>
-		<typeAlias alias="refundPaymentCmd" type="com.kiosk.command.RefundPaymentCmd"/>
+		<typeAlias alias="managerVo" type="com.kiosk.HSvo.ManagerVo"/>
+		<typeAlias alias="orderListVo" type="com.kiosk.HSvo.OrderListVo"/>
+		<typeAlias alias="paymentVo" type="com.kiosk.HSvo.PaymentVo"/>
+		<typeAlias alias="refundVo" type="com.kiosk.HSvo.RefundVo"/>
+		<typeAlias alias="refundPointCmd" type="com.kiosk.HScommand.RefundPointCmd"/>
+		<typeAlias alias="memberVo" type="com.kiosk.HSvo.MemberVo"/>
+		<typeAlias alias="categoryVo" type="com.kiosk.HSvo.CategoryVo"/>
+		<typeAlias alias="menuVo" type="com.kiosk.HSvo.MenuVo"/>
+		<typeAlias alias="optionListVo" type="com.kiosk.HSvo.OptionListVo"/>
+		<typeAlias alias="refundPaymentCmd" type="com.kiosk.HScommand.RefundPaymentCmd"/>
+        
+ 		<typeAlias alias="menuJSVo" type="com.kiosk.vo.MenuVo"/>
         
 	</typeAliases>
  	

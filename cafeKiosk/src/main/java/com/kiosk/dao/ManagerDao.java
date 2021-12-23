@@ -3,7 +3,8 @@ package com.kiosk.dao;
 import java.util.HashMap;
 import java.util.List;
 
-import com.kiosk.vo.ManagerVo;
+import com.kiosk.HSvo.ManagerVo;
+
 
 public interface ManagerDao {
 	

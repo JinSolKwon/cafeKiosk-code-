@@ -2,7 +2,7 @@ package com.kiosk.service;
 
 import java.util.List;
 
-import com.kiosk.vo.ManagerVo;
+import com.kiosk.HSvo.ManagerVo;
 
 
 public interface ManagerService {

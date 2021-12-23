@@ -20,7 +20,7 @@
 	</select>
 	
 	<!-- 관리자 계정 목록 가져오기 -->
-	<select id="menuList" parameterType="hashmap" resultType="menuVo">
+	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
       select * from (select rownum RNUM, NUM, CATEGORY_NUM as CATEGORYNUM, MENU, PRICE, REGDATE, USING 
 		  from (select * from MENU
 		  <if test='menu!=null or !menu.equals("")'>
@@ -49,7 +49,7 @@
 	</delete>
 	
 	<!-- 카테고리 목록 가져오기 -->
-	<select id="getCategory" resultType="menuVo">
+	<select id="getCategory" resultType="menuJSVo">
 		select * from CATEGORY
 	</select>
 	

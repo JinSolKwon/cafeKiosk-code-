@@ -36,7 +36,7 @@
 						</button>
 					</li>
 					<li id="menu">
-						<button class="btn btn-primary" id="btn" onclick="location.href='<c:url value="#"/>'">
+						<button class="btn btn-primary" id="btn" onclick="location.href='<c:url value="/managerPage/memberControl"/>'">
 							관리자페이지
 						</button>
 					</li>
