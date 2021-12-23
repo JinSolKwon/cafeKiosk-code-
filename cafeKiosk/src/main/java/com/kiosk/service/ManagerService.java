@@ -18,4 +18,6 @@ public interface ManagerService {
 	public abstract int managerDelete(String number);
 
 	public abstract int managerUpdate(ManagerVo vo);
+
+	public abstract int idCheck(ManagerVo vo);
 }

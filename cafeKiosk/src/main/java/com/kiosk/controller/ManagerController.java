@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kiosk.service.ManagerService;
 import com.kiosk.vo.ManagerVo;
@@ -90,12 +92,11 @@ public class ManagerController {
 	
 	// 매니저 정보 수정
 	@PostMapping("updateManager")
-	public String updateManager(HttpSession session, HttpServletRequest request) {
+	public String updateManager(HttpSession session, HttpServletRequest request, ManagerVo vo) {
 		
 		String num = request.getParameter("num");
 		String pw = request.getParameter("str");
 		
-		ManagerVo vo = new ManagerVo();
 		vo.setNum(Integer.parseInt(num));
 		vo.setPw(pw);
 
@@ -104,4 +105,35 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
+	// 매니저 정보 등록
+	@PostMapping("insertManager")
+	public String insertManager(Model model, HttpSession session, HttpServletRequest request,ManagerVo vo) {
+		
+		String id = request.getParameter("regId");
+		String pw = request.getParameter("pw");
+		
+		vo.setId(id);
+		vo.setPw(pw);
+		vo.setStatus("admin");
+		
+		if ( service.idCheck(vo) == 0) {
+			service.insertManager(vo);
+		} else {
+			return "redirect:idControl";
+		}
+		return "redirect:idControl";
+	}
+	
+	//아이디 중복체크
+	@ResponseBody
+	@PostMapping(value="/idChk")
+	public int idChk(HttpServletRequest request,ManagerVo vo) throws Exception{
+		String id = request.getParameter("id");
+		
+		vo.setId(id);
+		
+		int result = service.idCheck(vo);
+		
+		return result;
+	}
 }

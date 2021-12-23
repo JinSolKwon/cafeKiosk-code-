@@ -12,7 +12,7 @@
 	  	  </if>
 	</select>
 	
-	<!-- 회원 목록 가져오기 -->
+	<!-- 관리자 계정 목록 가져오기 -->
 	<select id="managerList" parameterType="hashmap" resultType="managerVo">
       select * from (select rownum RNUM, NUM, ID, PW, STATUS, REGDATE 
 		  from (select * from MANAGER
@@ -28,23 +28,29 @@
 		select * from MANAGER where STATUS = 'master'
 	</select>
 	
-	<!-- 탈퇴회원 정보 수정 -->
+	<!-- 관리자 계정 정보 수정 -->
 	<update id="updateManager" parameterType="memberVo">
 		UPDATE MANAGER SET
 		PW = #{pw}
 		WHERE NUM = #{num} 
 	</update>
 	
-	<!-- 탈퇴회원 테이블로 입력 -->
-	<insert id="insertmanager" parameterType="managerVo">
-		INSERT INTO QUIT_MEMBER(NUM, NAME, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT)
-			VALUES(QUIT_MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, #{regdate}, #{point})
-	</insert> 
-	
-	<!-- 회원 삭제 -->
+	<!-- 관리자 계정 삭제 -->
 	<delete id="managerDelete" parameterType="String">
 		DELETE FROM MANAGER
 		WHERE NUM = #{value}
 	</delete>
+	
+	<!-- 관리자 계정 테이블로 입력 -->
+	<insert id="insertManager" parameterType="managerVo">
+		INSERT INTO MANAGER(NUM, ID, PW, STATUS, REGDATE)
+			VALUES(MANAGER_SEQ.nextval, #{id}, #{pw}, #{status}, SYSDATE)
+	</insert> 
+	
+	<!-- 아이디 중복체크 -->
+	<select id="idChk" resultType="int">
+		SELECT COUNT(*) FROM MANAGER
+		WHERE ID = #{id}
+	</select>
 	
 </mapper>

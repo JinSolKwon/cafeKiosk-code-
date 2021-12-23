@@ -14,5 +14,6 @@
 	<typeAliases> 
 		<typeAlias alias="memberVo" type="com.kiosk.vo.MemberVo"/>
 		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
+		<typeAlias alias="menuVo" type="com.kiosk.vo.MenuVo"/>
 	</typeAliases>
 </configuration>

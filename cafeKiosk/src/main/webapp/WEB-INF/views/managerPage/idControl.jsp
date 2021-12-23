@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="UTF-8">
  	<!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,9 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<!-- sweetalert -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-	
+	<!-- Bootstrap 모달 -->
+	<script src="https://code.jquery.com/jquery-latest.js"></script>
+ 
 	<link href="${pageContext.request.contextPath}/resources/css/manager.css" rel="stylesheet" type="text/css">
 <title>관리자 계정 관리</title>
 </head>
@@ -28,8 +31,8 @@
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
 		
-		<button class="btn btn-secondary" style="height:40px;width:70px;margin-bottom:3px;margin-left:20px;"
-			onClick="window.location='<c:url value="#"/>'">등록</button>
+		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertManager"
+		style="height:40px;width:70px;margin-bottom:3px;margin-left:20px;">등록</button>
 			
 		<c:if test="${count == 0}">
 			<table class="table">
@@ -44,8 +47,8 @@
 		<c:if test="${count > 0}">
 		<form name="managerForm">
 			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;margin-top:1px;"
-				onclick="deleteValue(${masterPass});">
-			
+				onclick="deleteValue('${masterPass}');">
+
 			<table class="table table-hover" id="example-table-1">
 				<thead>
 					<tr class="table-secondary">
@@ -55,7 +58,7 @@
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
-						<th onclick="event.cancelBubble=true">아이디</th>
+						<th >아이디</th>
 						<th onclick="event.cancelBubble=true">직위</th>
 						<th onclick="event.cancelBubble=true">가입일자</th>
 					</tr>
@@ -107,7 +110,7 @@
 			</c:if>
 			
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${startPage > pageBlock}">
+		    <c:if test="${startPage > pageBlock}"> 
 			    <li class="page-item disabled">
 		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
@@ -124,6 +127,35 @@
 		  </c:if>
 		</nav>
 	</div>
+	
+    <!-- Modal -->
+  <div class="modal fade" id="insertManager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" >
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">admin 계정 등록</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <form method="post" id="regForm" action ="<c:url value="/managerPage/insertManager"/>">
+		      <div class="modal-body" style="text-align:center;">
+	  			<input type="text" placeholder="아이디" id="regId" class="regId" name="regId" style="width:40%;height:37px;vertical-align:middle;border: 1px solid #DDDDDD;">
+	  			<button class="btn btn-secondary" id="idChk" onclick="fn_idChk();" type="button" value="N">중복체크</button><br><br>
+		        <input type="password" id="pw" class="pw" name="pw" placeholder="비밀번호" style="width:40%;height:37px;vertical-align:middle;margin-right:20%;border: 1px solid #DDDDDD;"><br><br>
+		        <input type="password" id="pwConfirm" class="pwConfirm" name="pwConfirm" placeholder="비밀번호 확인" style="width:40%;height:37px;vertical-align:middle;margin-right:20%;border: 1px solid #DDDDDD;"><br><br>
+		      </div>
+		      <div class="alert">
+		      
+		      </div>
+		      <div class="modal-footer" style="align-items:center;justify-content:center;">
+		        <input type="button" id="insertId" value="계정등록" class="btn btn-secondary">
+		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
+		      </div>
+		  </form>    
+	    </div>
+	  </div>
+  </div>
+
+	
 	<script>
 	// 전체 체크박스 선택
 	$(document).ready(function(){
@@ -189,7 +221,7 @@
                               }
                           })
                       }
-              }).then((result) => {
+              }).then((result) => { 
                   if (result.value) {
 				$.ajax({ 
 				    url : 'deleteManager',                    // 전송 URL
@@ -244,7 +276,7 @@
                     if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
                         swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
                         swal.enableConfirmButton(); // Enable the confirm button again.
-                    } else if (("\'" + $('#swal-input1').val() + "\'") != masterPass){
+                    } else if ($('#swal-input1').val() != masterPass){
                     	swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
                         swal.enableConfirmButton(); // Enable the confirm button again.
                 	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
@@ -286,6 +318,73 @@
             }
         })            
 	});
+	
+	// 관리자 계정 등록 유효성 체크
+	$(document).ready(function(){
+		$("#insertId").on("click", function(){
+			if($("#regId").val()==""){
+				alert("아이디를 입력해주세요.");
+				$("#regId").focus();
+				return false;
+			}
+			if($("#pw").val()==""){
+				alert("비밀번호를 입력해주세요.");
+				$("#pw").focus();
+				return false;
+			}
+			if($("#pwConfirm").val()==""){
+				alert("비밀번호 확인을 입력해주세요.");
+				$("#pwConfirm").focus();
+				return false;
+			}
+			
+			if($("#pw").val()!=$("#pwConfirm").val()){
+				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")
+				$("#pwConfirm").focus();
+				return false;
+			}
+			
+			var idChkVal = $("#idChk").val();
+			if(idChkVal == "N"){
+				alert("아이디 중복체크를 해주세요.");
+			    return false;
+			}else if(idChkVal == "Y"){
+				alert("등록성공")
+				$("#regForm").submit();
+			}
+		});		 
+	})
+	
+	// 관리자 계정 등록 id 중복체크
+	function fn_idChk(){
+		var idReg = /^[a-z]+[a-z0-9]{3,15}$/g;
+		if( !idReg.test( $("input[name=regId]").val() ) ) {
+	        alert("아이디는 영문자로 시작하는 3~15자 영문자 또는 숫자이어야 합니다.");
+	        return false;
+	    }
+		
+		$.ajax({
+			url : "idChk",
+			type : "post",
+			dataType : "json",
+			data : {"id" : $("#regId").val()},
+			success : function(data){
+				if(data == 1){
+					alert("중복된 아이디입니다.");
+				}else if(data == 0){
+					$("#idChk").attr("value", "Y");
+					alert("사용가능한 아이디입니다.");
+				}
+			}
+		})
+	}
+	
+	// 모달 닫으면 입력된 정보 초기화
+	$('.modal').on('hidden.bs.modal', function (e) {
+	    console.log('modal close');
+	  $(this).find('form')[0].reset()
+	});
+
 	</script>
 </body>
 </html>

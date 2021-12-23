@@ -40,7 +40,7 @@ public class ManagerDaoImpl implements ManagerDao{
 	
 	@Override
 	public void insertManager(ManagerVo vo) {
-		sqlSessionTemplate.insert("insertQuitMember", vo);
+		sqlSessionTemplate.insert("insertManager", vo);
 	}
 	
 	@Override
@@ -53,4 +53,9 @@ public class ManagerDaoImpl implements ManagerDao{
 		return sqlSessionTemplate.update("updateManager", vo);
 	}
 	
+	@Override
+	public int idCheck(ManagerVo vo) {
+		return sqlSessionTemplate.selectOne("idChk", vo);
+	}
+
 }

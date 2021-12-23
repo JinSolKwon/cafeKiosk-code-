@@ -87,3 +87,15 @@ table tbody tr td{
 .hidden-col {
 	display: none; 
 }
+
+.tableModal thead tr td{
+	border: none;
+	height: 40px;
+	width: 25%;
+}
+
+.tableModal tbody tr td{
+	border: none;
+	height: 40px;
+	width: 25%;
+}

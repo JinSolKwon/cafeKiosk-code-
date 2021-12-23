@@ -25,5 +25,7 @@ public interface ManagerDao {
 	//매니저 계정 수정 메서드
 	public abstract int managerUpdate(ManagerVo vo);
 	
+	//매니저 계정 아이디 중복 체크 메서드
+	public abstract int idCheck(ManagerVo vo);
 
 }

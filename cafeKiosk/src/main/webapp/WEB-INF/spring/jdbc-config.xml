@@ -37,6 +37,7 @@
 			<list>
 				<value>classpath:config/memberMapper.xml</value>
 				<value>classpath:config/managerMapper.xml</value>
+				<value>classpath:config/menuMapper.xml</value>
 			</list> 
 		</property>
 	</bean>
@@ -46,6 +47,10 @@
 	</bean>
 	
 	<bean id="managerDao" class="com.kiosk.dao.ManagerDaoImpl">
+		<constructor-arg ref="sqlSessionTemplate"/> 
+	</bean>
+	
+	<bean id="menuDao" class="com.kiosk.dao.MenuDaoImpl">
 		<constructor-arg ref="sqlSessionTemplate"/> 
 	</bean>
 	

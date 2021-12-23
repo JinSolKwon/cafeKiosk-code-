@@ -88,23 +88,23 @@ public class MemberController {
 		return "redirect:memberControl";
 	}
 	
-	// 탈퇴회원 정보 수정
-		@PostMapping("updateMember")
-		public String updateMember(HttpSession session, HttpServletRequest request) {
-			
-			String num = request.getParameter("num");
-			String phone = request.getParameter("phone");
-			String name = request.getParameter("name");
-			
-			MemberVo vo = new MemberVo();
-			vo.setNum(Integer.parseInt(num));
-			vo.setPhone(phone);
-			vo.setName(name);
+	// 회원 정보 수정
+	@PostMapping("updateMember")
+	public String updateMember(HttpSession session, HttpServletRequest request) {
+		
+		String num = request.getParameter("num");
+		String phone = request.getParameter("phone");
+		String name = request.getParameter("name");
+		
+		MemberVo vo = new MemberVo();
+		vo.setNum(Integer.parseInt(num));
+		vo.setPhone(phone);
+		vo.setName(name);
 
-			service.updateMember(vo);
-			
-			return "redirect:memberControl";
-		}
+		service.updateMember(vo);
+		
+		return "redirect:memberControl";
+	}
 	
 	// 탈퇴 회원관리 페이지
 	@RequestMapping("deleteMemberControl")
@@ -209,13 +209,6 @@ public class MemberController {
 	public String salesPast(Model model, HttpSession session) throws Exception{
 			
 		return "managerPage/salesPast";
-	}
-	
-	// 메뉴 관리 페이지
-	@GetMapping("menuControl")
-	public String menu(Model model, HttpSession session) throws Exception{
-			
-		return "managerPage/menuControl";
 	}
 	
 }

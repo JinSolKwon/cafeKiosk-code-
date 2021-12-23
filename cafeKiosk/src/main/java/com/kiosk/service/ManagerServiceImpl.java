@@ -51,5 +51,9 @@ public class ManagerServiceImpl implements ManagerService{
 	public int managerUpdate(ManagerVo vo) {
 		return managerDao.managerUpdate(vo);
 	}
-	
+
+	@Override
+	public int idCheck(ManagerVo vo) {
+		return managerDao.idCheck(vo);
+	}
 }
