@@ -12,7 +12,7 @@
 			http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 			http://www.springframework.org/schema/context 
 			https://www.springframework.org/schema/context/spring-context.xsd"
->  
+>
 
 	<tx:annotation-driven transaction-manager="transactionManager"/> 
 	

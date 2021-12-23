@@ -55,6 +55,7 @@ public class MenuController {
 		categoryList = service.categoryList();
 		
 		count = service.menuCount(menu, type);
+		System.out.println(count);
 		
 		if(count > 0) {
 			menuList = service.menuList(menu, type, startRow, endRow);
