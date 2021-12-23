@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberDao">
+	
+	<!-- 회원 수 가져오기 -->
+	<select id="countMember" parameterType="String" resultType="int">
+		select count(*)	from MEMBER
+		<if test='value!=null or !value.equals("")'>
+	  			where PHONE like '%' || #{value}
+	  	  </if>
+	</select>
+	
+	<!-- 회원 목록 가져오기 -->
+	<select id="memberList" parameterType="hashmap" resultType="memberVo">
+      select * from (select rownum RNUM, NUM, NAME, PHONE, BIRTH_YEAR as birthYear, BIRTH, REGDATE, POINT 
+		  from (select * from MEMBER
+		  <if test='backNumber!=null or !backNumber.equals("")'>
+	  			where PHONE like '%' || #{backNumber}
+	  	  </if>
+		  order by NUM asc))
+			  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 회원 가져오기 -->
+	<select id="selectMember" parameterType="int" resultType="memberVo">
+		select * from MEMBER where NUM = #{value}
+	</select>
+	
+	<!-- 탈퇴회원 테이블로 입력 -->
+	<insert id="insertQuitMember" parameterType="memberVo">
+		INSERT INTO QUIT_MEMBER(NUM, NAME, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT)
+			VALUES(QUIT_MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, #{regdate}, #{point})
+	</insert> 
+	
+	<!-- 회원 삭제 -->
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBER
+		WHERE NUM = #{value}
+	</delete>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateMember" parameterType="memberVo">
+		UPDATE MEMBER SET
+		PHONE = #{phone},
+		NAME = #{name}
+		WHERE NUM = #{num} 
+	</update>
+	
+	<!-- 탈퇴 회원 수 가져오기 -->
+	<select id="countQuitMember" parameterType="String" resultType="int">
+		select count(*)	from QUIT_MEMBER
+		<if test='value!=null or !value.equals("")'>
+	  			where PHONE like '%' || #{value}
+	  	  </if>
+	</select>
+	
+	<!-- 탈퇴회원 목록 가져오기 -->
+	<select id="quitMemberList" parameterType="hashmap" resultType="memberVo">
+      select * from (select rownum RNUM, NUM, NAME, PHONE, BIRTH_YEAR as birthYear, BIRTH, REGDATE, POINT 
+		  from (select * from QUIT_MEMBER
+		  <if test='backNumber!=null or !backNumber.equals("")'>
+	  			where PHONE like '%' || #{backNumber}
+	  	  </if>
+		  order by NUM asc))
+			  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 탈퇴회원 가져오기 -->
+	<select id="selectQuitMember" parameterType="int" resultType="memberVo">
+		select * from QUIT_MEMBER where NUM = #{value}
+	</select>
+	
+	<!-- 탈퇴회원 테이블로 입력 -->
+	<insert id="restoreMember" parameterType="memberVo">
+		INSERT INTO MEMBER(NUM, NAME, PHONE, BIRTH_YEAR, BIRTH, REGDATE, POINT)
+			VALUES(MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, #{regdate}, #{point})
+	</insert> 
+	
+	<!-- 탈퇴회원 영구 삭제 -->
+	<delete id="quitMemberDelete" parameterType="String">
+		DELETE FROM QUIT_MEMBER
+		WHERE NUM = #{value}
+	</delete>
+	
+	<!-- 탈퇴회원 정보 수정 -->
+	<update id="updateQuitMember" parameterType="memberVo">
+		UPDATE QUIT_MEMBER SET
+		PHONE = #{phone},
+		NAME = #{name}
+		WHERE NUM = #{num} 
+	</update>
+	
+</mapper>

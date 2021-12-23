@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MenuDao">
+	
+	<!-- 관리자 계정 수 가져오기 -->
+	<select id="countMenu" parameterType="hashmap" resultType="int">
+		select count(*)	
+			from MENU A
+		<choose>
+			<when test='(type!=null or !type.equals("")) and (menu!=null or !menu.equals(""))'>
+				,
+					 (select * from CATEGORY where type like '%' || #{type} || '%') B
+					 where A.category_num=B.num
+		  			and MENU like '%' || #{menu} || '%'
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</select>
+	
+	<!-- 관리자 계정 목록 가져오기 -->
+	<select id="menuList" parameterType="hashmap" resultType="menuVo">
+      select * from (select rownum RNUM, NUM, CATEGORY_NUM as CATEGORYNUM, MENU, PRICE, REGDATE, USING 
+		  from (select * from MENU
+		  <if test='menu!=null or !menu.equals("")'>
+	  			where MENU like '%' || #{menu} ||'%'
+	  	  </if>
+		  order by NUM asc ,REGDATE desc)) A,
+		  (select rownum RNUM, NUM, TYPE, CATEGORY
+		   from (select * from CATEGORY
+		  <if test='type!=null or !type.equals("")'>
+	  			where TYPE like '%' || #{type} ||'%'
+	  	  </if>
+		  )) B
+		  where B.NUM = A.CATEGORYNUM
+		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 마스터 패스워드 가져오기 -->
+	<select id="Pass" resultType="String">
+		select pw from MANAGER where STATUS = 'master'
+	</select>
+	
+	<!-- 메뉴 삭제 -->
+	<delete id="menuDelete" parameterType="String">
+		DELETE FROM MENU
+		WHERE NUM = #{value}
+	</delete>
+	
+	<!-- 카테고리 목록 가져오기 -->
+	<select id="getCategory" resultType="menuVo">
+		select * from CATEGORY
+	</select>
+	
+	<!-- 메뉴이름 중복체크 -->
+	<select id="menuChk" resultType="int">
+		SELECT COUNT(*) FROM MENU
+		WHERE MENU = #{menu}
+	</select>
+</mapper>
