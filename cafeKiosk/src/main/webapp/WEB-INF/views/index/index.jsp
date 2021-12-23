@@ -10,6 +10,6 @@
 	<a href="/pos">포스기</a> 
 	<br/>
 	<a href="/kiosk/main">키오스크</a>
-	
+
 </body>
 </html>

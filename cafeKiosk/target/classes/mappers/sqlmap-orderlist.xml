@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orderListDao">
+	<insert id="orderRegist" parameterType="orderListVo">
+		<choose>
+			<when test="temperature == null and beverageSize == null">
+				insert into 
+				ORDER_LIST 
+					("NUM", "ORDER_NUM", "MENU", "PRICE", "ORDER_DATE")
+				values
+					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{price}, systimestamp)			
+			</when>
+			<when test="temperature == null">
+				insert into 
+				ORDER_LIST 
+					("NUM", "ORDER_NUM", "MENU", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+				values
+					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)
+			</when>
+			<otherwise>
+				insert into 
+					ORDER_LIST 
+						("NUM", "ORDER_NUM", "MENU", "TEMPERATURE", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+					values
+						(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{temperature}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)			
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<select id="orderNumCHK" parameterType="String" resultType="Integer">
+		select max(ORDER_NUM) from ORDER_LIST where to_char(ORDER_DATE, 'YYYYMMDD')=#{nowDate}
+	</select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="paymentDao">
+	<insert id="paymentRegist" parameterType="paymentVo">
+		<if test="memberNum == 0">
+		insert into 
+			PAYMENT
+				("NUM", "ORDER_NUM", "POINT", "CARD", "TOTAL", "ORDER_DATE")
+			values
+				(PAYMENT_SEQ.nextval, #{orderNum}, #{point}, #{card}, #{total}, systimestamp)
+		
+		</if>
+		<if test="memberNum gt 0">
+		insert into 
+			PAYMENT
+				("NUM", "ORDER_NUM", "MEMBER_NUM", "POINT", "CARD", "TOTAL", "ORDER_DATE")
+			values
+				(PAYMENT_SEQ.nextval, #{orderNum}, #{memberNum}, #{point}, #{card}, #{total}, systimestamp)
+		</if>
+	</insert>
+
+</mapper>
