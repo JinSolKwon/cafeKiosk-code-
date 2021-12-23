@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="posMenuOrderMapper">
+	
+	<select id="selectCategoty" resultType="categoryVo">
+		select 
+			* 
+		from 
+			category
+		order by 
+			num asc
+	</select>
+	
+	<select id="selectMenuList" parameterType="String" resultType="menuVo">
+		select
+			*
+		from
+			menu
+		where
+			category_num = #{categoryNum}
+			and using = 1
+	</select>
+	
+	<select id="selectOptionList" resultType="optionListVo">
+		select
+			*
+		from
+			option_list
+		order by
+			num asc
+	</select>
+	
+	<select id="getMaxOrderNum" parameterType="String" resultType="String">
+		select
+			max(order_num)
+		from
+			order_list
+		where
+			to_char(order_date,'YYYYMMDD') = #{today}
+	</select>
+	
+	<select id="selectMember" parameterType="String" resultType="memberVo">
+		select 
+			*
+		from 
+		    member
+		where
+			phone = #{phoneNum}
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVo">
+		insert into 
+			member 
+		values(
+			member_seq.nextval,
+			#{name},
+			#{phone},
+			#{birthYear},
+			#{birth},
+			sysdate,
+			0
+		)
+	</insert>
+	
+	<insert id="insertOrderList" parameterType="orderListVo">
+		insert into 
+			order_list(
+				num,
+				order_num,
+				menu,
+				price,
+				order_date
+			) 
+		values(
+			order_list_seq.nextval, 
+			#{orderNum}, 
+			#{menu}, 
+			#{price}, 
+			systimestamp
+		)
+	</insert>
+	
+	<insert id="insertPayment" parameterType="paymentVo">
+		insert into 
+			payment(
+		        num,
+		        order_num,
+		        <if test='!memberNum.equals("") and memberNum != null and memberNum != 0'>
+				member_num, 
+				point, 
+				</if>
+		        card,
+		        cash,
+		        total,
+		        provision,
+		        refund,
+		        order_date
+		    ) 
+		values(
+			payment_seq.nextval, 
+			#{orderNum}, 
+			<if test='!memberNum.equals("") and memberNum != null and memberNum != 0'>
+			#{memberNum}, 
+			#{point}, 
+			</if>
+			#{card}, 
+			#{cash}, 
+			#{total}, 
+			'N', 
+			'N', 
+			sysdate
+		)
+	</insert>
+	
+	<update id="updateMemberPoint" parameterType="memberVo">
+		update 
+			member
+		set
+			point = #{point}
+		where
+			num = #{num}
+	</update>
+</mapper>
