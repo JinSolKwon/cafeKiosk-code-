@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kiosk.service.MemberService;
-import com.kiosk.vo.MemberVo;
+import com.kiosk.HSvo.MemberVo;
 
 @Controller
 @RequestMapping("/managerPage/*")

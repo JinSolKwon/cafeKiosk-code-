@@ -31,6 +31,7 @@
     <interceptors>
         <interceptor>
             <mapping path="/pos/**"/>
+            <mapping path="/managerPage/**"/>
             <exclude-mapping path="/pos"/>
             <exclude-mapping path="/pos/main"/>
             <beans:ref bean="authenticationInterceptor"/>

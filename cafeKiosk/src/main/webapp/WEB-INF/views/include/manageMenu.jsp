@@ -29,7 +29,7 @@
 
 			<ul class="nav nav-pills">
 				<li id="menu"><button class="btn btn-primary" id="btn"
-						onclick="location.href='<c:url value="#"/>'">로그아웃</button></li>
+						onclick="location.href='<c:url value="/pos/logout"/>'">로그아웃</button></li>
 			</ul>
 		</header>
 	</div>

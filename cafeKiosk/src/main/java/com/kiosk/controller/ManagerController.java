@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kiosk.service.ManagerService;
-import com.kiosk.vo.ManagerVo;
+import com.kiosk.HSvo.ManagerVo;
 
 @Controller
 @RequestMapping("/managerPage/*")
@@ -32,7 +32,7 @@ public class ManagerController {
 	@Inject
 	ManagerService service;
 	
-	// È¸¿ø°ü¸® ÆäÀÌÁö
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("idControl")
 	public String manager(@RequestParam(name="pageNum", required=false, defaultValue="0")int pageNum, 
 			@RequestParam(name="id", required=false, defaultValue="")String id
@@ -78,7 +78,7 @@ public class ManagerController {
 		return "managerPage/idControl";
 	}
 	
-	// ¸Å´ÏÀú Å»Åð
+	// ï¿½Å´ï¿½ï¿½ï¿½ Å»ï¿½ï¿½
 	@PostMapping("deleteManager")
 	public String deleteManager(HttpSession session, HttpServletRequest request) {
 		
@@ -90,7 +90,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	// ¸Å´ÏÀú Á¤º¸ ¼öÁ¤
+	// ï¿½Å´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@PostMapping("updateManager")
 	public String updateManager(HttpSession session, HttpServletRequest request, ManagerVo vo) {
 		
@@ -105,7 +105,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	// ¸Å´ÏÀú Á¤º¸ µî·Ï
+	// ï¿½Å´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@PostMapping("insertManager")
 	public String insertManager(Model model, HttpSession session, HttpServletRequest request,ManagerVo vo) {
 		
@@ -124,7 +124,7 @@ public class ManagerController {
 		return "redirect:idControl";
 	}
 	
-	//¾ÆÀÌµð Áßº¹Ã¼Å©
+	//ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½Ã¼Å©
 	@ResponseBody
 	@PostMapping(value="/idChk")
 	public int idChk(HttpServletRequest request,ManagerVo vo) throws Exception{
