@@ -94,12 +94,19 @@ public class OrderController {
 	public String orderSet(@RequestParam(value = "num") int num, HttpSession session, Model model) {
 		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 		int toNum = (Integer) session.getAttribute("orderTotal");
+		int countNum = (Integer) session.getAttribute("orderCount");
 		toNum -= orderList.get(num).getPrice();
+		countNum -= 1;
 		orderList.remove(num);
-		session.removeAttribute("orderList");
-		session.removeAttribute("orderTotal");
-		session.setAttribute("orderList", orderList);
-		session.setAttribute("orderTotal", toNum);
+		if(toNum == 0 && countNum == 0) {
+			session.removeAttribute("orderList");
+			session.removeAttribute("orderTotal");
+			session.removeAttribute("orderCount");
+		}else {
+			session.setAttribute("orderList", orderList);
+			session.setAttribute("orderTotal", toNum);
+			session.setAttribute("orderCount", countNum);			
+		}
 		int pageNum = (Integer) session.getAttribute("pageNum");
 		return "redirect:/kiosk/order?num=" + pageNum;
 	}

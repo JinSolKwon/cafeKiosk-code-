@@ -201,6 +201,7 @@
 	</div>
 </div>
 <script type="text/javascript">
+//로그인시 toast 띄우기
 var login = "<c:out value="${success}" />";
 $(document).ready(function(){	
 	if(login == 'hello'){
@@ -221,6 +222,7 @@ $(document).ready(function(){
 			})
 	}
 });
+//메인이동 alert
 function mainBack(){
 	Swal.fire({
 		  title: '메인페이지로 이동하시겠습니까?',
@@ -238,7 +240,9 @@ function mainBack(){
 		})
 }
 
-if(${empty sessionScope.orderList}){
+//메뉴가 안 담겨 있으면 버튼 비활성화
+var btnDisabled = '<%=session.getAttribute("orderList")%>';
+if(btnDisabled === 'null'){
 	$(function(){
 		$("#subBtn").attr("disabled", true);
 	})

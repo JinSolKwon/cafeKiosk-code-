@@ -122,8 +122,8 @@ public class KioskServiceImpl implements IKioskService{
 			return 1;
 		}else {
 			orderNum += 1;			
+			return orderNum;
 		}
-		return orderNum;
 	}
 
 	@Override
