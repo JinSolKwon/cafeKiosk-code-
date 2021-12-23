@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:c="http://www.springframework.org/schema/c"
-	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<!-- 오라클 접속 -->
 
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp2.BasicDataSource"
@@ -21,7 +18,8 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="cafeKiosk" />
+
+		<property name="username" value="kiosktester" />
 		<property name="password" value="1234" />
 	</bean>
 
@@ -40,5 +38,32 @@
 		destroy-method="clearCache">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
+
+	<context:component-scan
+		base-package="com.kiosk.HScommand"></context:component-scan>
+	<context:component-scan
+		base-package="com.kiosk.HSdao"></context:component-scan>
+	<context:component-scan
+		base-package="com.kiosk.HSservice"></context:component-scan>
+	<context:component-scan
+		base-package="com.kiosk.HSvo"></context:component-scan>
+
+
+	<bean id="memberDao" class="com.kiosk.dao.MemberDaoImpl">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="managerDao" class="com.kiosk.dao.ManagerDaoImpl">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="menuDao" class="com.kiosk.dao.MenuDaoImpl">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	
+	<!-- 진솔 <import resource="jdbc-config.xml"/> -->
 
 </beans>

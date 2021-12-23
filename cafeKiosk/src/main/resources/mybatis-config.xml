@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC  "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
-<configuration>
-	<!-- mybatis 작동규칙 정의 -->
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>	
 	<settings>
 		<setting name="cacheEnabled" value="false"/>
 		<setting name="useGeneratedKeys" value="false"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	  <setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
-	<typeAliases>
-		<typeAlias alias="memberVo" type="com.kiosk.JEvo.MemberVo"/>
-		<typeAlias alias="categoryVo" type="com.kiosk.JEvo.CategoryVo"/>
-		<typeAlias alias="menuVo" type="com.kiosk.JEvo.MenuVo"/>
-		<typeAlias alias="menuImageVo" type="com.kiosk.JEvo.MenuImageVo"/>
-		<typeAlias alias="orderListVo" type="com.kiosk.JEvo.OrderListVo"/>
-		<typeAlias alias="paymentVo" type="com.kiosk.JEvo.PaymentVo"/>
-		<typeAlias alias="optionListVo" type="com.kiosk.JEvo.OptionListVo"/>
+ 
+  <typeAliases>
+		<!-- 지은 -->
+    <typeAlias alias="menuImageVo" type="com.kiosk.JEvo.MenuImageVo"/>
+    
+    <!-- 화석 -->
+		<typeAlias alias="managerVo" type="com.kiosk.HSvo.ManagerVo"/>
+		<typeAlias alias="orderListVo" type="com.kiosk.HSvo.OrderListVo"/>
+		<typeAlias alias="paymentVo" type="com.kiosk.HSvo.PaymentVo"/>
+		<typeAlias alias="refundVo" type="com.kiosk.HSvo.RefundVo"/>
+		<typeAlias alias="refundPointCmd" type="com.kiosk.HScommand.RefundPointCmd"/>
+		<typeAlias alias="memberVo" type="com.kiosk.HSvo.MemberVo"/>
+		<typeAlias alias="categoryVo" type="com.kiosk.HSvo.CategoryVo"/>
+		<typeAlias alias="menuVo" type="com.kiosk.HSvo.MenuVo"/>
+		<typeAlias alias="optionListVo" type="com.kiosk.HSvo.OptionListVo"/>
+		<typeAlias alias="refundPaymentCmd" type="com.kiosk.HScommand.RefundPaymentCmd"/>
+        
+    <!-- 진솔 -->
+ 		<typeAlias alias="menuJSVo" type="com.kiosk.vo.MenuVo"/>
+        
 	</typeAliases>
+ 	
 </configuration>
+
+

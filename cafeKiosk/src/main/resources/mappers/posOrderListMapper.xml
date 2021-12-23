@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="posOrderListMapper">
+
+	<select id="notProvidedOrder" parameterType="String" resultType="orderListVo">
+		select 
+		    A.num,
+		    A.order_num,
+		    A.menu,
+		    A.temperature,
+		    A.beverage_size,
+		    A.shot,
+		    A.syrub,
+		    A.whipping,
+		    A.price,
+		    A.order_date
+		from 
+		    order_list A, 
+		    payment B
+		where
+		    A.order_num = B.order_num
+		    and B.provision = 'N'
+		    and B.refund = 'N'
+		    and to_char(A.order_date,'YYYYMMDD') = #{today}
+		order by
+            A.num asc
+	</select>
+	
+	<update id="menuProvided" parameterType="int">
+		update
+			payment
+		set
+			provision = 'Y'
+		where
+			order_num = #{orderNum}
+	</update>
+	
+	<update id="menuRefund" parameterType="int">
+		update
+			payment
+		set
+			refund = 'Y'
+		where
+			order_num = #{orderNum}
+	</update>
+	
+	<select id="selectPayment" parameterType="refundPaymentCmd" resultType="paymentVo">
+		select
+			*
+		from
+			payment
+		where
+			order_num = #{orderNum}
+			and to_char(order_date,'YYYYMMDD') = #{today}
+	</select>
+	
+	<insert id="insertRefund" parameterType="paymentVo">
+		insert into
+			refund
+		values(
+			refund_seq.nextval,
+			#{orderNum},
+			#{point},
+			#{card},
+			#{cash},
+			#{total},
+			systimestamp
+		)
+	</insert>
+	
+	<update id="refundPoint" parameterType="refundPointCmd">
+		update
+			member
+		set
+			point = point + #{refundPoint}
+		where
+			num = #{memberNum}
+	</update>
+	
+</mapper>
