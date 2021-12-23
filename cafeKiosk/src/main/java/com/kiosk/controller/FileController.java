@@ -15,22 +15,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class FileController {
-	
+
 	@ResponseBody
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> displayFile(@RequestParam(value="saveName") String saveName) throws Exception{
-		String path="C:\\cafeCarp\\MenuUpload\\" + saveName;
+	public ResponseEntity<byte[]> displayFile(@RequestParam(value = "saveName") String saveName) throws Exception {
+		String path = "C:\\cafeCarp\\MenuUpload\\" + saveName;
 		File file = new File(path);
 
 		ResponseEntity<byte[]> result = null;
-		
+
 		try {
 			HttpHeaders header = new HttpHeaders();
 			header.add("Content-type", Files.probeContentType(file.toPath()));
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		}catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return result;

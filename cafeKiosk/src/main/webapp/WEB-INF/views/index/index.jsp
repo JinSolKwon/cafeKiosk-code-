@@ -8,7 +8,7 @@
 <title>index page</title>
 </head>
 <body>
-	<a href="#">관리자</a>
-	<a href="<c:url value="/cafeCarp/main" />">사용자</a>
+	<a href="<c:url value="/pos/main" />">관리자</a>
+	<a href="<c:url value="/kiosk/main" />">사용자</a>
 </body>
 </html>

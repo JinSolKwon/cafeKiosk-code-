@@ -19,9 +19,9 @@
 	<img alt="cafeCarp" src="<c:url value="/resources/img/cafeCarp_main.png" />">
 </div>
 <div class="main-main">
-	<a href="<c:url value="/cafeCarp/login" />"><div class="main-main1"><span>회원<br>주문하기</span></div></a>
-	<a href="<c:url value="/cafeCarp/regist" />"><div class="main-main1"><span>회원가입</span></div></a>
-	<a href="<c:url value="/cafeCarp/order" />"><div class="main-main1"><span>비회원<br>주문하기</span></div></a>
+	<a href="<c:url value="/kiosk/login" />"><div class="main-main1"><span>회원<br>주문하기</span></div></a>
+	<a href="<c:url value="/kiosk/regist" />"><div class="main-main1"><span>회원가입</span></div></a>
+	<a href="<c:url value="/kiosk/order" />"><div class="main-main1"><span>비회원<br>주문하기</span></div></a>
 </div>
 <div class="footer-main"><span>* 현금 결제는 카운터에서만 가능합니다. *</span></div>
 </div>

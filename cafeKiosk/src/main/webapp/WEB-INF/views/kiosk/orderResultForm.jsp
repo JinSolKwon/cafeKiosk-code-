@@ -98,10 +98,10 @@
 		<div id="side-orderResult2-1"><button onclick="history.go(-1)">취 소</button></div>
 		<div id="side-orderResult2-2">
 			<c:if test="${not empty sessionScope.member}">
-				<c:set var="nextUrl" value="/cafeCarp/pay?mem=M" />
+				<c:set var="nextUrl" value="/kiosk/pay?mem=M" />
 			</c:if>
 			<c:if test="${empty sessionScope.member}">
-				<c:set var="nextUrl" value="/cafeCarp/pay?mem=E" />
+				<c:set var="nextUrl" value="/kiosk/pay?mem=E" />
 			</c:if>
 			<button id="subBtn" onclick="location.href='<c:url value="${nextUrl}" />'">결 제 </button>
 		</div>
@@ -111,7 +111,7 @@
 <script type="text/javascript">
 function mainBack(){
 	if(confirm('메인페이지로 이동하시겠습니까? 메인페이지 이동 시 선택된 모든 메뉴가 삭제되며 로그아웃 처리 됩니다.')){
-		location.href="<c:url value="/cafeCarp/main"/>";
+		location.href="<c:url value="/kiosk/main"/>";
 		return true;
 	}else{
 		return false;

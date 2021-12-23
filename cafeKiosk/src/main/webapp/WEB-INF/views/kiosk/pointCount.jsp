@@ -11,15 +11,6 @@
 <link href="<c:url value="/resources/css/userDiv.css" />" rel="stylesheet" type="text/css" />
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<!-- 모달 JQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-<!-- toast -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<!-- sweetalert -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <c:if test="${not empty sessionScope.member}">
@@ -84,7 +75,7 @@
 		<div class="main2-count"><span>초 안에 완료하지 않으실 경우 주문이 취소됩니다.</span></div>
 	</div>
 	<div class="footer-btn-count">
-		<button type="button" onclick="location.href='<c:url value="/cafeCarp/credit?cd=cd" />'">
+		<button type="button" onclick="location.href='<c:url value="/kiosk/credit?cd=cd" />'">
 			<fmt:formatNumber var="orTotal" value="${buttonResult}" pattern="#,###" />	
 			${orTotal} 원 결제
 		 </button>
@@ -98,8 +89,8 @@
 		<span>영수증을 출력하시겠습니까?</span>
 	</div>
 	<div class="footer-btn-receipe">
-		<div class="footer-btn1-receipe"><button type="button" onclick="location.href='<c:url value="/cafeCarp/receipe?type=Y" />'"><span>영수증 출력</span></button></div>
-		<div class="footer-btn2-receipe"><button type="button" onclick="location.href='<c:url value="/cafeCarp/receipe?type=N" />'"><span>영수증 미출력</span></button></div>
+		<div class="footer-btn1-receipe"><button type="button" onclick="location.href='<c:url value="/kiosk/receipe?type=Y" />'"><span>영수증 출력</span></button></div>
+		<div class="footer-btn2-receipe"><button type="button" onclick="location.href='<c:url value="/kiosk/receipe?type=N" />'"><span>영수증 미출력</span></button></div>
 	</div>
 </div>
 </c:if>
@@ -113,7 +104,7 @@
 		<div class="main2-count"><span>초 안에 완료하지 않으실 경우 주문이 취소됩니다.</span></div>
 	</div>
 	<div class="footer-btn-count">
-		<button type="button" onclick="location.href='<c:url value="/cafeCarp/credit?cd=cd" />'">
+		<button type="button" onclick="location.href='<c:url value="/kiosk/credit?cd=cd" />'">
 			<fmt:formatNumber var="orTotal" value="${sessionScope.orderTotal}" pattern="#,###" />	
 			${orTotal} 원 결제
 		</button>
@@ -127,7 +118,7 @@ if(countStatus === 'YES'){
 	document.getElementById("countNumber").innerHTML = SetCount;
 	function msg_time(){
 		if(SetCount <= 0){
-			window.location.replace('<c:url value="/cafeCarp/main" />');
+			window.location.replace('<c:url value="/kiosk/main" />');
 		}
 		document.getElementById("countNumber").innerHTML = SetCount;
 		SetCount--;

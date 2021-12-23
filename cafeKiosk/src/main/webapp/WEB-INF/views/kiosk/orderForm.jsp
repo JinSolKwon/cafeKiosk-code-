@@ -25,15 +25,15 @@
 <div id="container">
 <div class="header-orderForm">
 	<div class="header-orderForm1">
-		<div class="header-orderForm1-1"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=A" />'">◀ </button></div>
+		<div class="header-orderForm1-1"><button type="button" onclick="location.href='<c:url value="/kiosk/scroll?type=A" />'">◀ </button></div>
 		<div class="header-orderForm1-2">
 			<ul id="cateUl-orderForm">
 			<c:forEach items="${sessionScope.cateList}" var="cateOne" varStatus="status">
-				<li id="cateLi-orderForm${satus.count}"><a href="<c:url value="/cafeCarp/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
+				<li id="cateLi-orderForm${satus.count}"><a href="<c:url value="/kiosk/order?num=${cateOne.getNum()}" />">${cateOne.getCategory() }</a></li>
 			</c:forEach>
 			</ul>
 		</div>
-		<div class="header-orderForm1-3"><button type="button" onclick="location.href='<c:url value="/cafeCarp/scroll?type=N" />'">▶</button></div>
+		<div class="header-orderForm1-3"><button type="button" onclick="location.href='<c:url value="/kiosk/scroll?type=N" />'">▶</button></div>
 	</div>
 	<div id="header-orderForm2">
 		<div id="header-orderForm2-1">${user}</div>
@@ -71,7 +71,7 @@
 					<div class="side-orderForm1-2-2"><c:if test="${orderOne.getType() == 1}">( ${orderOne.getTemperature()} )</c:if></div>
 					<div class="side-orderForm1-2-3">
 						<div class="side-orderForm1-2-3-1">
-							<button type="button" onclick="location.href='<c:url value="/cafeCarp/orderDel?num=${status.index}" />'">X</button>
+							<button type="button" onclick="location.href='<c:url value="/kiosk/orderDel?num=${status.index}" />'">X</button>
 						</div>
 						<div class="side-orderForm1-2-3-2">
 							<fmt:formatNumber var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}"/>
@@ -124,13 +124,13 @@
 		</div>
 	</div>
 	<div id="side-orderForm3">
-		<button id="subBtn" onclick="location.href='<c:url value="/cafeCarp/orderResult"/>'" disabled="true">결 제 하 기</button>
+		<button id="subBtn" onclick="location.href='<c:url value="/kiosk/orderResult"/>'" disabled="true">결 제 하 기</button>
 	</div>
 </div>
 </div>
 <div class="modal" id="optionModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
-	<form action="<c:url value="/cafeCarp/orderSet" />" method="post">
+	<form action="<c:url value="/kiosk/orderSet" />" method="post">
 	<div class="modal-content">
 		<div class="modal-header">
 			<input type="hidden" name="categoryNum" id="modal-cateNum-hidden"/>
@@ -233,7 +233,7 @@ function mainBack(){
 		  cancelButtonText: '취소'
 		}).then((result) => {
 		  if (result.value) {
-				location.href="<c:url value="/cafeCarp/main"/>";
+				location.href="<c:url value="/kiosk/main"/>";
 		  }
 		})
 }
@@ -352,8 +352,6 @@ function fnCalCount(type){
     var $input2 = $(".main-optionForm1-2").find("input[name='shot']");
     var tCount2 = Number($input2.val());
     var price = Number($("#modal-price-hidden").val());
-    console.log(price);
-    var totalPrice = Number($("#totalPrice").val());
     var total;
     if(type==='sp'){
         $input.val(Number(tCount)+1);
@@ -363,23 +361,19 @@ function fnCalCount(type){
         }
     }
     if(type==='p'){
-    	console.log(price);
        $input2.val(Number(tCount2)+1);
        total = Number(price)+500;
-       console.log(total);
     }else if(type==='m'){
     	if(tCount2 >0){
-    		console.log(price);
         	$input2.val(Number(tCount2)-1);    
        		total = Number(price)-500;   
-       		console.log(total);
         }
     }
     if(type==='p'){
 		document.getElementById("modal-price-total").innerHTML = total + ' 원';
 		$("#modal-price-hidden").val(Number(total));
     }else if(type==='m'){
-       	if(tCount >0 || tCount2 >0){   	
+       	if(tCount >0 && tCount2 >0){   	
     		document.getElementById("modal-price-total").innerHTML = total + ' 원';
     		$("#modal-price-hidden").val(Number(total));       		
        	}

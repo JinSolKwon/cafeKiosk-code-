@@ -14,7 +14,7 @@ import com.kiosk.service.IKioskService;
 import com.kiosk.vo.MemberVo;
 
 @Controller
-@RequestMapping(value="/cafeCarp/")
+@RequestMapping(value="/kiosk/")
 public class KioskController {
 
 	@Autowired
@@ -40,14 +40,14 @@ public class KioskController {
 			rttr.addFlashAttribute("day", day);		
 			rttr.addFlashAttribute("check", "입력하지 않은 정보가 존재합니다.");
 			rttr.addFlashAttribute("next", "next");
-			return "redirect:/cafeCarp/regist";
+			return "redirect:/kiosk/regist";
 		}else if(!(Pattern.matches(namePattern, member.getName()))){
 			rttr.addFlashAttribute("member", member);			
 			rttr.addFlashAttribute("month", month);
 			rttr.addFlashAttribute("day", day);		
 			rttr.addFlashAttribute("check", "이름을 알맞게 입력해주세요.");
 			rttr.addFlashAttribute("next", "next");		
-			return "redirect:/cafeCarp/regist";
+			return "redirect:/kiosk/regist";
 		}else {
 			if(month.length() <2) month = "0"+month;
 			if(day.length() <2) day = "0"+day;
@@ -56,7 +56,7 @@ public class KioskController {
 			MemberVo exist = kioskService.checkPhoneNumber(member.getPhone());
 			session.setAttribute("member", exist);
 			rttr.addFlashAttribute("success", "hello");			
-			return "redirect:/cafeCarp/order";
+			return "redirect:/kiosk/order";
 		}
 	}
 	
@@ -65,19 +65,19 @@ public class KioskController {
 		String phonePattern = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		if(member.getPhone() == null || member.getPhone().length()!=13 || !(Pattern.matches(phonePattern, member.getPhone()))) {
 			rttr.addFlashAttribute("check", "번호를 알맞게 입력해주세요.");
-			return "redirect:/cafeCarp/regist";			
+			return "redirect:/kiosk/regist";			
 		}
 		MemberVo exist = kioskService.checkPhoneNumber(member.getPhone());
 		if(exist != null) {
 			rttr.addFlashAttribute("check", "이미 등록된 번호입니다.");
-			return "redirect:/cafeCarp/regist";
+			return "redirect:/kiosk/regist";
 		}
 			rttr.addFlashAttribute("checkOK", "noexist");
 			rttr.addFlashAttribute("member", member);
 			rttr.addFlashAttribute("month", month);
 			rttr.addFlashAttribute("day", day);
 			rttr.addFlashAttribute("next", "next");
-			return "redirect:/cafeCarp/regist";
+			return "redirect:/kiosk/regist";
 	}
 	
 	
@@ -90,16 +90,16 @@ public class KioskController {
 	String login(String phone, HttpSession session, RedirectAttributes rttr) throws Exception {
 		String phonePattern = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		if(phone.equals(null) || phone == "" || phone.isEmpty() || phone.length()!=13 || !(Pattern.matches(phonePattern, phone))) {
-			return "redirect:/cafeCarp/login";
+			return "redirect:/kiosk/login";
 		}
 		MemberVo exist = kioskService.checkPhoneNumber(phone);
 		if(exist == null) {
 			rttr.addFlashAttribute("fail", "no");
-			return "redirect:/cafeCarp/login";
+			return "redirect:/kiosk/login";
 		}
 		session.setAttribute("member", exist);
 		rttr.addFlashAttribute("success", "hello");
-		return "redirect:/cafeCarp/order";
+		return "redirect:/kiosk/order";
 	}
 	
 }

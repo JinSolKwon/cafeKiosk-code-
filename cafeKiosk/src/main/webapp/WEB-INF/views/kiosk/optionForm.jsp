@@ -17,7 +17,7 @@
 <body>
 <div id="background-optionForm">
 <div id="container-optionForm">
-<form action="<c:url value="/cafeCarp/orderSet" />" method="post">
+<form action="<c:url value="/kiosk/orderSet" />" method="post">
 <div class="header-optionForm">
 	<c:if test="${not empty selectMenu.SAVE_NAME}">
 		<c:set var="imageName" value="${selectMenu.SAVE_NAME}" />
