@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE configuration
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
@@ -7,11 +8,14 @@
 		<setting name="cacheEnabled" value="false"/>
 		<setting name="useGeneratedKeys" value="false"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
-        <setting name="jdbcTypeForNull" value="NULL" />
+	  <setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
-	
-	<typeAliases>
-		
+ 
+  <typeAliases>
+		<!-- 지은 -->
+    <typeAlias alias="menuImageVo" type="com.kiosk.JEvo.MenuImageVo"/>
+    
+    <!-- 화석 -->
 		<typeAlias alias="managerVo" type="com.kiosk.HSvo.ManagerVo"/>
 		<typeAlias alias="orderListVo" type="com.kiosk.HSvo.OrderListVo"/>
 		<typeAlias alias="paymentVo" type="com.kiosk.HSvo.PaymentVo"/>
@@ -23,6 +27,7 @@
 		<typeAlias alias="optionListVo" type="com.kiosk.HSvo.OptionListVo"/>
 		<typeAlias alias="refundPaymentCmd" type="com.kiosk.HScommand.RefundPaymentCmd"/>
         
+    <!-- 진솔 -->
  		<typeAlias alias="menuJSVo" type="com.kiosk.vo.MenuVo"/>
         
 	</typeAliases>
