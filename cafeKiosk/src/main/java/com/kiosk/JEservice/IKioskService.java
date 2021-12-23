@@ -30,4 +30,8 @@ public interface IKioskService {
 	public String dateFormat() throws Exception;
 	//주문번호 가져오기
 	public int orderNumCheck() throws Exception;
+	//카테고리 번호 최소값(기본값) 가져오기
+	public int categoryMinNum() throws Exception;
+	//카테고리 번호 최대값 가져오기
+	public int categoryMaxNum() throws Exception;
 }

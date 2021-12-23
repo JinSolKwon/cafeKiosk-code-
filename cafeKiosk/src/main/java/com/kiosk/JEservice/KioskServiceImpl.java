@@ -36,8 +36,6 @@ public class KioskServiceImpl implements IKioskService{
 	@Autowired
 	private IOptionListDao optionListDao;
 	
-	private static int orderNum = 0;
-
 	@Override
 	public void registMember(MemberVo member) throws Exception {
 		memberDao.registMember(member);
@@ -126,6 +124,16 @@ public class KioskServiceImpl implements IKioskService{
 			orderNum += 1;			
 		}
 		return orderNum;
+	}
+
+	@Override
+	public int categoryMinNum() throws Exception {
+		return categoryDao.categoryMinNum();
+	}
+
+	@Override
+	public int categoryMaxNum() throws Exception {
+		return categoryDao.categoryMaxNum();
 	}
 	
 }

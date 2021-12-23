@@ -19,4 +19,14 @@ public class CategoryDaoImpl implements ICategoryDao{
 		return sqlSessionTemplate.selectList("categoryList");
 	}
 
+	@Override
+	public int categoryMinNum() throws Exception {
+		return sqlSessionTemplate.selectOne("categoryMinNum");
+	}
+
+	@Override
+	public int categoryMaxNum() throws Exception {
+		return sqlSessionTemplate.selectOne("categoryMaxNum");
+	}
+
 }

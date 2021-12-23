@@ -33,8 +33,12 @@ public class OrderController {
 	private IKioskService kioskService;
 
 	@RequestMapping(value = "order", method = RequestMethod.GET)
-	String order(@RequestParam(value = "num", defaultValue = "1") int num, HttpSession session, Model model)
+	String order(@RequestParam(value = "num", defaultValue = "0") int num, HttpSession session, Model model)
 			throws Exception {
+		int categoryMinNum = kioskService.categoryMinNum();
+		if(num == 0) {
+			num = categoryMinNum;
+		}
 		if (session.getAttribute("cateList") == null) {
 			List<CategoryVo> cateList = kioskService.categoryList();
 			session.setAttribute("cateList", cateList);
@@ -45,6 +49,7 @@ public class OrderController {
 			session.removeAttribute("pageNum");
 		}
 		session.setAttribute("pageNum", num);
+		session.setAttribute("categoryNum", num-categoryMinNum);
 		return "kiosk/orderForm";
 	}
 
@@ -108,9 +113,9 @@ public class OrderController {
 	public String scroll(@RequestParam(value = "type") String type, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
 		int pageNum = (Integer) session.getAttribute("pageNum");
-		int cateLen = kioskService.categoryList().size();
+		int cateManNum = kioskService.categoryMaxNum();
 		if (type.equals("N") || type == "N") {
-			if (pageNum < cateLen) {
+			if (pageNum < cateManNum) {
 				pageNum += 1;
 				rttr.addFlashAttribute("scDis", "R");
 			}

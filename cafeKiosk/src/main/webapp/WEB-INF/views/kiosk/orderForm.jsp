@@ -246,8 +246,8 @@ if(${empty sessionScope.orderList}){
 	$("#subBtn").attr("disabled", false);
 }
 
-var numC = "<c:out value="${sessionScope.pageNum}" />";
-	$("#cateUl-orderForm").find("LI").eq(numC-1).css('background-color', '#F05454');
+var numC = "<c:out value="${sessionScope.categoryNum}" />";
+	$("#cateUl-orderForm").find("LI").eq(numC).css('background-color', '#F05454');
 	
 /* var scDis = "<c:out value="${scDis}" />";
 var _scrollX = $('.header-orderForm1-2').scrollLeft();
