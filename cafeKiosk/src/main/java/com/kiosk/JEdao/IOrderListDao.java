@@ -1,6 +1,6 @@
 package com.kiosk.JEdao;
 
-import com.kiosk.JEvo.OrderListVo;
+import com.kiosk.HSvo.OrderListVo;
 
 public interface IOrderListDao {
 	//주문 등록

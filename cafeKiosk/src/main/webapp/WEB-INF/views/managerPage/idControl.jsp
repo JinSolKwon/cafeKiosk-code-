@@ -26,7 +26,7 @@
 	<div id="manageMain">
 		<h1 style="font-weight:bold;">관리자 계정 관리</h1>
 		
-		<form action="<c:url value="/managerPage/idControl"/>" method="POST" style="margin-left:68%">
+		<form action="<c:url value="/managerPage/idControl"/>" method="POST" style="margin-left:60%">
 			<input type="text" id="id" name="id" placeholder="아이디 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>

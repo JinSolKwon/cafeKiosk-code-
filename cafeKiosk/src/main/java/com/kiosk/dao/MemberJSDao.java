@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.kiosk.HSvo.MemberVo;
 
-public interface MemberDao {
+public interface MemberJSDao {
 	
 	//멤버 수 메서드
 	public abstract int memberCount(String backNumber);

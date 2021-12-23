@@ -6,9 +6,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kiosk.JEvo.CategoryVo;
-import com.kiosk.JEvo.OrderListVo;
-import com.kiosk.JEvo.PaymentVo;
+import com.kiosk.HSvo.CategoryVo;
+import com.kiosk.HSvo.OrderListVo;
+import com.kiosk.HSvo.PaymentVo;
 
 @Repository
 public class PaymentDaoImpl implements IPaymentDao{

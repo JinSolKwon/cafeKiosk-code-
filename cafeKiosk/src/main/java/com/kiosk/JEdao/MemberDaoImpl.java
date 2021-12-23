@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kiosk.JEvo.MemberVo;
+import com.kiosk.HSvo.MemberVo;
 
 @Repository
 public class MemberDaoImpl implements IMemberDao{

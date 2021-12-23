@@ -2,7 +2,7 @@ package com.kiosk.JEdao;
 
 import java.util.HashMap;
 
-import com.kiosk.JEvo.MemberVo;
+import com.kiosk.HSvo.MemberVo;
 
 public interface IMemberDao {
 	//회원가입

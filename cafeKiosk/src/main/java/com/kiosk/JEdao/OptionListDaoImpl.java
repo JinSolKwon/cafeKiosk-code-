@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kiosk.JEvo.OptionListVo;
+import com.kiosk.HSvo.OptionListVo;
 
 @Repository
 public class OptionListDaoImpl implements IOptionListDao{

@@ -15,11 +15,11 @@ import com.kiosk.JEdao.IMenuDao;
 import com.kiosk.JEdao.IOptionListDao;
 import com.kiosk.JEdao.IOrderListDao;
 import com.kiosk.JEdao.IPaymentDao;
-import com.kiosk.JEvo.CategoryVo;
-import com.kiosk.JEvo.MemberVo;
-import com.kiosk.JEvo.OptionListVo;
-import com.kiosk.JEvo.OrderListVo;
-import com.kiosk.JEvo.PaymentVo;
+import com.kiosk.HSvo.CategoryVo;
+import com.kiosk.HSvo.MemberVo;
+import com.kiosk.HSvo.OptionListVo;
+import com.kiosk.HSvo.OrderListVo;
+import com.kiosk.HSvo.PaymentVo;
 
 @Service
 public class KioskServiceImpl implements IKioskService{

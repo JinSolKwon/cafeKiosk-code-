@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-12">
-			<input type="button" onclick="location.href='/pos/main'" class="btn text-white my-2" style="background-color:gray;" value="돌아가기">
+			<input type="button" onclick="history.go(-1)" class="btn text-white my-2" style="background-color:gray;" value="돌아가기">
 		</div>
 	</div>
 

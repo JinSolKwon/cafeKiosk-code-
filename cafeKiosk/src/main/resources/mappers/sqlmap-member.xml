@@ -4,6 +4,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="memberDao">
+
 	<insert id="registMember" parameterType="memberVo">
 		insert into MEMBER("NUM", "NAME", "PHONE", "BIRTH_YEAR", "BIRTH", "REGDATE", "POINT") 
 		values(MEMBER_SEQ.nextval, #{name}, #{phone}, #{birthYear}, #{birth}, sysdate, 0)
@@ -20,5 +21,5 @@
 	<update id="orderPointPlus" parameterType="HashMap">
 		update MEMBER set POINT=POINT+#{point} where NUM=#{num}
 	</update>
-	
+
 </mapper>

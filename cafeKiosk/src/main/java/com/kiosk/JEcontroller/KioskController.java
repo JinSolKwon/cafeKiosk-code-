@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.JEservice.IKioskService;
-import com.kiosk.JEvo.MemberVo;
+import com.kiosk.HSvo.MemberVo;
 
 @Controller
 @RequestMapping(value="/kiosk/")

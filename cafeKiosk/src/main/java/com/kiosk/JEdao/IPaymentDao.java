@@ -1,6 +1,6 @@
 package com.kiosk.JEdao;
 
-import com.kiosk.JEvo.PaymentVo;
+import com.kiosk.HSvo.PaymentVo;
 
 public interface IPaymentDao {
 	//결제정보 등록

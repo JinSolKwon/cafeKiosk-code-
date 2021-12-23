@@ -11,11 +11,11 @@ import com.kiosk.vo.MenuVo;
 
 @Primary
 @Repository
-public class MenuDaoImpl implements MenuDao{ 
+public class MenuJSDaoImpl implements MenuJSDao{ 
 	
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	public MenuDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
+	public MenuJSDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
 	

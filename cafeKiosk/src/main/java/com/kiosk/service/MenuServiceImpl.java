@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kiosk.dao.MenuDao;
+import com.kiosk.dao.MenuJSDao;
 import com.kiosk.vo.MenuVo;
 
 
@@ -14,7 +14,7 @@ import com.kiosk.vo.MenuVo;
 public class MenuServiceImpl implements MenuService{
 	
 	@Autowired
-	private MenuDao menuDao; 
+	private MenuJSDao menuDao; 
 	
 	@Override
 	public int menuCount(String menu,String type) {

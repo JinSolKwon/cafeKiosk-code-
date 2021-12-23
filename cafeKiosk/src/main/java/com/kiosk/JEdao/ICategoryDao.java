@@ -2,7 +2,7 @@ package com.kiosk.JEdao;
 
 import java.util.List;
 
-import com.kiosk.JEvo.CategoryVo;
+import com.kiosk.HSvo.CategoryVo;
 
 public interface ICategoryDao {
 	//카테고리 목록 출력

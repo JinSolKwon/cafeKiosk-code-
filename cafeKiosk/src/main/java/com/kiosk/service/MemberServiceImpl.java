@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kiosk.dao.MemberDao;
+import com.kiosk.dao.MemberJSDao;
 import com.kiosk.HSvo.MemberVo;
 
 
@@ -14,7 +14,7 @@ import com.kiosk.HSvo.MemberVo;
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
-	private MemberDao memberDao; 
+	private MemberJSDao memberDao; 
 	
 	@Override
 	public int memberCount(String backNumber) {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.kiosk.vo.MenuVo;
 
-public interface MenuDao {
+public interface MenuJSDao {
 	
 	//메뉴 수 메서드
 	public abstract int menuCount(HashMap<String,String> map);

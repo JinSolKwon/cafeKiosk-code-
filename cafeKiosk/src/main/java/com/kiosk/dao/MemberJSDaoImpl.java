@@ -11,11 +11,11 @@ import com.kiosk.HSvo.MemberVo;
 
 @Primary
 @Repository
-public class MemberDaoImpl implements MemberDao{ 
+public class MemberJSDaoImpl implements MemberJSDao{ 
 	
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	public MemberDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
+	public MemberJSDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
 	

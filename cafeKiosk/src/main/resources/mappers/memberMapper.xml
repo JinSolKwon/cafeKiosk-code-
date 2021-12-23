@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="memberDao">
+<mapper namespace="memberJSDao">
 	
 	<!-- 회원 수 가져오기 -->
 	<select id="countMember" parameterType="String" resultType="int">

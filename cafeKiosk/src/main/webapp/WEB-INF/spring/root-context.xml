@@ -39,17 +39,7 @@
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
 
-	<context:component-scan
-		base-package="com.kiosk.HScommand"></context:component-scan>
-	<context:component-scan
-		base-package="com.kiosk.HSdao"></context:component-scan>
-	<context:component-scan
-		base-package="com.kiosk.HSservice"></context:component-scan>
-	<context:component-scan
-		base-package="com.kiosk.HSvo"></context:component-scan>
-
-
-	<bean id="memberDao" class="com.kiosk.dao.MemberDaoImpl">
+	<bean id="memberJSDao" class="com.kiosk.dao.MemberJSDaoImpl">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 
@@ -57,7 +47,7 @@
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 
-	<bean id="menuDao" class="com.kiosk.dao.MenuDaoImpl">
+	<bean id="menuJSDao" class="com.kiosk.dao.MenuJSDaoImpl">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	

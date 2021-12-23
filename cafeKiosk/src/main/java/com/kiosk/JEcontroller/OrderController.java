@@ -18,9 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.JEcommand.MenuOrderCommand;
 import com.kiosk.JEservice.IKioskService;
-import com.kiosk.JEvo.CategoryVo;
-import com.kiosk.JEvo.MemberVo;
-import com.kiosk.JEvo.OptionListVo;
+import com.kiosk.HSvo.CategoryVo;
+import com.kiosk.HSvo.MemberVo;
+import com.kiosk.HSvo.OptionListVo;
 
 @Controller
 @RequestMapping(value = "/kiosk/")

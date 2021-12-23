@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kiosk.JEvo.MenuVo;
+import com.kiosk.HSvo.MenuVo;
 
 @Repository
 public class MenuDaoImpl implements IMenuDao{
@@ -17,7 +17,7 @@ public class MenuDaoImpl implements IMenuDao{
 
 	@Override
 	public List<HashMap<String, String>> menuList(int num) throws Exception {
-		return sqlSessionTemplate.selectList("menuList", num);
+		return sqlSessionTemplate.selectList("menuJEList", num);
 	}
 
 	@Override

@@ -23,9 +23,9 @@
 <body>
 	<div class="contain">
 		<header class="d-flex flex-wrap">
-			<a href="/" id="logo"> <img class="img-concert"
+			<a href="/pos/orderList" id="logo"> <img class="img-concert"
 				src="${pageContext.request.contextPath}/resources/images/logo.png" />
-			</a> <span class="mb-3 mb-md-0 me-md-auto fs-3" id="identity">Master</span>
+			</a> <span class="mb-3 mb-md-0 me-md-auto fs-3" id="identity">${login.status}</span>
 
 			<ul class="nav nav-pills">
 				<li id="menu"><button class="btn btn-primary" id="btn"

@@ -26,6 +26,19 @@ public class OrderListVo {
 		this.price = price;
 	}
 
+	public OrderListVo(int num, String menu, String temperature, String beverageSize, int shot, int syrub,
+			String whipping, int price) {
+		super();
+		this.num = num;
+		this.menu = menu;
+		this.temperature = temperature;
+		this.beverageSize = beverageSize;
+		this.shot = shot;
+		this.syrub = syrub;
+		this.whipping = whipping;
+		this.price = price;
+	}
+
 	public OrderListVo(int num, int orderNum, String menu, String temperature, String beverageSize, int shot, int syrub,
 			String whipping, int price, Timestamp orderDate) {
 		super();
