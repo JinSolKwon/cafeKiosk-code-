@@ -17,10 +17,5 @@
 		<typeAlias alias="orderListVo" type="com.kiosk.vo.OrderListVo"/>
 		<typeAlias alias="paymentVo" type="com.kiosk.vo.PaymentVo"/>
 		<typeAlias alias="optionListVo" type="com.kiosk.vo.OptionListVo"/>
-<!--
-	 	<typeAlias alias="quitMemberVo" type="com.kiosk.vo.QuitMemberVo"/>
-		<typeAlias alias="managerVo" type="com.kiosk.vo.ManagerVo"/>
-		<typeAlias alias="refundVo" type="com.kiosk.vo.RefundVo"/>
--->
 	</typeAliases>
 </configuration>
