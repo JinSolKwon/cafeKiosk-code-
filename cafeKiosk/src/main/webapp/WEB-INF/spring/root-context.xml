@@ -32,5 +32,9 @@
 	<context:component-scan base-package="com.kiosk.HSdao" ></context:component-scan>
 	<context:component-scan base-package="com.kiosk.HSservice" ></context:component-scan>
 	<context:component-scan base-package="com.kiosk.HSvo" ></context:component-scan>
-	
+  
+  <!-- 진솔
+	<import resource="jdbc-config.xml"/>
+  -->
+  
 </beans>

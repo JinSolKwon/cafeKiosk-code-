@@ -30,4 +30,74 @@ nav {
 
 #identity {
 	margin-top:20px;
+
+}
+
+#topline {
+	border-top-style: solid;
+	border-top-color: black;
+}
+
+#underline{
+	text-decoration-line : none;
+	margin-left:30px;
+}
+
+#under{
+	float:left;
+}
+
+#manageMain{
+	margin-left: 20%;
+	margin-top: 2%;
+	width:70%;
+}
+
+form {
+	display:inline;
+	margin:0;
+}
+
+table {
+    width: 100%;
+    margin-top:10px;
+    text-align: center;
+}
+
+table thead tr th{
+	font-weight: bold;
+	border: 5px solid white;
+	border-bottom:none;
+	vertical-align: middle;
+	text-align: center;
+}
+
+table tbody tr td{
+	font-weight: normal;	
+	border: 2px solid grey;
+	vertical-align: middle;
+	text-align: center;
+}
+ 
+#divide {
+	border-bottom: 5px solid red;
+	vertical-align: middle;
+	text-align: center;
+} 
+
+.hidden-col {
+	display: none; 
+}
+
+.tableModal thead tr td{
+	border: none;
+	height: 40px;
+	width: 25%;
+}
+
+.tableModal tbody tr td{
+	border: none;
+	height: 40px;
+	width: 25%;
+
 }
