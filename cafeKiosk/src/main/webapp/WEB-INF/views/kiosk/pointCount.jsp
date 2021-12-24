@@ -110,7 +110,7 @@
 				<span>영수증 미출력</span>
 			</button>
 			-->
-			<button type="button" id="receipeN" value="N">
+			<button type="button" id="receipeN">
 				<span>영수증 미출력</span>
 			</button>
 		</div>
