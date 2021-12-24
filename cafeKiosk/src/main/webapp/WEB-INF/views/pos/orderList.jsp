@@ -14,10 +14,22 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 
+<style type="text/css">
+	.addBoard {
+		position: fixed;
+		bottom: 30px;
+		right: 50px;
+		width: 50px;
+		height: 50px;
+		z-index: 999;
+	}
+</style>
+
 <title>주문내역확인</title>
 </head>
 <body>
 	<jsp:include page="../${pageContext.request.contextPath}/header/managerMain.jsp" flush="false" />
+	<a onclick="chatting()"><img class="addBoard" src="../${pageContext.request.contextPath}/resources/images/order.png" style="width: 50px; height: 50px;" ></a>
 	
 		<c:if test="${providedResult eq false }">
 			<script>
@@ -139,5 +151,15 @@
 		crossorigin="anonymous">
 	</script>
 	
+	<script type="text/javascript">
+		function chatting(){
+			window.open(
+						"http://localhost:8080/chatting?uid=manager",
+						"naver",
+						"width=450, height=550, toolbar=no, menubar=no, scrollbars=no, resizable=yes"
+						)
+			}	
+		
+	</script>
 </body>
 </html>

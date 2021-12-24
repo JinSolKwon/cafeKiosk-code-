@@ -238,7 +238,7 @@ function mainBack(){
 		})
 }
 
-if(${empty sessionScope.orderList}){
+if(${sessionScope.orderList eq null}){
 	$(function(){
 		$("#subBtn").attr("disabled", true);
 	})
