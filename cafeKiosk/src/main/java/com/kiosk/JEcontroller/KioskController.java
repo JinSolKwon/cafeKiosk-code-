@@ -22,6 +22,8 @@ public class KioskController {
 	
 	@RequestMapping(value="main")
 	String mainPage(HttpSession session) {
+		// pos 사용하는 브라우저랑 다르게 사용해야됨
+		// 같은 브라우저에서 사용할 경우 session정보가 공유되서 pos에서 로그인된 정보도 같이 삭제됨
 		session.invalidate();
 		return "kiosk/main";
 	}
