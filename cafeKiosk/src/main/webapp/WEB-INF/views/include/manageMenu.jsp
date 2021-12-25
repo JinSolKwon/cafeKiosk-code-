@@ -33,52 +33,84 @@
 			</ul>
 		</header>
 	</div>
-
-	<div class="flex-shrink-0 bg-white" id="under" style="width: 280px; height: 850px;">
-		<ul class="list-unstyled ps-0" style="margin-top:20px;">
-			<li id="topline"></li>
-			<li class="mb-1">
-				<button class="btn btn-toggle align-items-center rounded collapsed"
-					data-bs-toggle="collapse" data-bs-target="#home-collapse"
-					aria-expanded="false" style="font-size:x-large;font-weight:bold;">회원관리</button>
-				<div class="collapse" id="home-collapse" style="">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="${pageContext.request.contextPath}/managerPage/memberControl" class="link-dark rounded" id="underline">회원관리</a></li>
-						<li><a href="${pageContext.request.contextPath}/managerPage/deleteMemberControl" class="link-dark rounded" id="underline">탈퇴 회원관리</a></li>
-					</ul>
-				</div>
-			</li>
-			<li id="topline"></li>
-			<li class="mb-1">
-				<button class="btn btn-toggle align-items-center rounded collapsed"
-					data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
-					aria-expanded="false" style="font-size:x-large;font-weight:bold;">매출관리</button>
-				<div class="collapse" id="dashboard-collapse" style="">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="${pageContext.request.contextPath}/managerPage/salesToday" class="link-dark rounded" id="underline">당일 매출 확인</a></li>
-						<li><a href="${pageContext.request.contextPath}/managerPage/salesPast" class="link-dark rounded" id="underline">이전 매출 확인</a></li>
-					</ul>
-				</div>
-			</li>
-			<li id="topline"></li>
-			<li class="mb-1">
-				<button class="btn btn-toggle align-items-center rounded collapsed"
-					data-bs-toggle="collapse" data-bs-target="#menu-collapse"
-					aria-expanded="false" style="font-size:x-large;font-weight:bold;">메뉴관리</button>
-				<div class="collapse" id="menu-collapse" style="">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="${pageContext.request.contextPath}/managerPage/menuControl" class="link-dark rounded" id="underline">메뉴 관리</a></li>
-						<li><a href="${pageContext.request.contextPath}/managerPage/categoryControl" class="link-dark rounded" id="underline">카테고리 관리</a></li>
-					</ul>
-				</div>
-			</li>
-			<li id="topline"></li>
-			<li class="mb-1">
-				<button class="btn" data-bs-toggle="collapse" aria-expanded="false"
-				 style="font-size:x-large;font-weight:bold;" onclick="location.href='<c:url value="idControl"/>'">관리자 계정 관리</button>
-			</li>
-		</ul>
-	</div>
+	
+	<c:if test="${login.status.equals('master')}">
+		<div class="flex-shrink-0 bg-white" id="under" style="width: 280px; height: 850px;">
+			<ul class="list-unstyled ps-0" style="margin-top:20px;">
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#home-collapse"
+						aria-expanded="false" style="font-size:x-large;font-weight:bold;">회원관리</button>
+					<div class="collapse" id="home-collapse" style="">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="${pageContext.request.contextPath}/managerPage/memberControl" class="link-dark rounded" id="underline">회원관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/deleteMemberControl" class="link-dark rounded" id="underline">탈퇴 회원관리</a></li>
+						</ul>
+					</div>
+				</li>
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
+						aria-expanded="false" style="font-size:x-large;font-weight:bold;">매출관리</button>
+					<div class="collapse" id="dashboard-collapse" style="">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="${pageContext.request.contextPath}/managerPage/salesToday" class="link-dark rounded" id="underline">당일 매출 확인</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/salesPast" class="link-dark rounded" id="underline">이전 매출 확인</a></li>
+						</ul>
+					</div>
+				</li>
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#menu-collapse"
+						aria-expanded="false" style="font-size:x-large;font-weight:bold;">메뉴관리</button>
+					<div class="collapse" id="menu-collapse" style="">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="${pageContext.request.contextPath}/managerPage/menuControl" class="link-dark rounded" id="underline">메뉴 관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/categoryControl" class="link-dark rounded" id="underline">카테고리 관리</a></li>
+						</ul>
+					</div>
+				</li>
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn" data-bs-toggle="collapse" aria-expanded="false"
+					 style="font-size:x-large;font-weight:bold;" onclick="location.href='<c:url value="idControl"/>'">관리자 계정 관리</button>
+				</li>
+			</ul>
+		</div>
+	</c:if>
+	
+	<c:if test="${login.status.equals('admin')}">
+		<div class="flex-shrink-0 bg-white" id="under" style="width: 280px; height: 850px;">
+			<ul class="list-unstyled ps-0" style="margin-top:20px;">
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#home-collapse"
+						aria-expanded="false" style="font-size:x-large;font-weight:bold;">회원관리</button>
+					<div class="collapse" id="home-collapse" style="">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="${pageContext.request.contextPath}/managerPage/memberControl" class="link-dark rounded" id="underline">회원관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/deleteMemberControl" class="link-dark rounded" id="underline">탈퇴 회원관리</a></li>
+						</ul>
+					</div>
+				</li>
+				<li id="topline"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
+						aria-expanded="false" style="font-size:x-large;font-weight:bold;">매출관리</button>
+					<div class="collapse" id="dashboard-collapse" style="">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="${pageContext.request.contextPath}/managerPage/salesToday" class="link-dark rounded" id="underline">당일 매출 확인</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</c:if>
 	<!-- Optional JavaScript; choose one of the two! -->
 
 	<!-- Option 1: Bootstrap Bundle with Popper -->

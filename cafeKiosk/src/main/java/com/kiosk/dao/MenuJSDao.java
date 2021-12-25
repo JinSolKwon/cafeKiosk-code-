@@ -24,4 +24,16 @@ public interface MenuJSDao {
 	
 	//메뉴이름 중복체크 메서드
 	public abstract int menuCheck(MenuVo vo);
+	
+	//메뉴 생성 메서드
+	public abstract void menuInsert(MenuVo vo);
+	
+	//메뉴 이미지 생성 메서드
+	public abstract void menuImageInsert(MenuVo vo);
+	
+	//메뉴 정보 가져오기 메서드
+	public abstract MenuVo menuSelect(int num);
+	
+	//메뉴 활성화/비활성화 여부 변경 메서드
+	public abstract int changeActivation(MenuVo vo);
 }

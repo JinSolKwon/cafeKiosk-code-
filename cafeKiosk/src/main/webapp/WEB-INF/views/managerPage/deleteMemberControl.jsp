@@ -152,6 +152,7 @@
     		text: '선택 항목이 존재하지 않습니다.',
     		confirmButtonColor: '#DDDDDD',
     		confirmButtonText: '확인',
+    		showCloseButton: true,
     		allowOutsideClick: false
     	})
     }
@@ -165,7 +166,8 @@
                   cancelButtonColor: '#DDDDDD',
                   confirmButtonText: '삭제',
                   cancelButtonText: '취소',
-                  allowOutsideClick: false
+                  showCloseButton: true,
+          		  allowOutsideClick: false
               }).then((result) => {
                   if (result.value) {
 				$.ajax({ 
@@ -207,6 +209,7 @@
 	    		text: '선택 항목이 존재하지 않습니다.',
 	    		confirmButtonColor: '#DDDDDD',
 	    		confirmButtonText: '확인',
+	    		showCloseButton: true,
 	    		allowOutsideClick: false
 	    	})
 	    }
@@ -220,7 +223,8 @@
 	                  cancelButtonColor: '#DDDDDD',
 	                  confirmButtonText: '복구',
 	                  cancelButtonText: '취소',
-	                  allowOutsideClick: false
+	                  showCloseButton: true,
+	          		allowOutsideClick: false
 	              }).then((result) => {
 	                  if (result.value) {
 					$.ajax({ 
@@ -271,8 +275,8 @@
                 return new Promise(function (resolve) {
                     // Validate input 
                     if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '') {
-                        swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
-                        swal.enableConfirmButton(); // Enable the confirm button again.
+                        Swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        Swal.enableButtons(); // Enable the button again.
                     } else {
                         swal.resetValidationMessage(); // Reset the validation message.
                         resolve([
@@ -286,7 +290,9 @@
             confirmButtonColor: '#444444',
             cancelButtonColor: '#DDDDDD',
             confirmButtonText: '수정완료',
-            cancelButtonText: '수정취소'
+            cancelButtonText: '수정취소',
+            showCloseButton: true,
+    		allowOutsideClick: false
         }).then((result) => {
             if (result.value) {
 			$.ajax({ 

@@ -26,10 +26,10 @@ public class OrderListVo {
 		this.price = price;
 	}
 
-	public OrderListVo(int num, String menu, String temperature, String beverageSize, int shot, int syrub,
+	public OrderListVo(int orderNum, String menu, String temperature, String beverageSize, int shot, int syrub,
 			String whipping, int price) {
 		super();
-		this.num = num;
+		this.orderNum = orderNum;
 		this.menu = menu;
 		this.temperature = temperature;
 		this.beverageSize = beverageSize;

@@ -52,4 +52,24 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	public int menuCheck(MenuVo vo) {
 		return sqlSessionTemplate.selectOne("menuChk", vo);
 	}
+	
+	@Override
+	public void menuInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("menuInsert", vo);
+	}
+	
+	@Override
+	public void menuImageInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("menuImageInsert", vo);
+	}
+	
+	@Override
+	public MenuVo menuSelect(int num) {
+		return sqlSessionTemplate.selectOne("menuSelect", num);
+	}
+	
+	@Override
+	public int changeActivation(MenuVo vo) {
+		return sqlSessionTemplate.update("changeActivation", vo);
+	}
 }

@@ -26,13 +26,12 @@
 		  <if test='menu!=null or !menu.equals("")'>
 	  			where MENU like '%' || #{menu} ||'%'
 	  	  </if>
-		  order by NUM asc ,REGDATE desc)) A,
-		  (select rownum RNUM, NUM, TYPE, CATEGORY
-		   from (select * from CATEGORY
+		  order by NUM asc ,REGDATE asc)) A,
+		  (select * from CATEGORY
 		  <if test='type!=null or !type.equals("")'>
 	  			where TYPE like '%' || #{type} ||'%'
 	  	  </if>
-		  )) B
+		  ) B
 		  where B.NUM = A.CATEGORYNUM
 		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
 	</select>
@@ -48,6 +47,18 @@
 		WHERE NUM = #{value}
 	</delete>
 	
+	<!-- 메뉴 생성-->
+	<insert id="menuInsert" parameterType="menuJSVo">
+		insert into MENU(NUM,CATEGORY_NUM,MENU,PRICE,REGDATE,USING)
+			values (MENU_SEQ.nextval,#{categoryNum},#{menu},#{price},sysdate,default)
+	</insert>
+	
+	<!-- 메뉴 사진 입력 -->
+	<insert id="menuImageInsert" parameterType="menuJSVo">
+		insert into MENU_IMAGE(NUM,MENU,SAVE_NAME,EXTENSION,REGDATE)
+			values (MENU_IMAGE_SEQ.nextval,#{menu},#{saveName},#{extension},sysdate)
+	</insert>
+	
 	<!-- 카테고리 목록 가져오기 -->
 	<select id="getCategory" resultType="menuJSVo">
 		select * from CATEGORY
@@ -58,4 +69,16 @@
 		SELECT COUNT(*) FROM MENU
 		WHERE MENU = #{menu}
 	</select>
+	
+	<!-- 메뉴 정보 가져오기 -->
+	<select id="menuSelect" parameterType="int" resultType="menuJSVo">
+		select * from MENU where NUM = #{value}
+	</select>
+	
+	<!-- 메뉴 활성화/비활성화 여부 변경 -->
+	<update id="changeActivation" parameterType="menuJSVo">
+		update MENU set USING = #{using}
+		where NUM = #{num}
+	</update>
+	
 </mapper>

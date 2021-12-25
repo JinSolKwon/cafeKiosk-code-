@@ -191,6 +191,7 @@
     		text: '선택 항목이 존재하지 않습니다.',
     		confirmButtonColor: '#DDDDDD',
     		confirmButtonText: '확인',
+    		showCloseButton: true,
     		allowOutsideClick: false
     	})
     }
@@ -202,17 +203,19 @@
                   cancelButtonColor: '#DDDDDD',
                   confirmButtonText: '삭제',
                   cancelButtonText: '취소',
+                  showCloseButton: true,
+          	   	  allowOutsideClick: false,
                   html:
                 	  '<input id="swal-input" class="swal-input" placeholder="Master Password">',
                 	  preConfirm: function () {
                           return new Promise(function (resolve) {
                               // Validate input 
                               if ($('#swal-input').val() == '') {
-                                  swal.showValidationMessage("마스터 패스워드가 입력되지 않았습니다."); // Show error when validation fails.
-                                  swal.enableConfirmButton(); // Enable the confirm button again.
+                                  Swal.showValidationMessage("마스터 패스워드가 입력되지 않았습니다."); // Show error when validation fails.
+                                  Swal.enableButtons(); // Enable the button again.
                               } else if ($('#swal-input').val() != masterPass) { 
-                            	  swal.showValidationMessage("마스터 패스워드와 일치하지 않습니다."); // Show error when validation fails.
-                                  swal.enableConfirmButton(); // Enable the confirm button again.	
+                            	  Swal.showValidationMessage("마스터 패스워드와 일치하지 않습니다."); // Show error when validation fails.
+                            	  Swal.enableButtons(); // Enable the button again.	
                           	  }	else {
                                   swal.resetValidationMessage(); // Reset the validation message.
                                   resolve([
@@ -266,22 +269,22 @@
             title: 'admin 계정 수정',
             html:
             	'<h4>아이디 : ' + id + '</h4><br>' + 
-                '<input id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
-                '<input id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
-                '<input id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
+                '<input type="password" id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
+                '<input type="password" id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
+                '<input type="password" id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
                 ,
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     // Validate input 
                     if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
-                        swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
-                        swal.enableConfirmButton(); // Enable the confirm button again.
+                        Swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        Swal.enableButtons(); // Enable the button again.
                     } else if ($('#swal-input1').val() != masterPass){
-                    	swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
-                        swal.enableConfirmButton(); // Enable the confirm button again.
+                    	Swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
+                    	Swal.enableButtons(); // Enable the button again.
                 	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
-                		swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
-                        swal.enableConfirmButton(); // Enable the confirm button again.
+                		Swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
+                		Swal.enableButtons(); // Enable the button again.
                 	} else {
                         swal.resetValidationMessage(); // Reset the validation message.
                         resolve([
@@ -294,7 +297,9 @@
             confirmButtonColor: '#444444',
             cancelButtonColor: '#DDDDDD',
             confirmButtonText: '수정완료',
-            cancelButtonText: '수정취소'
+            cancelButtonText: '수정취소',
+            showCloseButton: true,
+    		allowOutsideClick: false
         }).then((result) => {
             if (result.value) {
 			$.ajax({ 

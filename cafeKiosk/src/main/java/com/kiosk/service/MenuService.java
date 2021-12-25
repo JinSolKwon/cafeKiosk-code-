@@ -18,4 +18,12 @@ public interface MenuService {
 	public abstract List<MenuVo> categoryList();
 	
 	public abstract int menuCheck(MenuVo vo);
+	
+	public abstract void menuInsert(MenuVo vo);
+	
+	public abstract void menuImageInsert(MenuVo vo);
+	
+	public abstract MenuVo menuSelect(int num);
+	
+	public abstract int changeActivation(MenuVo vo);
 }

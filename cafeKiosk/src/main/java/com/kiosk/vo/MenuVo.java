@@ -3,14 +3,19 @@ package com.kiosk.vo;
 import java.util.Date;
 
 public class MenuVo {
+	// 카테고리 테이블 변수
 	private int categoryNum;
 	private int type;
 	private String category;
+	// 메뉴 테이블 변수
 	private int num;
 	private String menu;
 	private int price;
 	private Date regdate;
 	private int using;
+	// 메뉴 이미지 테이블 변수
+	private String saveName;
+	private String extension;
 	
 	public int getCategoryNum() {
 		return categoryNum;
@@ -61,6 +66,18 @@ public class MenuVo {
 		this.using = using;
 	}
 	
+	public String getSaveName() {
+		return saveName;
+	}
+	public String getExtension() {
+		return extension;
+	}
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 	@Override
 	public String toString() {
 		return "MenuVo [categoryNum=" + categoryNum + ", type=" + type + ", category=" + category + ", num=" + num

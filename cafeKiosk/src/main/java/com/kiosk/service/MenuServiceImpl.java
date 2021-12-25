@@ -57,4 +57,24 @@ public class MenuServiceImpl implements MenuService{
 	public int menuCheck(MenuVo vo) {
 		return menuDao.menuCheck(vo);
 	}
+	
+	@Override
+	public void menuInsert(MenuVo vo) {
+		menuDao.menuInsert(vo);
+	}
+	
+	@Override
+	public void menuImageInsert(MenuVo vo) {
+		menuDao.menuImageInsert(vo);
+	}
+	
+	@Override
+	public MenuVo menuSelect(int num) {
+		return menuDao.menuSelect(num);
+	}
+	
+	@Override
+	public int changeActivation(MenuVo vo) {
+		return menuDao.changeActivation(vo);
+	}
 }
