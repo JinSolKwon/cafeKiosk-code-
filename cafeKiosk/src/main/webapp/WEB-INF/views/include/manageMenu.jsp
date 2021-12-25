@@ -44,8 +44,8 @@
 						aria-expanded="false" style="font-size:x-large;font-weight:bold;">회원관리</button>
 					<div class="collapse" id="home-collapse" style="">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="${pageContext.request.contextPath}/managerPage/memberControl" class="link-dark rounded" id="underline">회원관리</a></li>
-							<li><a href="${pageContext.request.contextPath}/managerPage/deleteMemberControl" class="link-dark rounded" id="underline">탈퇴 회원관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/memberControl" class="link-dark rounded" id="underline">회원 관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/managerPage/deleteMemberControl" class="link-dark rounded" id="underline">탈퇴회원 관리</a></li>
 						</ul>
 					</div>
 				</li>

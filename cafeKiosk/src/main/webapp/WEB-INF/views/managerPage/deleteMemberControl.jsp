@@ -16,14 +16,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 	<link href="${pageContext.request.contextPath}/resources/css/manager.css" rel="stylesheet" type="text/css">
-<title>탈퇴 회원관리</title>
+<title>탈퇴회원 관리</title>
 </head>
 <body>
 	<%@ include file="../include/manageMenu.jsp"%>
 	<div id="manageMain">
-		<h1 style="font-weight:bold;">탈퇴 회원관리</h1>
+		<h1 style="font-weight:bold;">탈퇴회원 관리</h1>
 		
-		<form action="<c:url value="/managerPage/deleteMemberControl"/>" method="POST" style="margin-left:65%">
+		<form action="<c:url value="/managerPage/deleteMemberControl"/>" method="POST" style="margin-left:67%">
 			<input type="text" id="phoneNum" name="backNumber" placeholder="전화번호 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
@@ -40,9 +40,9 @@
 		
 		<c:if test="${count > 0}">
 		<form name="quitMemberForm">
-			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;"
+			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;"
 				onclick="deleteValue();">
-			<input type="button" class="btn btn-secondary" value="복구" style="margin-right:10px;height:40px;width:70px;float:right;"
+			<input type="button" class="btn btn-primary" value="복구" style="margin-right:10px;height:40px;width:70px;float:right;"
 				onclick="restoreValue();">
 			<table class="table table-hover" id="example-table-1">
 				<thead>

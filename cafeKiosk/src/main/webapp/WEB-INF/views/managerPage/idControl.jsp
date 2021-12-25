@@ -26,13 +26,13 @@
 	<div id="manageMain">
 		<h1 style="font-weight:bold;">관리자 계정 관리</h1>
 		
-		<form action="<c:url value="/managerPage/idControl"/>" method="POST" style="margin-left:60%">
+		<form action="<c:url value="/managerPage/idControl"/>" method="POST" style="margin-left:67%">
 			<input type="text" id="id" name="id" placeholder="아이디 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
 		
 		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertManager"
-		style="height:40px;width:70px;margin-bottom:3px;margin-left:20px;">등록</button>
+		style="height:40px;width:70px;margin-bottom:3px;">등록</button>
 			
 		<c:if test="${count == 0}">
 			<table class="table">
@@ -46,7 +46,7 @@
 		
 		<c:if test="${count > 0}">
 		<form name="managerForm">
-			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;margin-top:1px;"
+			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;margin-top:1px;"
 				onclick="deleteValue('${masterPass}');">
 
 			<table class="table table-hover" id="example-table-1">
@@ -58,9 +58,9 @@
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
-						<th >아이디</th>
-						<th onclick="event.cancelBubble=true">직위</th>
-						<th onclick="event.cancelBubble=true">가입일자</th>
+						<th style="width:25%" onclick="event.cancelBubble=true">아이디</th>
+						<th style="width:25%" onclick="event.cancelBubble=true">직위</th>
+						<th style="width:30%" onclick="event.cancelBubble=true">가입일자</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -16,12 +16,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 	<link href="${pageContext.request.contextPath}/resources/css/manager.css" rel="stylesheet" type="text/css">
-<title>회원관리(관리자페이지 홈)</title>
+<title>회원 관리</title>
 </head>
 <body>
 	<%@ include file="../include/manageMenu.jsp"%>
 	<div id="manageMain">
-		<h1 style="font-weight:bold;">회원관리</h1>
+		<h1 style="font-weight:bold;">회원 관리</h1>
 		
 		<form action="<c:url value="/managerPage/memberControl"/>" method="POST" style="margin-left:73%">
 			<input type="text" id="phoneNum" name="backNumber" placeholder="전화번호 검색" style="height:40px;">
@@ -40,7 +40,7 @@
 		
 		<c:if test="${count > 0}">
 		<form name="memberForm">
-			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;" onclick="deleteValue();">
+			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;" onclick="deleteValue();">
 			<table class="table table-hover" id="example-table-1">
 				<thead>
 					<tr class="table-secondary">

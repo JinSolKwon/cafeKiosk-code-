@@ -29,7 +29,7 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	}
 	
 	@Override
-	public List<MenuVo> MenuList(HashMap<String, String> map) {
+	public List<MenuVo> menuList(HashMap<String, String> map) {
 		return sqlSessionTemplate.selectList("menuList", map);
 	}
 	
@@ -44,7 +44,7 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	}
 	
 	@Override
-	public List<MenuVo> categoryList() {
+	public List<MenuVo> categoryAllList() {
 		return sqlSessionTemplate.selectList("getCategory");
 	}
 	
@@ -64,12 +64,37 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	}
 	
 	@Override
-	public MenuVo menuSelect(int num) {
+	public MenuVo menuSelect(int num) {   
 		return sqlSessionTemplate.selectOne("menuSelect", num);
 	}
 	
 	@Override
 	public int changeActivation(MenuVo vo) {
 		return sqlSessionTemplate.update("changeActivation", vo);
+	}
+	
+	@Override
+	public int categoryCount(String category) {
+		return sqlSessionTemplate.selectOne("countCategory", category);
+	}
+	
+	@Override
+	public List<MenuVo> categoryList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("categoryListJS", map);
+	}
+	
+	@Override
+	public int categoryDelete(String number) {
+		return sqlSessionTemplate.delete("categoryDelete", number);
+	}
+	
+	@Override
+	public int categoryCheck(MenuVo vo) {
+		return sqlSessionTemplate.selectOne("categoryChk", vo);
+	}
+	
+	@Override
+	public void categoryInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("categoryInsert", vo);
 	}
 }

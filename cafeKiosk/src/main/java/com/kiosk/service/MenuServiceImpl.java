@@ -35,7 +35,7 @@ public class MenuServiceImpl implements MenuService{
 		map.put("start",start);
 		map.put("end",end);
 		
-		return menuDao.MenuList(map);
+		return menuDao.menuList(map);
 	}
 	
 	@Override
@@ -49,8 +49,8 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	@Override
-	public List<MenuVo> categoryList() {
-		return menuDao.categoryList();
+	public List<MenuVo> categoryAllList() {
+		return menuDao.categoryAllList();
 	}
 	
 	@Override
@@ -76,5 +76,36 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public int changeActivation(MenuVo vo) {
 		return menuDao.changeActivation(vo);
+	}
+	
+	@Override
+	public int categoryCount(String category) {
+		return menuDao.categoryCount(category);
+	}
+	
+	@Override
+	public List<MenuVo> categoryList(String category, String start, String end) {
+		HashMap<String,String> map = new HashMap<String,String>();
+		
+		map.put("category",category);
+		map.put("start",start);
+		map.put("end",end);
+		
+		return menuDao.categoryList(map);
+	}
+	
+	@Override
+	public int categoryDelete(String number) {
+		return menuDao.categoryDelete(number);
+	}
+	
+	@Override
+	public int categoryCheck(MenuVo vo) {
+		return menuDao.categoryCheck(vo);
+	}
+	
+	@Override
+	public void categoryInsert(MenuVo vo) {
+		menuDao.categoryInsert(vo);
 	}
 }

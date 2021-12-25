@@ -11,7 +11,7 @@ public interface MenuJSDao {
 	public abstract int menuCount(HashMap<String,String> map);
 	
 	//메뉴 리스트 메서드
-	public abstract List<MenuVo> MenuList(HashMap<String, String> map);
+	public abstract List<MenuVo> menuList(HashMap<String, String> map);
 
 	//마스터 패스워드
 	public abstract String Pass();
@@ -20,7 +20,7 @@ public interface MenuJSDao {
 	public abstract int menuDelete(String number);
 	
 	//카테고리 가져오기 메서드
-	public abstract List<MenuVo> categoryList();
+	public abstract List<MenuVo> categoryAllList();
 	
 	//메뉴이름 중복체크 메서드
 	public abstract int menuCheck(MenuVo vo);
@@ -36,4 +36,19 @@ public interface MenuJSDao {
 	
 	//메뉴 활성화/비활성화 여부 변경 메서드
 	public abstract int changeActivation(MenuVo vo);
+	
+	//카테고리 수 메서드
+	public abstract int categoryCount(String category);
+	
+	//카테고리 리스트 메서드
+	public abstract List<MenuVo> categoryList(HashMap<String, String> map);
+	
+	//카테고리 이름 중복체크 메서드
+	public abstract int categoryCheck(MenuVo vo);
+	
+	//카테고리 삭제 메서드
+	public abstract int categoryDelete(String number);
+	
+	//카테고리 생성 메서드
+	public abstract void categoryInsert(MenuVo vo);
 }

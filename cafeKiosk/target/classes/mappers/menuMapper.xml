@@ -4,7 +4,7 @@
 
 <mapper namespace="menuJSDao">
 	
-	<!-- 관리자 계정 수 가져오기 -->
+	<!-- 메뉴 수 가져오기 -->
 	<select id="countMenu" parameterType="hashmap" resultType="int">
 		select count(*)	
 			from MENU A
@@ -19,7 +19,7 @@
 		</choose>
 	</select>
 	
-	<!-- 관리자 계정 목록 가져오기 -->
+	<!-- 메뉴 목록 가져오기 -->
 	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
       select * from (select rownum RNUM, NUM, CATEGORY_NUM as CATEGORYNUM, MENU, PRICE, REGDATE, USING 
 		  from (select * from MENU
@@ -81,4 +81,40 @@
 		where NUM = #{num}
 	</update>
 	
+	<!-- 카테고리 수 가져오기 -->
+	<select id="countCategory" parameterType="String" resultType="int">
+		select count(*)	from CATEGORY
+		<if test='value!=null or !value.equals("")'>
+	  			where CATEGORY like '%' || #{value} || '%'
+	  	</if>
+	</select>
+	
+	<!-- 카테고리 목록 가져오기 -->
+	<select id="categoryListJS" parameterType="hashmap" resultType="menuJSVo">
+      select * from (select rownum RNUM, NUM as categoryNum, TYPE, CATEGORY
+		  from (select * from CATEGORY
+		  <if test='category!=null or !category.equals("")'>
+	  			where CATEGORY like '%' || #{category} || '%'
+	  	  </if>
+		  order by NUM asc)) 
+		  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 카테고리 이름 중복체크 -->
+	<select id="categoryChk" resultType="int">
+		SELECT COUNT(*) FROM CATEGORY
+		WHERE CATEGORY = #{category}
+	</select>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="categoryDelete" parameterType="String">
+		DELETE FROM CATEGORY
+		WHERE NUM = #{value}
+	</delete>
+	
+	<!-- 카테고리 생성-->
+	<insert id="categoryInsert" parameterType="menuJSVo">
+		insert into CATEGORY(NUM,TYPE,CATEGORY)
+			values (CATEGORY_SEQ.nextval,#{type},#{category})
+	</insert>
 </mapper>

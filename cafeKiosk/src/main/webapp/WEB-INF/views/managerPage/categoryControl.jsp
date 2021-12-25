@@ -16,31 +16,26 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<!-- Bootstrap 모달 -->
 	<script src="https://code.jquery.com/jquery-latest.js"></script>
-<title>메뉴 관리</title>
+<title>카테고리 관리</title>
 </head>
 <body>
 	<%@ include file="../include/manageMenu.jsp"%>
 	<div id="manageMain">
-		<h1 style="font-weight:bold;">메뉴 관리</h1>
+		<h1 style="font-weight:bold;">카테고리 관리</h1>
 		
-		<form action="<c:url value="/managerPage/menuControl"/>" method="POST" style="margin-left:55%">
-			<select name="type" style="height:40px;">
-				<option value="" selected>전체</option>
-				<option value="1">음료</option>
-				<option value="0">디저트</option>
-			</select>
-			<input type="text" id="menu" name="menu" placeholder="메뉴명 검색" style="height:40px;">
+		<form action="<c:url value="/managerPage/categoryControl"/>" method="POST" style="margin-left:67%">
+			<input type="text" id="category" name="category" placeholder="카테고리명 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
 		
-		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertMenuModal"
-		style="height:40px;width:70px;margin-bottom:3px;margin-left:0px;">등록</button>
+		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertCategoryModal"
+		style="height:40px;width:70px;margin-bottom:3px;">등록</button>
 		
 		<c:if test="${count == 0}">
 			<table class="table">
 				<tr>
 					<td>
-						등록된 메뉴가 존재하지 않습니다.
+						등록된 카테고리가 존재하지 않습니다.
 					</td>
 				</tr>
 			</table>
@@ -50,8 +45,6 @@
 		<form name="form" method="POST">
 			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;"
 				onclick="deleteValue('${masterPass}');">
-			<input type="button" class="btn btn-primary" value="on/off" style="margin-right:10px;height:40px;width:70px;float:right;"
-				onclick="onOffValue();">
 			<table class="table table-hover" id="example-table-1">
 				<thead>
 					<tr class="table-secondary">
@@ -61,37 +54,30 @@
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
-						<th style="width:20%" onclick="event.cancelBubble=true">카테고리</th>
-						<th style="width:20%" onclick="event.cancelBubble=true">메뉴명</th>
-						<th style="width:20%" onclick="event.cancelBubble=true">가격(won)</th>
-						<th style="width:20%" onclick="event.cancelBubble=true">등록일자</th>
+						<th onclick="event.cancelBubble=true" style="width:40%;">카테고리 타입</th>
+						<th onclick="event.cancelBubble=true" style="width:40%;">카테고리</th>
+						
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="menu" items="${menuList}">
+					<c:forEach var="category" items="${categoryList}">
 					<tr>
-						<c:if test="${menu.using eq 1}">
-							<td onclick="event.cancelBubble=true" style="color:black;">
-								<input type="checkbox" class="form-check-input" name="reportChkBxRow" value="${menu.num}">ON
-							</td>
-						</c:if>
-						<c:if test="${menu.using eq 0}">
-							<td onclick="event.cancelBubble=true" style="color:red;">
-								<input type="checkbox" class="form-check-input" name="reportChkBxRow" value="${menu.num}" style="border:1px solid red;">OFF
-							</td>
-						</c:if>
+						<td onclick="event.cancelBubble=true" style="color:black;">
+							<input type="checkbox" class="form-check-input" name="reportChkBxRow" value="${category.categoryNum}">
+						</td>
 						<td style="cursor:pointer;">
 							<c:out value="${number}"/>
 							<c:set var="number" value="${number + 1}"/>
 						</td>
-						<td class="hidden-col">${menu.num}</td>
+						<td class="hidden-col">${category.categoryNum}</td>
 						<td class="hidden-col">${masterPass}</td>
-						<td style="cursor:pointer;">${menu.category}</td>
-						<td style="cursor:pointer;">${menu.menu}</td>
-						<td style="cursor:pointer;"><fmt:formatNumber value="${menu.price}" pattern="#,###,###"/></td>
-						<td style="cursor:pointer;">
-							<fmt:formatDate value="${menu.regdate}" pattern="yyyy-MM-dd"/>
-						</td>
+						<c:if test="${category.type eq 0}">
+							<td style="cursor:pointer;">디저트</td>
+						</c:if>
+						<c:if test="${category.type eq 1}">
+							<td style="cursor:pointer;">음료</td>
+						</c:if>
+						<td style="cursor:pointer;">${category.category}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
@@ -136,63 +122,40 @@
 	</div>
 	
 	  <!-- insert Modal -->
-  <div class="modal fade" id="insertMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="insertCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" >
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">메뉴 등록</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">카테고리 등록</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      <form method="post" id="regForm" action ="<c:url value="/managerPage/insertMenu"/>" enctype="multipart/form-data">
+	      <form method="post" id="regForm" action ="<c:url value="/managerPage/insertCategory"/>">
 		      <div class="modal-body" style="text-align:center;">
 			      <table class="tableModal">
+		  			<tr style="height:40px;">
+		  				<td style="width:25%;">
+				  			메뉴타입
+			        	</td>
+			        	<td style="width:25%;">
+				  			<input class="form-check-input" type="radio" name="menuType" id="menuType" value="1" checked>
+    						음료
+				  		</td>
+				  		<td style="width:25%;">
+					        <input class="form-check-input" type="radio" name="menuType" id="menuType" value="0">
+    						디저트
+					    </td>
+					    <td style="width:25%;">
+					    </td>
+			        </tr>
 			        <tr style="height:40px;">
 			        	<td>
-				  			카테고리
+				  			카테고리명
 			        	</td>
 			        	<td colspan="2">
-				  			<select name="category" id="category" style="width:100%;vertical-align:middle;">
-								<option value="" selected>카테고리 선택</option>
-				  				<c:forEach var="category" items="${categoryList}">
-									<option value="${category.num}">${category.category}</option>
-								</c:forEach>
-							</select>
+				  			<input type="text" placeholder="카테고리 이름" id="categoryName" class="categoryName" name="categoryName" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
 					    </td>
 					    <td>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴이름
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴이름" id="menuName" class="menuName" name="menuName" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td>
-					    	<button class="btn btn-secondary" id="menuChk" onclick="fn_menuChk();" type="button" value="N">중복체크</button>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴가격
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴가격" id="menuPrice" class="menuPrice" name="menuPrice" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td style="text-align:left;">
-					    	원
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			사진추가
-			        	</td>
-			        	<td colspan="2" style="text-align:left;">
-				  			<input type="file" id="file" name="file" accept="image/*" style="display:none" onchange="fileCheck(this);"/>
-				  			<span id="fileName">선택된 파일없음</span>
-					    </td>
-					    <td>
-					    	<label class="btn btn-primary" for="file" id="btn-file" style="border: 1px solid #ddd; outline: none;">사진 추가</label>
+					    	<button class="btn btn-secondary" id="categoryChk" onclick="fn_categoryChk();" type="button" value="N">중복체크</button>
 					    </td>
 					</tr>
 			      </table>
@@ -201,7 +164,7 @@
 		      
 		      </div>
 		      <div class="modal-footer" style="align-items:center;justify-content:center;">
-		        <input type="button" id="insertMenu" value="메뉴등록" class="btn btn-secondary">
+		        <input type="button" id="insertCategory" value="카테고리 등록" class="btn btn-secondary">
 		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
 		      </div>
 		  </form>    
@@ -317,28 +280,9 @@
 	    })
 	})
 	
-	// 파일 선택 여부 확인
-	document.getElementById('file').addEventListener('change', function(){
-		var filename = document.getElementById('fileName');
-			if(this.files[0] == undefined){
-				filename.innerText = '선택된 파일없음';
-				return;
-			}
-		filename.innerText = this.files[0].name;
-	});
-
-	// 이미지 파일 유효성 검사
-	function fileCheck(el) { 
-	    if(!/\.(jpeg|jpg|png|gif|bmp)$/i.test(el.value)){ 
-	        alert('이미지 파일만 업로드 가능합니다.'); 
-	        el.value = ''; 
-	        el.focus(); 
-	    }
-	}	
-	
 	// 메뉴 삭제
 	function deleteValue(masterPass){
-	var url = "deleteMenu";    // Controller로 보내고자 하는 URL
+	var url = "deleteCategory";    // Controller로 보내고자 하는 URL
 	var valueArr = new Array();
     var list = $("input[name='reportChkBxRow']");
     
@@ -360,7 +304,7 @@
     }
     else{
 		var chk = Swal.fire({
-                  title: '메뉴 삭제',
+                  title: '카테고리 삭제',
                   showCancelButton: true,
                   confirmButtonColor: '#444444',
                   cancelButtonColor: '#DDDDDD',
@@ -392,7 +336,7 @@
               }).then((result) => { 
                   if (result.value) {
 				$.ajax({ 
-				    url : 'deleteMenu',                    // 전송 URL
+				    url : 'deleteCategory',                    // 전송 URL
 				    type : 'POST',                // POST 방식
 				    traditional : true,
 				    data : {
@@ -400,8 +344,7 @@
 				    },
 	                success: function(jdata){
 	                    if(jdata = 1) {
-	                        alert("삭제 성공");
-	                        location.replace("menuControl") //list 로 페이지 새로고침
+	                        location.replace("categoryControl") //list 로 페이지 새로고침
 	                    }
 	                    else{
 	                        alert("삭제 실패");
@@ -413,68 +356,21 @@
 		}
 	}
 	
-	// 메뉴 활성화/비활성화
-	function onOffValue(){
-	var url = "changeActivation";    // Controller로 보내고자 하는 URL
-	var valueArr = new Array();
-    var list = $("input[name='reportChkBxRow']");
-    for(var i = 0; i < list.length; i++){
-        if(list[i].checked){ //선택되어 있으면 배열에 값을 저장함
-            valueArr.push(list[i].value);
-        }
-    }
-    if (valueArr.length == 0){
-    	Swal.fire({
-    		icon: 'error',
-    		title: '활성화/비활성화 변경 실패',
-    		text: '선택 항목이 존재하지 않습니다.',
-    		confirmButtonColor: '#DDDDDD',
-    		confirmButtonText: '확인',
-    		allowOutsideClick: false,
-    		showCloseButton: true
-    	})
-    } else {
-	    $.ajax({ 
-		    url : 'changeActivation',                    // 전송 URL
-		    type : 'POST',                // POST 방식
-		    traditional : true,
-		    data : {
-		    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-		    },
-	        success: function(jdata){
-	            if(jdata = 1) {
-	            	history.go(0);
-	                //location.replace("menuControl") //list 로 페이지 새로고침
-	            }
-	            else{
-	                alert("활성화/비활성화 변경 실패");
-	            }
-	        	}
-			});
-   		 }	
-	}
-	
-	// 관리자 계정 등록 유효성 체크
+	// 카테고리 등록 유효성 체크
 	$(document).ready(function(){
-		$("#insertMenu").on("click", function(){			
-			if($("#category").val()==""){
+		$("#insertCategory").on("click", function(){			
+			if($("input[name='menuType']:checked").val() ==''){
+				alert("메뉴 타입을 선택해주세요.");
+				$("#menuType").focus();
+				return false;
+			}
+			if($("#categoryName").val()==""){
 				alert("메뉴 카테고리를 선택해주세요.");
-				$("#category").focus();
-				return false;
-			}
-			if($("#menuName").val()==""){
-				alert("메뉴 이름을 입력해주세요.");
-				$("#menuName").focus();
+				$("#categoryName").focus();
 				return false;
 			}
 			
-			if($("#menuPrice").val()==""){
-				alert("메뉴 가격을 입력해주세요.")
-				$("#menuPrice").focus();
-				return false;
-			}
-			
-			var idChkVal = $("#menuChk").val();
+			var idChkVal = $("#categoryChk").val();
 			if(idChkVal == "N"){
 				alert("메뉴이름 중복체크를 해주세요.");
 			    return false;
@@ -485,18 +381,18 @@
 		});		 
 	})
 	
-	// 메뉴 이름 중복체크
-	function fn_menuChk(){	
+	// 카테고리 중복체크
+	function fn_categoryChk(){	
 		$.ajax({
-			url : "menuChk",
+			url : "categoryChk",
 			type : "post",
 			dataType : "json",
-			data : {"menu" : $("#menuName").val()},
+			data : {"category" : $("#categoryName").val()},
 			success : function(data){
 				if(data == 1){
 					alert("중복된 메뉴이름입니다.");
 				}else if(data == 0){
-					$("#menuChk").attr("value", "Y");
+					$("#categoryChk").attr("value", "Y");
 					alert("사용가능한 메뉴이름입니다.");
 				}
 			}

@@ -15,7 +15,7 @@ public interface MenuService {
 	
 	public abstract int menuDelete(String number);
 	
-	public abstract List<MenuVo> categoryList();
+	public abstract List<MenuVo> categoryAllList();
 	
 	public abstract int menuCheck(MenuVo vo);
 	
@@ -26,4 +26,14 @@ public interface MenuService {
 	public abstract MenuVo menuSelect(int num);
 	
 	public abstract int changeActivation(MenuVo vo);
+	
+	public abstract int categoryCount(String category);
+	
+	public abstract List<MenuVo> categoryList(String category, String start, String end);
+	
+	public abstract int categoryDelete(String number);
+	
+	public abstract int categoryCheck(MenuVo vo);
+	
+	public abstract void categoryInsert(MenuVo vo);
 }

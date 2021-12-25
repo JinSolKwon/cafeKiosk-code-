@@ -57,7 +57,7 @@ public class MenuController {
 		int number = 0;
 		List<MenuVo> menuList = null;
 		List<MenuVo> categoryList = null;
-		categoryList = service.categoryList();
+		categoryList = service.categoryAllList();
 		
 		count = service.menuCount(menu, type);
 		
@@ -90,7 +90,7 @@ public class MenuController {
 	
 	// 메뉴 삭제
 	@PostMapping("deleteMenu")
-	public String deleteManager(HttpSession session, HttpServletRequest request) {
+	public String deleteMenu(HttpSession session, HttpServletRequest request) {
 		
 		String[] ajaxMsg = request.getParameterValues("valueArr");
 		for (int i = 0 ; i < ajaxMsg.length; i++) {
@@ -125,7 +125,6 @@ public class MenuController {
 	public String insertMenu(@RequestParam("file")MultipartFile file, Model model, HttpSession session, 
 			HttpServletRequest request, MenuVo vo, BindingResult bindingResult) throws IllegalStateException, IOException {
 		
-		int type = Integer.parseInt(request.getParameter("menuType"));
 		int categoryNum = Integer.parseInt(request.getParameter("category"));
 		String menu = request.getParameter("menuName");
 		int price = Integer.parseInt(request.getParameter("menuPrice"));
@@ -136,7 +135,6 @@ public class MenuController {
 		System.out.println("확장자명: " + extension);
 		System.out.println(fileBaseName + "." + extension);
 		
-		vo.setType(type);
 		vo.setCategoryNum(categoryNum);
 		vo.setMenu(menu);
 		vo.setPrice(price);
@@ -169,7 +167,7 @@ public class MenuController {
 	//메뉴 중복체크
 	@ResponseBody
 	@PostMapping(value="menuChk")
-	public int idChk(HttpServletRequest request,MenuVo vo) throws Exception{
+	public int menuChk(HttpServletRequest request,MenuVo vo) throws Exception{
 		String id = request.getParameter("menu");
 		
 		vo.setMenu(id);
@@ -177,6 +175,107 @@ public class MenuController {
 		int result = service.menuCheck(vo);
 		
 		return result;
+	}
+	
+	
+	// 메뉴 관리 페이지
+	@RequestMapping("categoryControl")
+	public String category(@RequestParam(name="pageNum",required=false,defaultValue="0")int pageNum,
+			@RequestParam(name="category", required=false, defaultValue="")String category,  
+			Model model, HttpSession session) throws Exception{
+		
+		if (pageNum == 0) {
+			pageNum = 1;
+		}
+		int pageSize = 10;
+		int currentPage = pageNum;
+		
+		String startRow = Integer.toString((currentPage - 1) * pageSize + 1);
+		String endRow = Integer.toString(currentPage * pageSize);
+		int count = 0;
+		int number = 0;
+		List<MenuVo> categoryList = null;
+		
+		count = service.categoryCount(category);
+		
+		if(count > 0) {
+			categoryList = service.categoryList(category, startRow, endRow);
+		} else {
+			categoryList = Collections.emptyList();
+		}
+		
+		number = 1;
+		if (currentPage >= 2) {
+		number = (currentPage - 1) * 10 + 1;
+		}
+		String masterPass = service.Pass();
+		
+		model.addAttribute("currentPage",new Integer(currentPage));
+		model.addAttribute("startRow",new Integer(startRow));
+		model.addAttribute("endRow",new Integer(endRow));
+		model.addAttribute("count",new Integer(count));
+		model.addAttribute("pageSize",new Integer(pageSize));
+		model.addAttribute("number",new Integer(number));
+		model.addAttribute("categoryList",categoryList);
+		model.addAttribute("masterPass", masterPass);
+		
+		session.setAttribute("pageNum", pageNum);
+		
+		return "managerPage/categoryControl";
+	}
+	
+	// 메뉴 삭제
+	@PostMapping("deleteCategory")
+	public String deleteCategory(HttpSession session, HttpServletRequest request) {
+		
+		String[] ajaxMsg = request.getParameterValues("valueArr");
+		for (int i = 0 ; i < ajaxMsg.length; i++) {
+			service.categoryDelete(ajaxMsg[i]);
+		}
+		
+		return "redirect:categoryControl";
+	}
+	
+	
+	//카테고리 중복체크
+	@ResponseBody
+	@PostMapping(value="categoryChk")
+	public int categoryChk(HttpServletRequest request,MenuVo vo) throws Exception{
+		String category = request.getParameter("category");
+		
+		System.out.println(category);
+		
+		vo.setCategory(category);
+		
+		int result = service.categoryCheck(vo);
+		
+		return result;
+	}
+	
+	// 메뉴 생성
+	@PostMapping("insertCategory")
+	public String insertCategory(Model model, HttpSession session, 
+			HttpServletRequest request, MenuVo vo, BindingResult bindingResult) throws IllegalStateException, IOException {
+		
+		String category = request.getParameter("categoryName");
+		int type = Integer.parseInt(request.getParameter("menuType"));
+		
+		vo.setCategory(category);
+		vo.setType(type);
+		
+		if (service.categoryCheck(vo) == 0) {
+			service.categoryInsert(vo);
+			
+			if(bindingResult.hasErrors()) {
+				return "redirect:categoryControl"; 
+			}
+			
+			return "redirect:categoryControl";
+			
+		} else {
+			return "redirect:categoryControl";
+		}
+		
 	}
 	
 }
