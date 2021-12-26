@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salesDao">
+	
+	<!-- 오늘 주문 수 가져오기 -->
+	<select id="countOrders" parameterType="hashmap" resultType="int">
+		select count(*)	from ORDER_LIST WHERE TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')	
+	</select>
+	
+	<!-- 오늘 주문 목록 가져오기 -->
+	<select id="orderList" parameterType="hashmap" resultType="salesVo">
+      select * from (select rownum RNUM, NUM, ORDER_NUM as orderNum, MENU, TEMPERATURE, BEVERAGE_SIZE as beverageSize, 
+      		SHOT, SYRUB, WHIPPING, PRICE, ORDER_DATE as orderDate 
+      		from (select * from ORDER_LIST 
+      		where TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') order by NUM asc)) A,
+		  	(select ORDER_NUM, MEMBER_NUM as memberNum, POINT, CARD, CASH, TOTAL, PROVISION, REFUND from PAYMENT where
+		  	PROVISION = 'N' and REFUND = 'N') B
+		  where B.ORDER_NUM = A.ORDER_NUM
+		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
+	</select>
+</mapper>

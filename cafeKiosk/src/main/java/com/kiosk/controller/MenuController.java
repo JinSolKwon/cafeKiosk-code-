@@ -2,6 +2,8 @@ package com.kiosk.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -143,10 +145,13 @@ public class MenuController {
 		
 		if ( service.menuCheck(vo) == 0) {
 			if(!file.getOriginalFilename().isEmpty()) {
-				file.transferTo(new File(FILE_PATH, file.getOriginalFilename()));
-				vo.setSaveName(fileBaseName);
-				vo.setExtension(extension);
-				service.menuImageInsert(vo);
+				if(extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") 
+						|| extension.equals("gif") || extension.equals("bmp")) {
+					file.transferTo(new File(FILE_PATH, file.getOriginalFilename()));
+					vo.setSaveName(fileBaseName);
+					vo.setExtension(extension);
+					service.menuImageInsert(vo);
+				}
 			} else {
 				
 			}
@@ -178,7 +183,7 @@ public class MenuController {
 	}
 	
 	
-	// 메뉴 관리 페이지
+	// 카테고리 관리 페이지
 	@RequestMapping("categoryControl")
 	public String category(@RequestParam(name="pageNum",required=false,defaultValue="0")int pageNum,
 			@RequestParam(name="category", required=false, defaultValue="")String category,  
@@ -224,7 +229,7 @@ public class MenuController {
 		return "managerPage/categoryControl";
 	}
 	
-	// 메뉴 삭제
+	// 카테고리 삭제
 	@PostMapping("deleteCategory")
 	public String deleteCategory(HttpSession session, HttpServletRequest request) {
 		
@@ -252,7 +257,7 @@ public class MenuController {
 		return result;
 	}
 	
-	// 메뉴 생성
+	// 카테고리 생성
 	@PostMapping("insertCategory")
 	public String insertCategory(Model model, HttpSession session, 
 			HttpServletRequest request, MenuVo vo, BindingResult bindingResult) throws IllegalStateException, IOException {
@@ -278,4 +283,23 @@ public class MenuController {
 		
 	}
 	
+	//카테고리 수정
+	@PostMapping("updateCategory")
+	public String updateCategory(Model model, HttpSession session, HttpServletRequest request, MenuVo vo) {
+		String category = request.getParameter("category");
+		int type = Integer.parseInt(request.getParameter("type"));
+		int categoryNum = Integer.parseInt(request.getParameter("categoryNum"));
+		
+		vo.setCategoryNum(categoryNum);
+		vo.setCategory(category);
+		vo.setType(type);
+		
+		System.out.println(vo);
+		
+		if (service.categoryCheck(vo) == 0) {
+			service.categoryUpdate(vo);
+		}
+		
+		return "redirect:categoryControl";
+	}
 }

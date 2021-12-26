@@ -51,4 +51,7 @@ public interface MenuJSDao {
 	
 	//카테고리 생성 메서드
 	public abstract void categoryInsert(MenuVo vo);
+	
+	//카테고리 수정 메서드
+	public abstract int categoryUpdate(MenuVo vo);
 }

@@ -172,97 +172,6 @@
 	  </div>
   </div>
 	
-	
-	<!-- upcate Modal -->
-<!--  <div class="modal fade" id="updateMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" >
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">메뉴 수정</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <form method="post" id="regForm1" action ="<c:url value="/managerPage/updateMenu"/>" enctype="multipart/form-data">
-		      <div class="modal-body" style="text-align:center;">
-			      <table class="tableModal">
-		  			<tr style="height:40px;">
-		  				<td style="width:25%;">
-				  			메뉴타입
-			        	</td>
-			        	<td style="width:25%;">
-				  			<input class="form-check-input" type="radio" name="menuType" id="menuType" value="1" checked>
-    						음료
-				  		</td>
-				  		<td style="width:25%;">
-					        <input class="form-check-input" type="radio" name="menuType" id="menuType" value="0">
-    						디저트
-					    </td>
-					    <td style="width:25%;">
-					    </td>
-			        </tr>
-			        <tr style="height:40px;">
-			        	<td>
-				  			카테고리
-			        	</td>
-			        	<td colspan="2">
-				  			<select name="category" id="category" style="width:100%;vertical-align:middle;">
-								<option value="" selected>카테고리 선택</option>
-				  				<c:forEach var="category" items="${categoryList}">
-									<option value="${category.num}">${category.category}</option>
-								</c:forEach>
-							</select>
-					    </td>
-					    <td>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴이름
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴이름" id="menuName" class="menuName" name="menuName" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td>
-					    	<button class="btn btn-secondary" id="menuChk" onclick="fn_menuChk();" type="button" value="N">중복체크</button>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴가격
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴가격" id="menuPrice" class="menuPrice" name="menuPrice" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td style="text-align:left;">
-					    	원
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			사진추가
-			        	</td>
-			        	<td colspan="2" style="text-align:left;">
-				  			<input type="file" id="file" name="file" accept="image/*" style="display:none" onchange="fileCheck(this);"/>
-				  			<span id="fileName">선택된 파일없음</span>
-					    </td>
-					    <td>
-					    	<label class="btn btn-primary" for="file" id="btn-file" style="border: 1px solid #ddd; outline: none;">사진 추가</label>
-					    </td>
-					</tr>
-			      </table>
-		      </div>
-		      <div class="alert">
-		      
-		      </div>
-		      <div class="modal-footer" style="align-items:center;justify-content:center;">
-		        <input type="button" id="insertMenu" value="계정등록" class="btn btn-secondary">
-		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
-		      </div>
-		  </form>    
-	    </div>
-	  </div>
-  </div>
-  
-   -->
 	<script>
 	// 전체 체크박스 선택
 	$(document).ready(function(){
@@ -372,16 +281,98 @@
 			
 			var idChkVal = $("#categoryChk").val();
 			if(idChkVal == "N"){
-				alert("메뉴이름 중복체크를 해주세요.");
+				alert("카테고리 중복체크를 해주세요.");
 			    return false;
 			}else if(idChkVal == "Y"){
-				alert("등록성공")
 				$("#regForm").submit();
 			}
 		});		 
 	})
 	
-	// 카테고리 중복체크
+	// 테이블의 Row 클릭시 카테고리 정보 가져온 후 수정
+	$("#example-table-1 tr").click(function(){ 	
+
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+		
+		// td.eq(index)를 통해 값을 가져올 수도 있다.
+		var categoryNum = td.eq(2).text();
+		var masterPass = td.eq(3).text() ;
+		var type = td.eq(4).text();
+		var category = td.eq(5).text(); 
+
+		var chk = Swal.fire({
+            title: '카테고리 수정',
+            html:
+            	'<table class="tableModal">'+
+            		'<tr style="height:40px;">'+
+  						'<td style="width:25%;">메뉴타입</td>'+
+	        			'<td style="width:25%;">'+
+		  					'<input class="form-check-input" type="radio" name="menuType1" id="menuType1" value="1" checked>'+
+							'음료'+
+		  				'</td>'+
+		  				'<td style="width:25%;">'+
+			        		'<input class="form-check-input" type="radio" name="menuType1" id="menuType1" value="0">'+
+							'디저트'+
+			    		'</td>'+
+			    		'<td style="width:25%;"></td>'+
+	        		'</tr>'+
+            		'<tr>' + 
+            			'<td>카테고리명</td>'+
+            			'<td colspan="2"><input type="text" id="swal-input1" class="swal2-input" value="'+category+'" placeholder="카테고리명" style="width:200px;"></td>'+
+            			'<td><button class="btn btn-secondary" id="categoryChk1" onclick="fn_categoryChk1();" type="button" value="N">중복체크</button></td>'+
+					'</tr>',
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    // Validate input 
+                    if ($("input[name='menuType1']:checked").val() =='' || $('#swal-input1').val() == '') {
+                        Swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        Swal.enableButtons(); // Enable the button again.
+                    } else if ($("#categoryChk1").val() == 'N'){
+                    	Swal.showValidationMessage("카테고리 중복체크를 해주세요."); // Show error when validation fails.
+                    	Swal.enableButtons(); // Enable the button again.
+                	} else {
+                        swal.resetValidationMessage(); // Reset the validation message.
+                        resolve([
+                            category = $('#swal-input1').val(),
+                            type = $("input[name='menuType1']:checked").val()
+                        ]);
+                    }
+                })
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#444444',
+            cancelButtonColor: '#DDDDDD',
+            confirmButtonText: '수정완료',
+            cancelButtonText: '수정취소',
+            showCloseButton: true,
+    		allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+			$.ajax({ 
+			    url : 'updateCategory',        // 전송 URL
+			    type : 'POST',                // POST 방식
+			    traditional : true,
+			    data : {
+			    	category : category,   		// 보내고자 하는 data 변수 설정
+			    	type : type,
+			    	categoryNum : categoryNum
+			    },
+              success: function(jdata){
+                  if(jdata = 1) {
+                      location.replace("categoryControl") //list 로 페이지 새로고침
+                  }
+                  else{
+                      alert("수정 실패");
+                  }
+              }
+			});       
+            }
+        })            
+	});
+	
+	// 카테고리 등록 중복체크
 	function fn_categoryChk(){	
 		$.ajax({
 			url : "categoryChk",
@@ -390,10 +381,28 @@
 			data : {"category" : $("#categoryName").val()},
 			success : function(data){
 				if(data == 1){
-					alert("중복된 메뉴이름입니다.");
+					alert("중복된 카테고리 이름입니다.");
 				}else if(data == 0){
 					$("#categoryChk").attr("value", "Y");
-					alert("사용가능한 메뉴이름입니다.");
+					alert("사용가능한 카테고리 이름입니다.");
+				}
+			}
+		})
+	}
+	
+	// 카테고리 수정 중복체크
+	function fn_categoryChk1(){	
+		$.ajax({
+			url : "categoryChk",
+			type : "post",
+			dataType : "json",
+			data : {"category" : $("#swal-input1").val()},
+			success : function(data){
+				if(data == 1){
+					alert("중복된 카테고리 이름입니다.");
+				}else if(data == 0){
+					$("#categoryChk1").attr("value", "Y");
+					alert("사용가능한 카테고리 이름입니다.");
 				}
 			}
 		})

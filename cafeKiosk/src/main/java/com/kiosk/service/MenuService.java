@@ -36,4 +36,6 @@ public interface MenuService {
 	public abstract int categoryCheck(MenuVo vo);
 	
 	public abstract void categoryInsert(MenuVo vo);
+	
+	public abstract int categoryUpdate(MenuVo vo);
 }

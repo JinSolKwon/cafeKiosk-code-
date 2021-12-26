@@ -197,7 +197,7 @@
 					</tr>
 			      </table>
 		      </div>
-		      <div class="alert">
+		      <div id ="image_container" style="text-align:center;align-items:center;">
 		      
 		      </div>
 		      <div class="modal-footer" style="align-items:center;justify-content:center;">
@@ -334,6 +334,20 @@
 	        el.value = ''; 
 	        el.focus(); 
 	    }
+	    
+	    
+	    var reader = new FileReader();
+	    
+	    reader.onload = function(event) { 
+	    	var img = document.createElement("img"); 
+	    	img.setAttribute("src", event.target.result); 
+	    	img.width = 200;
+	    	img.height = 200;
+	    	document.querySelector("div#image_container").appendChild(img); 
+	    	}; 
+	    	
+	    reader.readAsDataURL(event.target.files[0]);
+
 	}	
 	
 	// 메뉴 삭제
@@ -506,8 +520,84 @@
 	// 모달 닫으면 입력된 정보 초기화
 	$('.modal').on('hidden.bs.modal', function (e) {
 	    console.log('modal close');
-	  $(this).find('form')[0].reset()
+	    location.reload();
+	  //$(this).find('form')[0].reset() - 폼 내용 리셋(파일은 리셋 안됨)
 	});
+	
+	// 테이블의 Row 클릭시 메뉴정보 가져온 후 수정
+	$("#example-table-1 tr").click(function(){ 	
+
+		var str = "";
+		
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+		
+		// td.eq(index)를 통해 값을 가져올 수도 있다.
+		var num = td.eq(2).text();
+		var masterPass = td.eq(3).text() ;
+		var category = td.eq(4).text();
+		var menu = td.eq(5).text();
+		var price = td.eq(6).text();
+		var regdate = td.eq(7).text();
+		
+		var chk = Swal.fire({
+            title: '메뉴 수정',
+            html:
+                '<input type="password" id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
+                '<input type="password" id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
+                '<input type="password" id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
+                ,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    // Validate input 
+                    if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
+                        Swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        Swal.enableButtons(); // Enable the button again.
+                    } else if ($('#swal-input1').val() != masterPass){
+                    	Swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
+                    	Swal.enableButtons(); // Enable the button again.
+                	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
+                		Swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
+                		Swal.enableButtons(); // Enable the button again.
+                	} else {
+                        swal.resetValidationMessage(); // Reset the validation message.
+                        resolve([
+                            str = $('#swal-input2').val(),
+                        ]);
+                    }
+                })
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#444444',
+            cancelButtonColor: '#DDDDDD',
+            confirmButtonText: '수정완료',
+            cancelButtonText: '수정취소',
+            showCloseButton: true,
+    		allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+			$.ajax({ 
+			    url : 'updateMenu',        // 전송 URL
+			    type : 'POST',                // POST 방식
+			    traditional : true,
+			    data : {
+			    	str : str,   		// 보내고자 하는 data 변수 설정
+			    	num : num
+			    },
+              success: function(jdata){
+                  if(jdata = 1) {
+                      location.replace("menuControl") //list 로 페이지 새로고침
+                  }
+                  else{
+                      alert("수정 실패");
+                  }
+              }
+			});       
+            }
+        })            
+	});
+	
 	
 	</script>
 </body>

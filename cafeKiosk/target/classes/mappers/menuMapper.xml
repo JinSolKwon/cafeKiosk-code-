@@ -102,19 +102,22 @@
 	
 	<!-- 카테고리 이름 중복체크 -->
 	<select id="categoryChk" resultType="int">
-		SELECT COUNT(*) FROM CATEGORY
-		WHERE CATEGORY = #{category}
+	SELECT COUNT(*) FROM CATEGORY WHERE CATEGORY = #{category}
 	</select>
 	
 	<!-- 카테고리 삭제 -->
 	<delete id="categoryDelete" parameterType="String">
-		DELETE FROM CATEGORY
-		WHERE NUM = #{value}
+	DELETE FROM CATEGORY WHERE NUM = #{value}
 	</delete>
 	
 	<!-- 카테고리 생성-->
 	<insert id="categoryInsert" parameterType="menuJSVo">
-		insert into CATEGORY(NUM,TYPE,CATEGORY)
-			values (CATEGORY_SEQ.nextval,#{type},#{category})
+	insert into CATEGORY(NUM,TYPE,CATEGORY)
+		values (CATEGORY_SEQ.nextval,#{type},#{category})
 	</insert>
+	
+	<update id="categoryUpdate" parameterType="menuJSVo">
+	update CATEGORY set TYPE=#{type}, CATEGORY=#{category}
+		where NUM = #{categoryNum}
+	</update>
 </mapper>

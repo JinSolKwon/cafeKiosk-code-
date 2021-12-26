@@ -108,4 +108,9 @@ public class MenuServiceImpl implements MenuService{
 	public void categoryInsert(MenuVo vo) {
 		menuDao.categoryInsert(vo);
 	}
+	
+	@Override
+	public int categoryUpdate(MenuVo vo) {
+		return menuDao.categoryUpdate(vo);
+	}
 }

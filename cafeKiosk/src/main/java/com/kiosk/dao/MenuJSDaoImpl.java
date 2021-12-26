@@ -97,4 +97,9 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	public void categoryInsert(MenuVo vo) {
 		sqlSessionTemplate.insert("categoryInsert", vo);
 	}
+	
+	@Override
+	public int categoryUpdate(MenuVo vo) {
+		return sqlSessionTemplate.update("categoryUpdate", vo);
+	}
 }
