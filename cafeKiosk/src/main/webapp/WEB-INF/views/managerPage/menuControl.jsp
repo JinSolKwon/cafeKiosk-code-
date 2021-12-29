@@ -33,7 +33,7 @@
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
 		
-		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertMenuModal"
+		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertMenuModal" id="modal-btn"
 		style="height:40px;width:70px;margin-bottom:3px;margin-left:0px;">등록</button>
 		
 		<c:if test="${count == 0}">
@@ -61,6 +61,7 @@
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
+						<th class="hidden-col" onclick="event.cancelBubble=true">이미지 파일</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">카테고리</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">메뉴명</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">가격(won)</th>
@@ -86,6 +87,12 @@
 						</td>
 						<td class="hidden-col">${menu.num}</td>
 						<td class="hidden-col">${masterPass}</td>
+						<c:if test="${menu.saveName eq null }">
+							<td class="hidden-col">선택된 파일없음</td>
+						</c:if>
+						<c:if test="${menu.saveName ne null }">
+							<td class="hidden-col">${menu.saveName}.${menu.extension}</td>
+						</c:if>
 						<td style="cursor:pointer;">${menu.category}</td>
 						<td style="cursor:pointer;">${menu.menu}</td>
 						<td style="cursor:pointer;"><fmt:formatNumber value="${menu.price}" pattern="#,###,###"/></td>
@@ -198,108 +205,17 @@
 			      </table>
 		      </div>
 		      <div id ="image_container" style="text-align:center;align-items:center;">
-		      
+		      	<img src="" />
 		      </div>
 		      <div class="modal-footer" style="align-items:center;justify-content:center;">
 		        <input type="button" id="insertMenu" value="메뉴등록" class="btn btn-secondary">
-		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
+		        <button type="button" class="btn" id="insertCancel" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
 		      </div>
 		  </form>    
 	    </div>
 	  </div>
   </div>
-	
-	
-	<!-- upcate Modal -->
-<!--  <div class="modal fade" id="updateMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" >
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">메뉴 수정</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <form method="post" id="regForm1" action ="<c:url value="/managerPage/updateMenu"/>" enctype="multipart/form-data">
-		      <div class="modal-body" style="text-align:center;">
-			      <table class="tableModal">
-		  			<tr style="height:40px;">
-		  				<td style="width:25%;">
-				  			메뉴타입
-			        	</td>
-			        	<td style="width:25%;">
-				  			<input class="form-check-input" type="radio" name="menuType" id="menuType" value="1" checked>
-    						음료
-				  		</td>
-				  		<td style="width:25%;">
-					        <input class="form-check-input" type="radio" name="menuType" id="menuType" value="0">
-    						디저트
-					    </td>
-					    <td style="width:25%;">
-					    </td>
-			        </tr>
-			        <tr style="height:40px;">
-			        	<td>
-				  			카테고리
-			        	</td>
-			        	<td colspan="2">
-				  			<select name="category" id="category" style="width:100%;vertical-align:middle;">
-								<option value="" selected>카테고리 선택</option>
-				  				<c:forEach var="category" items="${categoryList}">
-									<option value="${category.num}">${category.category}</option>
-								</c:forEach>
-							</select>
-					    </td>
-					    <td>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴이름
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴이름" id="menuName" class="menuName" name="menuName" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td>
-					    	<button class="btn btn-secondary" id="menuChk" onclick="fn_menuChk();" type="button" value="N">중복체크</button>
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			메뉴가격
-			        	</td>
-			        	<td colspan="2">
-				  			<input type="text" placeholder="메뉴가격" id="menuPrice" class="menuPrice" name="menuPrice" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
-					    </td>
-					    <td style="text-align:left;">
-					    	원
-					    </td>
-					</tr>
-					<tr style="height:40px;">
-			        	<td >
-				  			사진추가
-			        	</td>
-			        	<td colspan="2" style="text-align:left;">
-				  			<input type="file" id="file" name="file" accept="image/*" style="display:none" onchange="fileCheck(this);"/>
-				  			<span id="fileName">선택된 파일없음</span>
-					    </td>
-					    <td>
-					    	<label class="btn btn-primary" for="file" id="btn-file" style="border: 1px solid #ddd; outline: none;">사진 추가</label>
-					    </td>
-					</tr>
-			      </table>
-		      </div>
-		      <div class="alert">
-		      
-		      </div>
-		      <div class="modal-footer" style="align-items:center;justify-content:center;">
-		        <input type="button" id="insertMenu" value="계정등록" class="btn btn-secondary">
-		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
-		      </div>
-		  </form>    
-	    </div>
-	  </div>
-  </div>
-  
-   -->
+
 	<script>
 	// 전체 체크박스 선택
 	$(document).ready(function(){
@@ -319,6 +235,7 @@
 	
 	// 파일 선택 여부 확인
 	document.getElementById('file').addEventListener('change', function(){
+		$('#image_container').empty();
 		var filename = document.getElementById('fileName');
 			if(this.files[0] == undefined){
 				filename.innerText = '선택된 파일없음';
@@ -327,27 +244,27 @@
 		filename.innerText = this.files[0].name;
 	});
 
+	
+	
 	// 이미지 파일 유효성 검사
-	function fileCheck(el) { 
+	function fileCheck(el) {
+		
 	    if(!/\.(jpeg|jpg|png|gif|bmp)$/i.test(el.value)){ 
 	        alert('이미지 파일만 업로드 가능합니다.'); 
 	        el.value = ''; 
 	        el.focus(); 
 	    }
-	    
-	    
 	    var reader = new FileReader();
 	    
-	    reader.onload = function(event) { 
+	    reader.onload = function(event) {
 	    	var img = document.createElement("img"); 
 	    	img.setAttribute("src", event.target.result); 
 	    	img.width = 200;
 	    	img.height = 200;
-	    	document.querySelector("div#image_container").appendChild(img); 
+	    	document.querySelector("div#image_container").appendChild(img);    	
 	    	}; 
 	    	
 	    reader.readAsDataURL(event.target.files[0]);
-
 	}	
 	
 	// 메뉴 삭제
@@ -535,18 +452,54 @@
 		
 		// td.eq(index)를 통해 값을 가져올 수도 있다.
 		var num = td.eq(2).text();
-		var masterPass = td.eq(3).text() ;
-		var category = td.eq(4).text();
-		var menu = td.eq(5).text();
-		var price = td.eq(6).text();
-		var regdate = td.eq(7).text();
+		var masterPass = td.eq(3).text();
+		var image = td.eq(4).text();
+		var category = td.eq(5).text();
+		var menu = td.eq(6).text();
+		var price = td.eq(7).text();
+		var regdate = td.eq(8).text();
 		
 		var chk = Swal.fire({
             title: '메뉴 수정',
             html:
-                '<input type="password" id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
-                '<input type="password" id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
-                '<input type="password" id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
+            	'<table class="tableModal">'+
+            		'<tr style="height:40px;">'+
+            			'<td>카테고리</td>'+
+	        			'<td colspan="2">'+
+            				'<select name="category" id="category" style="width:100%;vertical-align:middle;">'+
+							'<option value="" selected>카테고리 선택</option>'+
+		  					'<c:forEach var="category" items="${categoryList}">'+
+								'<option value="${category.num}">${category.category}</option>'+						
+							'</c:forEach>'+
+							'</select>'+
+			    		'</td>'+
+			    		'<td></td>'+
+			    	'</tr>'+
+			    	'<tr>'+
+			    		'<td>메뉴이름</td>'+
+			    		'<td colspan="2">'+
+		 	                '<input type="text" id="swal-input1" class="swal2-input" value="'+menu+'" placeholder="메뉴명" style="width:200px;">'+
+		 	            '</td>'+
+		 	            '<td><button class="btn btn-secondary" id="categoryChk1" onclick="fn_categoryChk1();" type="button" value="N">중복체크</button></td>'+
+		 	        '</tr>'+
+		 	       '<tr>'+
+			    		'<td>메뉴가격</td>'+
+			    		'<td colspan="2">'+
+		 	                '<input type="text" id="swal-input2" class="swal2-input" value="'+price+'" placeholder="메뉴명" style="width:200px;">'+
+		 	            '</td>'+
+		 	            '<td style="text-align:left;">원</td>'+
+	 	        	'</tr>' + 
+	 	        	'<tr style="height:40px;">'+
+			        	'<td>사진추가</td>'+
+			        	'<td colspan="2" style="text-align:left;">'+
+				  			'<input type="file" id="file1" name="file1" accept="image/*" style="display:none" onchange="fileCheck1(this);"/>'+
+				  			'<span id="fileName1">'+image+'</span>'+
+					    '</td>'+
+					    '<td><label class="btn btn-primary" for="file1" id="btn-file1" style="border: 1px solid #ddd; outline: none;">사진 추가</label></td>'+
+					'</tr>'+
+					'</table>'+
+					'<div id ="image_container1" style="text-align:center;align-items:center;">'+
+					'</div>'
                 ,
             preConfirm: function () {
                 return new Promise(function (resolve) {
@@ -597,8 +550,39 @@
             }
         })            
 	});
-	
-	
+
+	// 이미지 파일 유효성 검사
+	function fileCheck1(el) {
+		
+	    if(!/\.(jpeg|jpg|png|gif|bmp)$/i.test(el.value)){ 
+	        alert('이미지 파일만 업로드 가능합니다.'); 
+	        el.value = ''; 
+	        el.focus(); 
+	    }
+	    var reader = new FileReader();
+	    
+	    reader.onload = function(event) {
+	    	var img = document.createElement("img"); 
+	    	img.setAttribute("src", event.target.result); 
+	    	img.width = 200;
+	    	img.height = 200;
+	    	document.querySelector("div#image_container1").appendChild(img);    	
+	    	}; 
+	    	
+	    reader.readAsDataURL(event.target.files[0]);
+	}
+
+	// 파일 선택 여부 확인
+	document.getElementById('file1').addEventListener('change', function(){
+		$('#image_container1').empty();
+		var filename = document.getElementById('fileName1');
+			if(this.files[0] == undefined){
+				filename.innerText = '선택된 파일없음';
+				return;
+			}
+		filename.innerText = this.files[0].name;
+	});
+
 	</script>
 </body>
 </html>

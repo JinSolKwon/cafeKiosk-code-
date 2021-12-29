@@ -1,5 +1,6 @@
 package com.kiosk.service;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,27 +19,37 @@ public class SalesServiceImpl implements SalesService{
 	private SalesDao salesDao; 
 	
 	@Override
-	public int menuCount(String menu,String type) {
-		HashMap<String,String> map = new HashMap<String,String>();
-		
-		map.put("menu", menu);
-		map.put("type", type);
-		
-		return 0;
+	public int todayOrderCount() {
+		return salesDao.todayOrderCount();
 	}
 	
 	@Override
-	public List<SalesVo> menuList(String menu, String type, String start, String end) {
-		HashMap<String,String> map = new HashMap<String,String>();
-		
-		map.put("menu",menu);
-		map.put("type",type);
-		map.put("start",start);
-		map.put("end",end);
-		
-		List<SalesVo> vo = null;
-		
-		return vo;
+	public List<SalesVo> todayOrderList() {
+		return salesDao.todayOrderList();
 	}
 	
+	@Override
+	public List<SalesVo> todaySalesList() {
+		return salesDao.todaySalesList();
+	}
+	
+	@Override
+	public SalesVo periodSalesSum(String startDate, String endDate) {
+		HashMap<String,String> map = new HashMap<String,String>(); 
+		
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
+		return salesDao.periodSalesSum(map);
+	}
+	
+	@Override
+	public SalesVo periodRefundSum(String startDate, String endDate) {
+		HashMap<String,String> map = new HashMap<String,String>(); 
+		
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
+		return salesDao.periodRefundSum(map);
+	}
 }

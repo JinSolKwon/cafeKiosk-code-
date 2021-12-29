@@ -31,8 +31,10 @@
 		  <if test='type!=null or !type.equals("")'>
 	  			where TYPE like '%' || #{type} ||'%'
 	  	  </if>
-		  ) B
+		  ) B,
+		  (select * from MENU_IMAGE) C
 		  where B.NUM = A.CATEGORYNUM
+		  and A.MENU = C.MENU (+)
 		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
 	</select>
 	

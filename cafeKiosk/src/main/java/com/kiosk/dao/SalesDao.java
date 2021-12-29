@@ -8,11 +8,18 @@ import com.kiosk.vo.SalesVo;
 
 public interface SalesDao {
 	
-	//세일 수 메서드
-	public abstract int menuCount(HashMap<String,String> map);
+	// 오늘 주문 수 메서드
+	public abstract int todayOrderCount();
 	
-	//메뉴 리스트 메서드
-	public abstract List<SalesVo> menuList(HashMap<String, String> map);
+	// 오늘 주문 리스트 메서드
+	public abstract List<SalesVo> todayOrderList();
 
+	// 오늘 매출 리스트 메서드
+	public abstract List<SalesVo> todaySalesList();
 	
+	// 기간 매출 합계 메서드
+	public abstract SalesVo periodSalesSum(HashMap<String, String> map);
+	
+	// 기간 환불 합계 메서드
+	public abstract SalesVo periodRefundSum(HashMap<String, String> map);
 }

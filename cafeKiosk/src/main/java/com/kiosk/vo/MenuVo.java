@@ -78,10 +78,12 @@ public class MenuVo {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
+	
 	@Override
 	public String toString() {
 		return "MenuVo [categoryNum=" + categoryNum + ", type=" + type + ", category=" + category + ", num=" + num
-				+ ", menu=" + menu + ", price=" + price + ", regdate=" + regdate + ", using=" + using + "]";
+				+ ", menu=" + menu + ", price=" + price + ", regdate=" + regdate + ", using=" + using + ", saveName="
+				+ saveName + ", extension=" + extension + "]";
 	}
 	
 	}

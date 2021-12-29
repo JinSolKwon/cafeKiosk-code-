@@ -20,109 +20,142 @@
 		<h1 style="font-weight:bold;">당일 매출 확인</h1>
 		
 		<p style="margin-left:85%;font-weight:bold;font-size:large;">
-			매출일자: 2021-12-07
+			매출일자: ${today}
 		</p>
-		<table class="table">
+		<div>
+		<table class="table" style="margin-bottom:0px;"> 
 			<thead>
 				<tr class="table-secondary">
 					<th style="width:7%">주문번호</th>
-					<th>메뉴명</th>
+					<th style="width:10%">메뉴명</th>
 					<th style="width:7%">사이즈</th>
 					<th style="width:7%">샷</th>
 					<th style="width:7%">시럽</th>
 					<th style="width:7%">휘핑</th>
-					<th>적립금</th>
-					<th>카드</th>
-					<th>현금</th>
-					<th>총액</th>
-					<th>확인</th>
+					<th style="width:10%">적립금</th>
+					<th style="width:10%">카드</th>
+					<th style="width:10%">현금</th>
+					<th style="width:10%">총액</th>
+					<th style="width:10%">확인</th>
 				</tr>
 			</thead>
-			<tbody>
+			<c:if test="${orderList eq null}">
 				<tr>
-					<td>1</td>
-					<td>(ICE)아메리카노</td>
-					<td>L</td>
-					<td>1</td>
-					<td>1</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>4,000</td>
-					<td></td>
+					<th colspan="11" class="text-center">
+						<p><br>주문이 없습니다.</p>
+					</th>
 				</tr>
-				<tr id="divide">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>3,000</td>
-					<td>500</td>
-					<td>500</td>
-					<td>4,000</td>
-					<td>
-						<button class="btn btn-secondary" onClick="window.location='<c:url value="#"/>'">환불</button>
-					</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>(ICE)아메리카노</td>
-					<td>L</td>
-					<td>1</td>
-					<td>1</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>4,000</td>
-					<td></td>
-				</tr>
-					<tr>
-					<td>2</td>
-					<td>(ICE)아메리카노</td>
-					<td>L</td>
-					<td>1</td>
-					<td>1</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>4,000</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>(HOT)아메리카노</td>
-					<td>L</td>
-					<td>1</td>
-					<td>1</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
-					<td>4,000</td>
-					<td></td>
-				</tr>
-				<tr id="divide">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>5,000</td>
-					<td>-</td>
-					<td>7,000</td>
-					<td>12,000</td>
-					<td>
-						<button class="btn btn-secondary" onClick="window.location='<c:url value="#"/>'">환불</button>
-					</td>
-				</tr>
-			</tbody>
+			</c:if>
 		</table>
+		</div>
+		<div style="max-height:550px;overflow-y:scroll;overflow-x:hidden;margin-top:0px;">
+		<table class="table table-hover" style="margin-top:0px;">
+			<c:if test="${orderList ne null}">
+			<tbody>
+				<c:forEach items="${orderList}" var="orderList">
+					<c:if test="${orderNum ne orderList.orderNum}">
+						<tr id="divide">
+							<td style="width:7%">${orderList.orderNum}</td>
+							<td style="width:10%">-</td>
+							<td style="width:7%">-</td>
+							<td style="width:7%">-</td>
+							<td style="width:7%">-</td>
+							<td style="width:7%">-</td>
+							<td style="width:10%"><fmt:formatNumber value="${orderList.point}" pattern="#,###,###"/></td>
+							<td style="width:10%"><fmt:formatNumber value="${orderList.card}" pattern="#,###,###"/></td>
+							<td style="width:10%"><fmt:formatNumber value="${orderList.cash}" pattern="#,###,###"/></td>
+							<td style="width:10%"><fmt:formatNumber value="${orderList.total}" pattern="#,###,###"/></td>
+							<c:choose>
+							<c:when test="${orderList.refund eq 'Y'}">
+								<td style="width:10%">환불완료</td>
+							</c:when>
+							<c:otherwise>
+								<td style="width:10%"><button class="btn btn-secondary" onClick="window.location='<c:url value="/pos/orderList/refund?orderNum=${orderList.orderNum}"/>'">환불</button></td>									
+							</c:otherwise>
+							</c:choose>
+						</tr>
+						<c:choose>
+						<c:when test="${orderNum ne null}">
+							<tr>
+								<td>${orderList.orderNum}</td>
+								<td>(${orderList.temperature})${orderList.menu}</td>
+								<td>${orderList.beverageSize}</td>
+								<c:choose>   
+									<c:when test="${orderList.shot eq 0}">
+									<td>-</td>
+									</c:when>
+									<c:otherwise>
+									<td>${orderList.shot}</td>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${orderList.syrub eq 0}">
+									<td>-</td>
+									</c:when>
+									<c:otherwise>
+									<td>${orderList.syrub}</td>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${orderList.whipping eq 'N'}">
+									<td>-</td>
+									</c:when>
+									<c:otherwise>
+									<td>${orderList.whipping}</td>
+									</c:otherwise>
+								</c:choose>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+								<td><fmt:formatNumber value="${orderList.price}" pattern="#,###,###"/></td>
+								<td></td>
+							</tr>
+						</c:when>
+						<c:otherwise></c:otherwise>						
+						</c:choose>
+					</c:if>
+					<c:if test="${orderNum eq null or orderNum eq orderList.orderNum}">
+						<tr>
+							<td>${orderList.orderNum}</td>
+							<td>(${orderList.temperature})${orderList.menu}</td>
+							<td>${orderList.beverageSize}</td>
+							<c:choose>   
+								<c:when test="${orderList.shot eq 0}">
+								<td>-</td>
+								</c:when>
+								<c:otherwise>
+								<td>${orderList.shot}</td>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${orderList.syrub eq 0}">
+								<td>-</td>
+								</c:when>
+								<c:otherwise>
+								<td>${orderList.syrub}</td>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${orderList.whipping eq 'N'}">
+								<td>-</td>
+								</c:when>
+								<c:otherwise>
+								<td>${orderList.whipping}</td>
+								</c:otherwise>
+							</c:choose>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td><fmt:formatNumber value="${orderList.price}" pattern="#,###,###"/></td>
+							<td></td>
+						</tr>
+					</c:if>
+					<c:set var="orderNum" value="${orderList.orderNum }" />
+				</c:forEach>
+			</tbody>
+			</c:if>
+		</table>
+		</div>
 	</div>
 	
 </body>

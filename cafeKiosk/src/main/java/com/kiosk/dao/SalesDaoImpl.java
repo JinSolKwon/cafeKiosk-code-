@@ -24,12 +24,27 @@ public class SalesDaoImpl implements SalesDao{
 	}
 	
 	@Override
-	public int menuCount(HashMap<String, String> map) {
-		return 0;
+	public int todayOrderCount() {
+		return sqlSessionTemplate.selectOne("todayOrderCount");
 	}
 	
 	@Override
-	public List<SalesVo> menuList(HashMap<String, String> map) {
-		return null;
+	public List<SalesVo> todayOrderList() {
+		return sqlSessionTemplate.selectList("todayOrderList");
+	}
+	
+	@Override
+	public List<SalesVo> todaySalesList() {
+		return sqlSessionTemplate.selectList("todaySalesList");
+	}
+	
+	@Override
+	public SalesVo periodSalesSum(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectOne("periodSalesSum", map);
+	}
+	
+	@Override
+	public SalesVo periodRefundSum(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectOne("periodRefundSum", map);
 	}
 }

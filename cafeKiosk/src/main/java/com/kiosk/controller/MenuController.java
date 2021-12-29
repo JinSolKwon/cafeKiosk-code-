@@ -69,6 +69,8 @@ public class MenuController {
 			menuList = Collections.emptyList();
 		}
 		
+		System.out.println(menuList);
+		
 		number = 1;
 		if (currentPage >= 2) {
 		number = (currentPage - 1) * 10 + 1;
