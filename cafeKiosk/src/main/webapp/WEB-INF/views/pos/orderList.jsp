@@ -130,8 +130,14 @@
 									</c:when>
 									<c:otherwise>
 										<td>
-											<button onclick="location.href='/pos/orderList/provided?orderNum=${notProvidedOrder.orderNum}'" class="btn btn-secondary px-3">주문완료</button> &nbsp;
-											<button onclick="location.href='/pos/orderList/refund?orderNum=${notProvidedOrder.orderNum}'" class="btn btn-light px-3">주문취소</button>
+											<button 
+												onclick="location.href='/pos/orderList/provided?orderNum=${notProvidedOrder.orderNum}'" 
+												class="btn btn-secondary px-3">주문완료
+											</button> &nbsp;
+											<button 
+												onclick="location.href='/pos/orderList/refund?orderNum=${notProvidedOrder.orderNum}'" 
+												class="btn btn-light px-3">주문취소
+											</button>
 										</td>
 									</c:otherwise>
 								</c:choose>
