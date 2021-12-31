@@ -135,5 +135,13 @@ public class KioskServiceImpl implements IKioskService{
 	public int categoryMaxNum() throws Exception {
 		return categoryDao.categoryMaxNum();
 	}
+
+	@Override
+	public List<HashMap<String, Object>> resultReceipe(int OrderNum) throws Exception {
+		HashMap<String, Object> hm = new HashMap<>();
+		hm.put("orderNum", OrderNum);
+		hm.put("orderDate", dateFormat());
+		return orderListDao.resultReceipe(hm);
+	}
 	
 }

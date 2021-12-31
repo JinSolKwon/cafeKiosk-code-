@@ -34,4 +34,6 @@ public interface IKioskService {
 	public int categoryMinNum() throws Exception;
 	//카테고리 번호 최대값 가져오기
 	public int categoryMaxNum() throws Exception;
+	//주문내역 영수증 출력
+	public List<HashMap<String, Object>> resultReceipe(int orderNum) throws Exception;
 }

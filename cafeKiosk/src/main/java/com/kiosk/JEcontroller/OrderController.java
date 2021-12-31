@@ -219,9 +219,12 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "receipe")
-	public String payRecipe(@RequestParam(value = "type") String type) {
+	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
-			return "redirect:/kiosk/main";
+			int orderNum = (int) session.getAttribute("orderNum");
+			List<HashMap<String, Object>> resultReceipe = kioskService.resultReceipe(orderNum);
+			session.setAttribute("resultReceipe", resultReceipe);
+			return "kiosk/receipePrint";
 		} else if (type.equals("N")) {
 			return "kiosk/payResult";
 		}
