@@ -8,18 +8,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kiosk.HSvo.CategoryVo;
+import com.kiosk.HSvo.MemberVo;
+import com.kiosk.HSvo.OptionListVo;
+import com.kiosk.HSvo.OrderListVo;
+import com.kiosk.HSvo.PaymentVo;
 import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.ReceipeResultCommand;
 import com.kiosk.JEdao.ICategoryDao;
 import com.kiosk.JEdao.IMemberDao;
 import com.kiosk.JEdao.IMenuDao;
 import com.kiosk.JEdao.IOptionListDao;
 import com.kiosk.JEdao.IOrderListDao;
 import com.kiosk.JEdao.IPaymentDao;
-import com.kiosk.HSvo.CategoryVo;
-import com.kiosk.HSvo.MemberVo;
-import com.kiosk.HSvo.OptionListVo;
-import com.kiosk.HSvo.OrderListVo;
-import com.kiosk.HSvo.PaymentVo;
 
 @Service
 public class KioskServiceImpl implements IKioskService{
@@ -137,11 +138,30 @@ public class KioskServiceImpl implements IKioskService{
 	}
 
 	@Override
-	public List<HashMap<String, Object>> resultReceipe(int OrderNum) throws Exception {
+	public List<ReceipeResultCommand> resultReceipe(int orderNum) throws Exception {
 		HashMap<String, Object> hm = new HashMap<>();
-		hm.put("orderNum", OrderNum);
+		hm.put("orderNum", orderNum);
 		hm.put("orderDate", dateFormat());
+		List<ReceipeResultCommand> resultReceipe = orderListDao.resultReceipe(hm);
+		for(int i = 0; i<resultReceipe.size(); i++) {
+			for(int j = 1; j<resultReceipe.size();j++) {
+				if(resultReceipe.get(i).getMenu().equals(resultReceipe.get(j).getMenu()) 
+						&& resultReceipe.get(i).getTemperature().equals(resultReceipe.get(j).getTemperature()) 
+						&& resultReceipe.get(i).getBeverageSize().equals(resultReceipe.get(j).getBeverageSize())
+						&& resultReceipe.get(i).getPrice() == resultReceipe.get(i).getPrice())) {
+					
+				}
+			}
+		}
 		return orderListDao.resultReceipe(hm);
+	}
+
+	@Override
+	public HashMap<String, Object> receipeInfo(int orderNum) throws Exception {
+		HashMap<String, Object> hm = new HashMap<>();
+		hm.put("orderNum", orderNum);
+		hm.put("orderDate", dateFormat());
+		return paymentDao.receipeInfo(hm);
 	}
 	
 }

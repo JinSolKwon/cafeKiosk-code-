@@ -7,44 +7,57 @@
 	<insert id="orderRegist" parameterType="orderListVo">
 		<choose>
 			<when test="temperature == null and beverageSize == null">
-				insert into 
-				ORDER_LIST 
-					("NUM", "ORDER_NUM", "MENU", "PRICE", "ORDER_DATE")
+				insert into
+				ORDER_LIST
+				("NUM", "ORDER_NUM", "MENU",
+				"PRICE", "ORDER_DATE")
 				values
-					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{price}, systimestamp)			
+				(ORDER_LIST_SEQ.nextval, #{orderNum},
+				#{menu}, #{price},
+				systimestamp)
 			</when>
 			<when test="temperature == null">
-				insert into 
-				ORDER_LIST 
-					("NUM", "ORDER_NUM", "MENU", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
+				insert into
+				ORDER_LIST
+				("NUM", "ORDER_NUM", "MENU",
+				"BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING",
+				"PRICE", "ORDER_DATE")
 				values
-					(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)
+				(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu},
+				#{beverageSize}, #{shot}, #{syrub},
+				#{whipping}, #{price},
+				systimestamp)
 			</when>
 			<otherwise>
-				insert into 
-					ORDER_LIST 
-						("NUM", "ORDER_NUM", "MENU", "TEMPERATURE", "BEVERAGE_SIZE", "SHOT", "SYRUB", "WHIPPING", "PRICE", "ORDER_DATE")
-					values
-						(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu}, #{temperature}, #{beverageSize}, #{shot}, #{syrub}, #{whipping}, #{price}, systimestamp)			
+				insert into
+				ORDER_LIST
+				("NUM", "ORDER_NUM", "MENU",
+				"TEMPERATURE", "BEVERAGE_SIZE", "SHOT",
+				"SYRUB", "WHIPPING", "PRICE",
+				"ORDER_DATE")
+				values
+				(ORDER_LIST_SEQ.nextval, #{orderNum}, #{menu},
+				#{temperature}, #{beverageSize}, #{shot},
+				#{syrub}, #{whipping},
+				#{price}, systimestamp)
 			</otherwise>
 		</choose>
 	</insert>
-	
-	<select id="orderNumCHK" parameterType="String" resultType="Integer">
-		select max(ORDER_NUM) from ORDER_LIST where to_char(ORDER_DATE, 'YYYYMMDD')=#{nowDate}
+
+	<select id="orderNumCHK" parameterType="String"
+		resultType="Integer">
+		select max(ORDER_NUM) from ORDER_LIST where
+		to_char(ORDER_DATE, 'YYYYMMDD')=#{nowDate}
 	</select>
-	
-	<select id="resultReceipe" parameterType="HashMap" resultType="HashMap">
-		select ORDERLIST.ORDER_NUM, ORDERLIST.MENU, ORDERLIST.TEMPERATURE, ORDERLIST.BEVERAGE_SIZE, ORDERLIST.SHOT, ORDERLIST.SYRUB, 
-				ORDERLIST.WHIPPING, ORDERLIST.PRICE, ORDERLIST.ORDER_DATE, PAY.POINT, PAY.CARD, PAY.CASH, PAY.TOTAL 
-			from((select ORDER_NUM, MENU, TEMPERATURE, BEVERAGE_SIZE, SHOT, SYRUB, WHIPPING, PRICE, ORDER_DATE 
-						from ORDER_LIST 
-		    		where to_char(ORDER_DATE, 'YYYYMMDD')=#{orderDate} and order_num = #{orderNum}) ORDERLIST
-				left outer join
-		    	(select ORDER_NUM, POINT, CARD, CASH, TOTAL 
-		        		from payment 
-		    		where to_char(ORDER_DATE, 'YYYYMMDD')=#{orderDate} and order_num = #{orderNum}) PAY
-				on ORDERLIST.ORDER_NUM = PAY.ORDER_NUM)
+
+	<select id="resultReceipe" parameterType="HashMap"
+		resultType="receipeResultCmd">
+		select MENU, TEMPERATURE, BEVERAGE_SIZE, SHOT,
+		PRICE,
+		ORDER_DATE
+		from ORDER_LIST
+		where to_char(ORDER_DATE,
+		'YYYYMMDD')=#{orderDate} and ORDER_NUM=#{orderNum}
 	</select>
 
 </mapper>

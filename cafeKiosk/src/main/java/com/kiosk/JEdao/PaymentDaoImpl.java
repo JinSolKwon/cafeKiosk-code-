@@ -1,5 +1,6 @@
 package com.kiosk.JEdao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,4 +22,8 @@ public class PaymentDaoImpl implements IPaymentDao{
 		sqlSessionTemplate.insert("paymentRegist", payment);
 	}
 
+	@Override
+	public HashMap<String, Object> receipeInfo(HashMap<String, Object> hm) throws Exception {
+		return sqlSessionTemplate.selectOne("receipeInfo", hm);
+	}
 }

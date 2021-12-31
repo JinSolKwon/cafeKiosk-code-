@@ -26,6 +26,7 @@
 		<typeAlias alias="menuVo" type="com.kiosk.HSvo.MenuVo"/>
 		<typeAlias alias="optionListVo" type="com.kiosk.HSvo.OptionListVo"/>
 		<typeAlias alias="refundPaymentCmd" type="com.kiosk.HScommand.RefundPaymentCmd"/>
+		<typeAlias alias="receipeResultCmd" type="com.kiosk.JEcommand.ReceipeResultCommand"/>
         
     <!-- 진솔 -->
  		<typeAlias alias="menuJSVo" type="com.kiosk.vo.MenuVo"/>

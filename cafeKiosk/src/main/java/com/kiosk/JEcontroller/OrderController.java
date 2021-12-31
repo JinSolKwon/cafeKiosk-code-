@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kiosk.JEcommand.MenuOrderCommand;
-import com.kiosk.JEservice.IKioskService;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
-import com.kiosk.HSvo.OptionListVo;
+import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.ReceipeResultCommand;
+import com.kiosk.JEservice.IKioskService;
 
 @Controller
 @RequestMapping(value = "/kiosk/")
@@ -222,8 +222,10 @@ public class OrderController {
 	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
 			int orderNum = (int) session.getAttribute("orderNum");
-			List<HashMap<String, Object>> resultReceipe = kioskService.resultReceipe(orderNum);
+			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
+			HashMap<String, Object> receipeInfo = kioskService.receipeInfo(orderNum);
 			session.setAttribute("resultReceipe", resultReceipe);
+			session.setAttribute("receipeInfo", receipeInfo);
 			return "kiosk/receipePrint";
 		} else if (type.equals("N")) {
 			return "kiosk/payResult";

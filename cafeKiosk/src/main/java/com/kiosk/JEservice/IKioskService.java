@@ -1,13 +1,13 @@
 package com.kiosk.JEservice;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.kiosk.JEcommand.MenuOrderCommand;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
 import com.kiosk.HSvo.OptionListVo;
+import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.ReceipeResultCommand;
 
 public interface IKioskService {
 	//회원가입
@@ -35,5 +35,7 @@ public interface IKioskService {
 	//카테고리 번호 최대값 가져오기
 	public int categoryMaxNum() throws Exception;
 	//주문내역 영수증 출력
-	public List<HashMap<String, Object>> resultReceipe(int orderNum) throws Exception;
+	public List<ReceipeResultCommand> resultReceipe(int orderNum) throws Exception;
+	//영수증 정보 출력
+	public HashMap<String, Object> receipeInfo(int orderNum) throws Exception;
 }
