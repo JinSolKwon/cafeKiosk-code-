@@ -26,7 +26,7 @@
 
 	<select id="receipeInfo" parameterType="HashMap"
 		resultType="HashMap">
-		select ORDER_NUM, POINT, CASH, TOTAL ,ORDER_DATE
+		select ORDER_NUM, POINT, CASH, TOTAL, CAST(ORDER_DATE as DATE) ORDER_DATE
 		from
 		PAYMENT
 		where

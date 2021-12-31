@@ -222,10 +222,13 @@ public class OrderController {
 	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
 			MemberVo member = (MemberVo) session.getAttribute("member");
-			member = kioskService.checkPhoneNumber(member.getPhone());
+			if(member != null) {
+				member = kioskService.checkPhoneNumber(member.getPhone());
+			}
 			int orderNum = (int) session.getAttribute("orderNum");
 			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
 			HashMap<String, Object> receipeInfo = kioskService.receipeInfo(orderNum);
+			System.out.println(receipeInfo.toString());
 			session.setAttribute("member", member);
 			session.setAttribute("resultReceipe", resultReceipe);
 			session.setAttribute("receipeInfo", receipeInfo);

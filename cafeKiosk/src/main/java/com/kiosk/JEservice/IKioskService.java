@@ -1,5 +1,6 @@
 package com.kiosk.JEservice;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import com.kiosk.HSvo.MemberVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.JEcommand.MenuOrderCommand;
 import com.kiosk.JEcommand.ReceipeResultCommand;
+
+import oracle.sql.TIMESTAMP;
 
 public interface IKioskService {
 	//회원가입

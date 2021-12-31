@@ -1,7 +1,7 @@
 package com.kiosk.JEservice;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +22,8 @@ import com.kiosk.JEdao.IMenuDao;
 import com.kiosk.JEdao.IOptionListDao;
 import com.kiosk.JEdao.IOrderListDao;
 import com.kiosk.JEdao.IPaymentDao;
+
+import oracle.sql.TIMESTAMP;
 
 @Service
 public class KioskServiceImpl implements IKioskService{
@@ -170,5 +172,5 @@ public class KioskServiceImpl implements IKioskService{
 		hm.put("orderDate", dateFormat());
 		return paymentDao.receipeInfo(hm);
 	}
-	
+
 }
