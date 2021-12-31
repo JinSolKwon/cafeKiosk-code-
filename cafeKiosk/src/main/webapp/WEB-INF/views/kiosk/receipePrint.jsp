@@ -13,7 +13,7 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-<fmt:formatDate var="receipeDate" pattern="YYYY-MM-DD hh:mm:ss" value="${sessionScope.resultReceipe.ORDER_DATE}"/>
+<fmt:formatDate var="receipeDate" pattern="yyyy-MM-dd HH:MM:SS" value="${sessionScope.resultReceipe.ORDER_DATE}"/>
 
 <div class="container">
 	<div class="receipe-print-header">
@@ -34,24 +34,26 @@
 			</tr>
 			<c:forEach items="${sessionScope.resultReceipe}" var="receipeOne" varStatus="status">
 				<tr class="tr-receptePrint1">
-					<td class="td-receptePrint1"><span>${receipeOne.TEMPERATURE}</span></td>
+					<td class="td-receptePrint1"><span><c:if test="${not empty receipeOne.getTemperature()}">${not empty receipeOne.getTemperature()}</c:if></span></td>
 					<td class="td-receptePrint2" colspan="2">
-						<span>${receipeOne.MENU} <c:if test="${not empty receipeOne.BEVERAGE_SIZE}">(${receipeOne.BEVERAGE_SIZE})</c:if></span>
+						<span>${receipeOne.MENU} <c:if test="${not empty receipeOne.getBeverageSize()}">(${receipeOne.getBeverageSize()})</c:if></span>
 					</td>
 					<td class="td-receptePrint3">1</td>
 					<td class="td-receptePrint4">
-						<fmt:formatNumber var="onePrice" pattern="#,###" value="${receipeOne.PRICE}"/>
+						<fmt:formatNumber var="onePrice" pattern="#,###" value="${receipeOne.getPrice()}"/>
 						${onePrice}
 					</td>
 				</tr>
-				<c:if test="">
-				<tr>
-					
+				<c:if test="${not empty receipeOne.getShot()}">
+				<tr class="th-receptePrint">
+					<td class="" colspan="5">
+						<c:set var="shotOp" value="▶ 샷추가 : ${orderOne.getShot()}" />
+					</td>
 				</tr>
 				</c:if>
 			</c:forEach>
-			<tr>
-				<td class="" colspan="5">
+			<tr class="th-receptePrint">
+				<td class="" colspan="4">
 					<span>합 계 금 액</span>
 				</td>
 				<td class="">
@@ -59,14 +61,25 @@
 					${receipeTotal}
 				</td>
 			</tr>
+			<c:if test="${not empty sessionScope.member}">
 			<tr>
 				<td colspan="5">
 					<span> *** 고객정보 ***</span>
 				</td>
 			</tr>
 			<tr>
-				<td></td>
+				<td colspan="5">
+					<c:set var="length" value="${fn:length(sessionScope.member.getPhone())}" />
+					<c:set var="phone2" value="${fn:substring(sessionScope.member.getPhone(), length-4, length-2)}" />
+					<c:set var="user" value="${phone2}**님" />
+					<span>회원명 : ${user}</span>
+				</td>
+				<td colspan="5">
+					<fmt:formatNumber var="point" pattern="#,###" value="${sessionScope.member.getPoint()}" />
+					<span>보유 포인트 : ${point}</span>
+				</td>
 			</tr>
+			</c:if>
 		</table>
 	</div>
 </div>

@@ -1,6 +1,7 @@
 package com.kiosk.JEservice;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -143,17 +144,23 @@ public class KioskServiceImpl implements IKioskService{
 		hm.put("orderNum", orderNum);
 		hm.put("orderDate", dateFormat());
 		List<ReceipeResultCommand> resultReceipe = orderListDao.resultReceipe(hm);
-		for(int i = 0; i<resultReceipe.size(); i++) {
-			for(int j = 1; j<resultReceipe.size();j++) {
-				if(resultReceipe.get(i).getMenu().equals(resultReceipe.get(j).getMenu()) 
-						&& resultReceipe.get(i).getTemperature().equals(resultReceipe.get(j).getTemperature()) 
-						&& resultReceipe.get(i).getBeverageSize().equals(resultReceipe.get(j).getBeverageSize())
-						&& resultReceipe.get(i).getPrice() == resultReceipe.get(i).getPrice())) {
-					
-				}
-			}
-		}
-		return orderListDao.resultReceipe(hm);
+//		List<ReceipeResultCommand> resultReceipe2 = new ArrayList<ReceipeResultCommand>();
+//		int cir = resultReceipe.size();
+//		for(int i = 0; i<cir; i++) {
+//			resultReceipe.get(i).setCount(1);
+//			for(int j = 1; j<cir;j++) {
+//				if(resultReceipe.get(i).getMenu().equals(resultReceipe.get(j).getMenu()) 
+//						&& resultReceipe.get(i).getTemperature().equals(resultReceipe.get(j).getTemperature()) 
+//						&& resultReceipe.get(i).getBeverageSize().equals(resultReceipe.get(j).getBeverageSize())
+//						&& resultReceipe.get(i).getPrice() == resultReceipe.get(j).getPrice()) {
+//					int count = resultReceipe.get(i).getCount();
+//					resultReceipe.get(i).setCount(++count);
+//					resultReceipe.remove(j);
+//					cir--;
+//				}
+//			}
+//		}
+		return resultReceipe;
 	}
 
 	@Override

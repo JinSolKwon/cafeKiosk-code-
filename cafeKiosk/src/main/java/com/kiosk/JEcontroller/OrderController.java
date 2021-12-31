@@ -221,9 +221,12 @@ public class OrderController {
 	@RequestMapping(value = "receipe")
 	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
+			MemberVo member = (MemberVo) session.getAttribute("member");
+			member = kioskService.checkPhoneNumber(member.getPhone());
 			int orderNum = (int) session.getAttribute("orderNum");
 			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
 			HashMap<String, Object> receipeInfo = kioskService.receipeInfo(orderNum);
+			session.setAttribute("member", member);
 			session.setAttribute("resultReceipe", resultReceipe);
 			session.setAttribute("receipeInfo", receipeInfo);
 			return "kiosk/receipePrint";
