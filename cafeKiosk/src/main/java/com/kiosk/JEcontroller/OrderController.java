@@ -228,7 +228,6 @@ public class OrderController {
 			int orderNum = (int) session.getAttribute("orderNum");
 			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
 			HashMap<String, Object> receipeInfo = kioskService.receipeInfo(orderNum);
-			System.out.println(receipeInfo.toString());
 			session.setAttribute("member", member);
 			session.setAttribute("resultReceipe", resultReceipe);
 			session.setAttribute("receipeInfo", receipeInfo);

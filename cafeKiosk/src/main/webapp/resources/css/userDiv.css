@@ -1019,8 +1019,8 @@
 	-ms-transform: translate(-50%, -50%);
 	-o-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
-	width: 70%;
-	height: 55%;
+	width: 40%;
+	height: 80%;
 	background-color: #FFFFFF;
 	border: 1px solid #EAEAEA;
 	box-shadow: 3px 3px 3px 3px gray;
@@ -1028,7 +1028,7 @@
 
 .receipe-print-header{
 	width: 100%;
-	height: 35%;
+	height: 25%;
 	margin: 0;
 	padding: 5% 0 0 0;
 }
@@ -1047,7 +1047,7 @@
 .receipe-print-header-2{
 	width: 100%;
 	height: 17%;
-	margin: 1%;
+	margin: 0.5%;
 	padding: 0;
 	text-align: center;
 }
@@ -1061,57 +1061,134 @@
 
 .receipe-print-body{
 	width: 100%;
-	height: 50%;
+	height: 65%;
 	margin: 0;
 	padding: 0;
+	overflow-y: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
-#table-receptePrint{
+.receipe-print-body::-webkit-scrollbar {
+	display: none;
+	width: 0 !important;
+}
+
+#table-receipePrint{
 	width: 100%;
 	height: 100%;
 	margin: 0;
 	padding: 0;
 	text-align: center;
 }
-.receipe-print-body table tr{
-	border: 1px solid #000000;
+.receipe-print-body thead {
+	width: 90%;
+	height: 5%;
+	margin: 0;
+	padding: 0;
 }
-
-.th-receptePrint{
+.receipe-print-body tbody {
+	width: 90%;
+	height: 75%;
+	margin: 0;
+	padding: 0;
+}
+.receipe-print-body tfoot{
+	width: 90%;
+	height: 10%;
+	margin: 0;
+	padding: 0;	
+}
+.th-receipePrint{
 	width: 100%;
 	height: 10%;
 	font-size: 19px;
 	margin: 0;
 	padding: 1% 0 1% 0;
 }
-.tr-receptePrint1{
+
+.th-receipePrint1{
+	border-top: 1px solid #444444; 
+	border-bottom: 1px solid #444444;
+}
+.tr-receipePrint1{
 	width: 100%;
-	height: 5%;
+	height: 3%;
 	font-size: 18px;
 	margin: 0;
 	padding: 0;
 }
-.td-receptePrint1-3,.td-receptePrint1-4{
+.td-receipePrint1-3,.td-receipePrint1-4{
 	width: 20%;
 	margin: 0;
 	padding: 0;
 }
-.td-receptePrint1-1{
+.td-receipePrint1-1{
 	width: 10%;
 	margin: 0;
 	padding: 0;
 	text-align: right;
 }
-.td-receptePrint1-2{
+.td-receipePrint1-2{
 	width: 50%;
 	margin: 0;
 	padding: 0 0 0 2%;
 	text-align: left;
 	
 }
-.tr-receptePrint3 {
+.td-receipePrint2{
+	width: 90%;
+	margin: 0;
+	padding: 0 0 0 10%;
+	text-align: left;	
+	font-size: 17px;
+}
+.tr-receipePrint2{
+	width: 100%;
+	height: 7%;
+	font-size: 20px;
+	margin: 0;
+	padding: 1% 0 1% 0;
+}
+
+.td-receipePrint3{
+	width: 50%;
+	margin: 0;
+	padding: 0 0 0 6%;
+	text-align: left;
+	border-top: 1px solid #444444; 
+	border-bottom: 1px solid #444444;
+}
+
+.td-receipePrint3-1{
+	width: 50%;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	border-top: 1px solid #444444; 
+	border-bottom: 1px solid #444444;
+}
+
+.tr-receipePrint3 {
+	width: 100%;
+	height: 10%;	
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: 17px;
+}
+
+.tr-receipePrint3-1 {
+	width: 100%;
+	height: 5%;	
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	font-size: 16px;
+}
+.td-receipePrint4-1{
 	width: 100%;
 	height: 3%;	
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0 6%;
 }
