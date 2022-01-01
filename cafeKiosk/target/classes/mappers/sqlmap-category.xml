@@ -12,7 +12,7 @@
 		select min(NUM) from CATEGORY
 	</select>
 	
-		<select id="categoryMaxNum" resultType="Integer">
+	<select id="categoryMaxNum" resultType="Integer">
 		select max(NUM) from CATEGORY
 	</select>
 

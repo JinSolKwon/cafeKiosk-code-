@@ -36,12 +36,13 @@ public class OrderController {
 	String order(@RequestParam(value = "num", defaultValue = "0") int num, HttpSession session, Model model)
 			throws Exception {
 		int categoryMinNum = kioskService.categoryMinNum();
-		if(num == 0) {
+		if (num == 0) {
 			num = categoryMinNum;
 		}
 		if (session.getAttribute("cateList") == null) {
 			List<CategoryVo> cateList = kioskService.categoryList();
 			session.setAttribute("cateList", cateList);
+			session.setAttribute("cateLength", cateList.size());
 		}
 		List<HashMap<String, String>> menuList = kioskService.menuList(num);
 		model.addAttribute("menuList", menuList);
@@ -49,7 +50,11 @@ public class OrderController {
 			session.removeAttribute("pageNum");
 		}
 		session.setAttribute("pageNum", num);
-		session.setAttribute("categoryNum", num-categoryMinNum);
+		session.setAttribute("categoryNum", num - categoryMinNum);
+		int cateNum = (int) session.getAttribute("categoryNum");
+		if(cateNum < 0) {
+			session.setAttribute("categoryNum", 0);			
+		}
 		return "kiosk/orderForm";
 	}
 
@@ -98,14 +103,14 @@ public class OrderController {
 		toNum -= orderList.get(num).getPrice();
 		countNum -= 1;
 		orderList.remove(num);
-		if(toNum == 0 && countNum == 0) {
+		if (toNum == 0 && countNum == 0) {
 			session.removeAttribute("orderList");
 			session.removeAttribute("orderTotal");
 			session.removeAttribute("orderCount");
-		}else {
+		} else {
 			session.setAttribute("orderList", orderList);
 			session.setAttribute("orderTotal", toNum);
-			session.setAttribute("orderCount", countNum);			
+			session.setAttribute("orderCount", countNum);
 		}
 		int pageNum = (Integer) session.getAttribute("pageNum");
 		return "redirect:/kiosk/order?num=" + pageNum;
@@ -120,9 +125,9 @@ public class OrderController {
 	public String scroll(@RequestParam(value = "type") String type, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
 		int pageNum = (Integer) session.getAttribute("pageNum");
-		int cateManNum = kioskService.categoryMaxNum();
+		int cateMaxNum = kioskService.categoryMaxNum();
 		if (type.equals("N") || type == "N") {
-			if (pageNum < cateManNum) {
+			if (pageNum < cateMaxNum) {
 				pageNum += 1;
 				rttr.addFlashAttribute("scDis", "R");
 			}
@@ -222,7 +227,7 @@ public class OrderController {
 	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
 			MemberVo member = (MemberVo) session.getAttribute("member");
-			if(member != null) {
+			if (member != null) {
 				member = kioskService.checkPhoneNumber(member.getPhone());
 			}
 			int orderNum = (int) session.getAttribute("orderNum");
