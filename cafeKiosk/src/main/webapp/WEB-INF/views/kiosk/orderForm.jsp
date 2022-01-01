@@ -278,6 +278,7 @@ $(document).ready(function(){
 			})
 	}
 });
+
 //메인이동 alert
 function mainBack(){
 	Swal.fire({
@@ -309,7 +310,7 @@ if(btnDisabled === 'null'){
 var numC = '<%=session.getAttribute("categoryNum")%>';
 	$("#cateUl-orderForm").find("LI").eq(numC).css('background-color', '#F05454');
 	
-//스크롤 이동
+//버튼 스크롤 이동
 $(document).ready(function cateMove(){
 	var cateWidth = $('.header-orderForm1-2').width();
 	var cateLength = '<%=session.getAttribute("cateLength")%>';

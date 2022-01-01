@@ -36,7 +36,7 @@ public class OrderController {
 	String order(@RequestParam(value = "num", defaultValue = "0") int num, HttpSession session, Model model)
 			throws Exception {
 		int categoryMinNum = kioskService.categoryMinNum();
-		if (num == 0) {
+		if (num == 0 || num < categoryMinNum) {
 			num = categoryMinNum;
 		}
 		if (session.getAttribute("cateList") == null) {
@@ -129,13 +129,11 @@ public class OrderController {
 		if (type.equals("N") || type == "N") {
 			if (pageNum < cateMaxNum) {
 				pageNum += 1;
-				rttr.addFlashAttribute("scDis", "R");
 			}
 		}
 		if (type.equals("A") || type == "A") {
 			if (1 < pageNum) {
 				pageNum -= 1;
-				rttr.addFlashAttribute("scDis", "L");
 			}
 		}
 		return "redirect:/kiosk/order?num=" + pageNum;
