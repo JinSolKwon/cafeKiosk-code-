@@ -2,6 +2,7 @@ package com.kiosk.JEservice;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -145,24 +146,29 @@ public class KioskServiceImpl implements IKioskService{
 		HashMap<String, Object> hm = new HashMap<>();
 		hm.put("orderNum", orderNum);
 		hm.put("orderDate", dateFormat());
-		List<ReceipeResultCommand> resultReceipe = orderListDao.resultReceipe(hm);
-//		List<ReceipeResultCommand> resultReceipe2 = new ArrayList<ReceipeResultCommand>();
-//		int cir = resultReceipe.size();
-//		for(int i = 0; i<cir; i++) {
-//			resultReceipe.get(i).setCount(1);
-//			for(int j = 1; j<cir;j++) {
-//				if(resultReceipe.get(i).getMenu().equals(resultReceipe.get(j).getMenu()) 
-//						&& resultReceipe.get(i).getTemperature().equals(resultReceipe.get(j).getTemperature()) 
-//						&& resultReceipe.get(i).getBeverageSize().equals(resultReceipe.get(j).getBeverageSize())
-//						&& resultReceipe.get(i).getPrice() == resultReceipe.get(j).getPrice()) {
-//					int count = resultReceipe.get(i).getCount();
-//					resultReceipe.get(i).setCount(++count);
-//					resultReceipe.remove(j);
-//					cir--;
-//				}
-//			}
-//		}
-		return resultReceipe;
+		List<ReceipeResultCommand> result = orderListDao.resultReceipe(hm);
+		List<ReceipeResultCommand> saveTmp = new ArrayList<ReceipeResultCommand>();
+		List<ReceipeResultCommand> removeTmp = new ArrayList<ReceipeResultCommand>();
+		for(int i = 0; i<result.size(); i++) {
+			result.get(i).setCount(1);
+			if(!saveTmp.contains(result.get(i))) {
+				saveTmp.add(result.get(i));
+			}
+		}
+		for(int i = 0; i<result.size(); i++) {
+			if(saveTmp.contains(result.get(i))) {
+				removeTmp.add(result.get(i));
+				
+			}
+		}
+		for(ReceipeResultCommand c : saveTmp) {
+			System.out.println("for1:  "+ c.toString());			
+		}
+		System.out.println("--------");
+		for(ReceipeResultCommand c : removeTmp) {
+			System.out.println("for2:  "+ c.toString());			
+		}
+		return saveTmp;
 	}
 
 	@Override

@@ -317,7 +317,9 @@ $(document).ready(function cateMove(){
 	var cateSelect = Number(numC)+1;
 	var result = parseInt(cateWidth / cateLength);
 	result = parseInt(result * cateSelect);
-	if(cateSelect != 1){
+	if(cateSelect == cateLength){
+		$('.header-orderForm1-2').scrollLeft(cateWidth);		
+	}else if(cateSelect != 1){
 		$('.header-orderForm1-2').scrollLeft(result);		
 	}
 });

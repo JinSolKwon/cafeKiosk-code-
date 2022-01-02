@@ -1,14 +1,11 @@
 package com.kiosk.JEcommand;
 
-import java.util.Date;
-
 public class ReceipeResultCommand {
 	private String menu;
 	private String temperature;
 	private String beverageSize;
 	private int shot;
 	private int price;
-	private Date orderDate;
 	private int count;
 	public String getMenu() {
 		return menu;
@@ -49,7 +46,7 @@ public class ReceipeResultCommand {
 	@Override
 	public String toString() {
 		return "ReceipeResultCommand [menu=" + menu + ", temperature=" + temperature + ", beverageSize=" + beverageSize
-				+ ", shot=" + shot + ", price=" + price + ", orderDate=" + orderDate + ", count=" + count + "]";
+				+ ", shot=" + shot + ", price=" + price + ", count=" + count + "]";
 	}
 	
 }

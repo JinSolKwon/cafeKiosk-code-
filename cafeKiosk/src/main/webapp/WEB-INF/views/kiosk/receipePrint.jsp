@@ -56,7 +56,7 @@
 							<td class="td-receipePrint1-2" colspan="2"><span>${receipeOne.getMenu()}
 									<c:if test="${not empty receipeOne.getBeverageSize()}">(${receipeOne.getBeverageSize()})</c:if>
 							</span></td>
-							<td class="td-receipePrint1-3">1</td>
+							<td class="td-receipePrint1-3">${receipeOne.getCount()}</td>
 							<td class="td-receipePrint1-4"><fmt:formatNumber
 									var="onePrice" pattern="#,###" value="${receipeOne.getPrice()}" />
 								${onePrice}</td>
@@ -113,10 +113,10 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		function mainMove() {
+/* 		function mainMove() {
 			window.location.replace('<c:url value="/kiosk/main" />');
 		}
-		setTimeout(mainMove, 5000);
+		setTimeout(mainMove, 5000); */
 	</script>
 </body>
 </html>
