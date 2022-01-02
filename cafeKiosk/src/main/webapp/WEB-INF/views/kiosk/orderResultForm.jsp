@@ -47,7 +47,7 @@
 					<td class="th-orderResult2">수량</td>
 					<td class="th-orderResult3">가격</td>
 				</tr>
-				<c:forEach items="${sessionScope.orderList}" var="orderOne"
+				<c:forEach items="${orderResultList}" var="orderOne"
 					varStatus="status">
 					<tr class="tr-orderResult1">
 						<td class="td-orderResult1"><b>${orderOne.getMenu()}</b> <span><c:if
@@ -80,7 +80,7 @@
 						<c:set var="bever" value="사이즈 : ${orderOne.getBeverageSize()}"></c:set>
 						<td class="td-orderResult2"><c:if
 								test="${orderOne.getType() == 1}">${bever}${whip}${syrubOp}${shotOp}</c:if></td>
-						<td class="td-orderResult3">1</td>
+						<td class="td-orderResult3">${orderOne.getCount()}</td>
 						<td class="td-orderResult3"><fmt:formatNumber
 								var="orderPrice" pattern="#,###" value="${orderOne.getPrice()}" />
 							${orderPrice}</td>

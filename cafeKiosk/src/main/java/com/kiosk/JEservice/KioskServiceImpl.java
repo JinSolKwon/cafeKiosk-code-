@@ -18,6 +18,7 @@ import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
 import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.MenuOrderResultCommand;
 import com.kiosk.JEcommand.ReceipeResultCommand;
 import com.kiosk.JEdao.ICategoryDao;
 import com.kiosk.JEdao.IMemberDao;
@@ -153,13 +154,8 @@ public class KioskServiceImpl implements IKioskService {
 		Set<ReceipeResultCommand> tmp = new HashSet<>(result);
 		for (ReceipeResultCommand r : tmp) {
 			int cnt = Collections.frequency(result, r);
-			if (cnt > 1) {
-				r.setCount(cnt);
-				saveTmp.add(r);
-			} else {
-				r.setCount(1);
-				saveTmp.add(r);
-			}
+			r.setCount(cnt);
+			saveTmp.add(r);
 		}
 		return saveTmp;
 	}
@@ -170,6 +166,21 @@ public class KioskServiceImpl implements IKioskService {
 		hm.put("orderNum", orderNum);
 		hm.put("orderDate", dateFormat());
 		return paymentDao.receipeInfo(hm);
+	}
+
+	@Override
+	public List<MenuOrderResultCommand> orderResultSet(List<MenuOrderCommand> orderList) throws Exception {
+		List<MenuOrderResultCommand> saveTmp = new ArrayList<MenuOrderResultCommand>();
+		Set<MenuOrderCommand> tmp = new HashSet<>(orderList);
+		for (MenuOrderCommand cmd : tmp) {
+			int cnt = Collections.frequency(orderList, cmd);
+			MenuOrderResultCommand result = new MenuOrderResultCommand(cmd.getCategoryNum(), cmd.getType(),
+					cmd.getMenu(), cmd.getPrice(), cmd.getTemperature(), cmd.getBeverageSize(), cmd.getWhipping(),
+					cmd.getSyrub(), cmd.getShot(), cnt);
+			saveTmp.add(result);
+
+		}
+		return saveTmp;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.MenuOrderResultCommand;
 import com.kiosk.JEcommand.ReceipeResultCommand;
 
 public interface IKioskService {
@@ -52,4 +53,7 @@ public interface IKioskService {
 
 	// 영수증 정보 출력
 	public HashMap<String, Object> receipeInfo(int orderNum) throws Exception;
+
+	// 주문 결과 중복 메뉴가 있는 경우 수량만 변경
+	public List<MenuOrderResultCommand> orderResultSet(List<MenuOrderCommand> orderList) throws Exception;
 }

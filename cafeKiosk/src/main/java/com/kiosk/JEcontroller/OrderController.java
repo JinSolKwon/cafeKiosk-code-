@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
 import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.MenuOrderResultCommand;
 import com.kiosk.JEcommand.ReceipeResultCommand;
 import com.kiosk.JEservice.IKioskService;
 
@@ -116,11 +117,6 @@ public class OrderController {
 		return "redirect:/kiosk/order?num=" + pageNum;
 	}
 
-	@RequestMapping(value = "orderResult")
-	public String orderSet() {
-		return "kiosk/orderResultForm";
-	}
-
 	@RequestMapping(value = "scroll")
 	public String scroll(@RequestParam(value = "type") String type, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
@@ -139,8 +135,22 @@ public class OrderController {
 		return "redirect:/kiosk/order?num=" + pageNum;
 	}
 
+	@RequestMapping(value = "orderResult")
+	public String orderResult(Model model, HttpSession session) throws Exception {
+		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		if (orderList == null) {
+			return "redirect:/kiosk/main";
+		}
+		List<MenuOrderResultCommand> orderResultList = kioskService.orderResultSet(orderList);
+		model.addAttribute("orderResultList", orderResultList);
+		return "kiosk/orderResultForm";
+	}
+
 	@RequestMapping(value = "pay")
 	public String pay(@RequestParam(value = "mem") String mem, Model model, HttpSession session) {
+		if (session.getAttribute("orderList") == null) {
+			return "redirect:/kiosk/main";
+		}
 		if (mem.equals("M")) {
 			return "kiosk/point";
 		} else if (mem.equals("E")) {
@@ -155,8 +165,10 @@ public class OrderController {
 	public String pat2(@RequestParam(value = "cd") String cd, HttpSession session) throws Exception {
 		if (cd.equals("cd")) {
 			MemberVo member = (MemberVo) session.getAttribute("member");
-			List<MenuOrderCommand> orderList = new ArrayList<>();
-			orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+			List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+			if (orderList == null) {
+				return "redirect:/kiosk/main";
+			}
 			int orderTotal = (Integer) session.getAttribute("orderTotal");
 			String payWhat = (String) session.getAttribute("payWhat");
 			int orderNum = kioskService.orderNumCheck();
@@ -183,8 +195,10 @@ public class OrderController {
 	public String pointPay(@RequestParam(value = "type") String type, Model model, HttpSession session)
 			throws Exception {
 		MemberVo member = (MemberVo) session.getAttribute("member");
-		List<MenuOrderCommand> orderList = new ArrayList<>();
-		orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		if (orderList == null) {
+			return "redirect:/kiosk/main";
+		}
 		int orderTotal = (Integer) session.getAttribute("orderTotal");
 		int totalPayment = 0;
 		int orderNum = kioskService.orderNumCheck();
@@ -227,6 +241,9 @@ public class OrderController {
 			MemberVo member = (MemberVo) session.getAttribute("member");
 			if (member != null) {
 				member = kioskService.checkPhoneNumber(member.getPhone());
+			}
+			if (session.getAttribute("orderNum") == null) {
+				return "redirect:/kiosk/main";
 			}
 			int orderNum = (int) session.getAttribute("orderNum");
 			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
