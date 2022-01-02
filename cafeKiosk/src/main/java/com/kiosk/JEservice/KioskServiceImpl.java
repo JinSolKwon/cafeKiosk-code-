@@ -1,11 +1,13 @@
 package com.kiosk.JEservice;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,6 @@ import com.kiosk.JEdao.IMenuDao;
 import com.kiosk.JEdao.IOptionListDao;
 import com.kiosk.JEdao.IOrderListDao;
 import com.kiosk.JEdao.IPaymentDao;
-
-import oracle.sql.TIMESTAMP;
 
 @Service
 public class KioskServiceImpl implements IKioskService{
@@ -148,24 +148,20 @@ public class KioskServiceImpl implements IKioskService{
 		hm.put("orderDate", dateFormat());
 		List<ReceipeResultCommand> result = orderListDao.resultReceipe(hm);
 		List<ReceipeResultCommand> saveTmp = new ArrayList<ReceipeResultCommand>();
-		List<ReceipeResultCommand> removeTmp = new ArrayList<ReceipeResultCommand>();
-		for(int i = 0; i<result.size(); i++) {
-			result.get(i).setCount(1);
-			if(!saveTmp.contains(result.get(i))) {
-				saveTmp.add(result.get(i));
-			}
-		}
-		for(int i = 0; i<result.size(); i++) {
-			if(saveTmp.contains(result.get(i))) {
-				removeTmp.add(result.get(i));
-				
-			}
-		}
-		for(ReceipeResultCommand c : saveTmp) {
-			System.out.println("for1:  "+ c.toString());			
+		Set<ReceipeResultCommand> tmp = new HashSet<>(result);
+		for(ReceipeResultCommand r : tmp) {
+			int cnt = Collections.frequency(result, r);
+			System.out.println(r + " : " + cnt);
+			if(cnt > 1) {
+				r.setCount(cnt);
+				saveTmp.add(r);
+			}else {
+				r.setCount(1);
+				saveTmp.add(r);				
+			}	
 		}
 		System.out.println("--------");
-		for(ReceipeResultCommand c : removeTmp) {
+		for(ReceipeResultCommand c : saveTmp) {
 			System.out.println("for2:  "+ c.toString());			
 		}
 		return saveTmp;
