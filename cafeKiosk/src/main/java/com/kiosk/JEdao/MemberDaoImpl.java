@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.HSvo.MemberVo;
 
 @Repository
-public class MemberDaoImpl implements IMemberDao{
+public class MemberDaoImpl implements IMemberDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
@@ -22,15 +22,15 @@ public class MemberDaoImpl implements IMemberDao{
 	public MemberVo loginMember(String phone) throws Exception {
 		return sqlSessionTemplate.selectOne("loginMember", phone);
 	}
-	
+
 	@Override
 	public void orderPointMinus(HashMap<String, Integer> hm) throws Exception {
-		sqlSessionTemplate.update("orderPointMinus", hm);		
+		sqlSessionTemplate.update("orderPointMinus", hm);
 	}
 
 	@Override
 	public void orderPointPlus(HashMap<String, Integer> hm) throws Exception {
-		sqlSessionTemplate.update("orderPointPlus", hm);		
+		sqlSessionTemplate.update("orderPointPlus", hm);
 	}
-	
+
 }

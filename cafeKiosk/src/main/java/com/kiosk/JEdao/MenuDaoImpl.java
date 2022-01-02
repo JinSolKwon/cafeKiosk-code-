@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.HSvo.MenuVo;
 
 @Repository
-public class MenuDaoImpl implements IMenuDao{
+public class MenuDaoImpl implements IMenuDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
@@ -24,6 +24,5 @@ public class MenuDaoImpl implements IMenuDao{
 	public HashMap<String, String> menuOption(int num) throws Exception {
 		return sqlSessionTemplate.selectOne("menuOption", num);
 	}
-	
 
 }

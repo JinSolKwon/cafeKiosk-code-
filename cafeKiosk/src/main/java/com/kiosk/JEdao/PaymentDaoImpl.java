@@ -12,7 +12,7 @@ import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
 
 @Repository
-public class PaymentDaoImpl implements IPaymentDao{
+public class PaymentDaoImpl implements IPaymentDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;

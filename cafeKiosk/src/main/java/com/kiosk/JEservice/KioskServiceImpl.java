@@ -27,7 +27,7 @@ import com.kiosk.JEdao.IOrderListDao;
 import com.kiosk.JEdao.IPaymentDao;
 
 @Service
-public class KioskServiceImpl implements IKioskService{
+public class KioskServiceImpl implements IKioskService {
 	@Autowired
 	private IMemberDao memberDao;
 	@Autowired
@@ -40,7 +40,7 @@ public class KioskServiceImpl implements IKioskService{
 	private IPaymentDao paymentDao;
 	@Autowired
 	private IOptionListDao optionListDao;
-	
+
 	@Override
 	public void registMember(MemberVo member) throws Exception {
 		memberDao.registMember(member);
@@ -63,47 +63,49 @@ public class KioskServiceImpl implements IKioskService{
 
 	@Override
 	public void userOrder(MemberVo member, List<MenuOrderCommand> orderList, int orderNum) throws Exception {
-		for(MenuOrderCommand moc : orderList) {
-			if(moc.getType() == 2) {
+		for (MenuOrderCommand moc : orderList) {
+			if (moc.getType() == 2) {
 				moc.setTemperature(null);
 				moc.setWhipping(null);
 			}
-			OrderListVo order = new OrderListVo(orderNum, moc.getMenu(), moc.getTemperature(), moc.getBeverageSize(), moc.getShot(), moc.getSyrub(), moc.getWhipping(), moc.getPrice());
+			OrderListVo order = new OrderListVo(orderNum, moc.getMenu(), moc.getTemperature(), moc.getBeverageSize(),
+					moc.getShot(), moc.getSyrub(), moc.getWhipping(), moc.getPrice());
 			orderListDao.orderRegist(order);
 		}
 	}
 
 	@Override
-	public void userPayment(MemberVo member, int orderTotal, int totalPayment, String payWhat, int orderNum) throws Exception {
+	public void userPayment(MemberVo member, int orderTotal, int totalPayment, String payWhat, int orderNum)
+			throws Exception {
 		PaymentVo payment = new PaymentVo();
 		HashMap<String, Integer> hm = new HashMap<>();
-		if(payWhat != null && payWhat.equals("card")) {
+		if (payWhat != null && payWhat.equals("card")) {
 			int point = (int) (orderTotal * 0.1);
 			hm.put("num", member.getNum());
 			hm.put("point", point);
 			memberDao.orderPointPlus(hm);
 			payment.setMemberNum(member.getNum());
 			payment.setCard(orderTotal);
-		}else if(payWhat != null && payWhat.equals("cardPoint")) {
+		} else if (payWhat != null && payWhat.equals("cardPoint")) {
 			hm.put("num", member.getNum());
 			hm.put("point", member.getPoint());
 			memberDao.orderPointMinus(hm);
 			payment.setCard(totalPayment);
 			payment.setPoint(member.getPoint());
-		}else if(payWhat != null && payWhat.equals("point")) {
+		} else if (payWhat != null && payWhat.equals("point")) {
 			hm.put("num", member.getNum());
-			hm.put("point", orderTotal);	
+			hm.put("point", orderTotal);
 			memberDao.orderPointMinus(hm);
 			payment.setPoint(orderTotal);
-		}else if(payWhat == null || payWhat == "") {
-			payment.setCard(totalPayment);			
+		} else if (payWhat == null || payWhat == "") {
+			payment.setCard(totalPayment);
 		}
 		payment.setOrderNum(orderNum);
 		payment.setTotal(orderTotal);
 		paymentDao.paymentRegist(payment);
 	}
-	
-	public List<OptionListVo> optionList() throws Exception{
+
+	public List<OptionListVo> optionList() throws Exception {
 		return optionListDao.optionList();
 	}
 
@@ -123,10 +125,10 @@ public class KioskServiceImpl implements IKioskService{
 	@Override
 	public int orderNumCheck() throws Exception {
 		Integer orderNum = orderListDao.orderNumCHK(dateFormat());
-		if(orderNum == null) {
+		if (orderNum == null) {
 			return 1;
-		}else {
-			orderNum += 1;			
+		} else {
+			orderNum += 1;
 			return orderNum;
 		}
 	}
@@ -149,15 +151,15 @@ public class KioskServiceImpl implements IKioskService{
 		List<ReceipeResultCommand> result = orderListDao.resultReceipe(hm);
 		List<ReceipeResultCommand> saveTmp = new ArrayList<ReceipeResultCommand>();
 		Set<ReceipeResultCommand> tmp = new HashSet<>(result);
-		for(ReceipeResultCommand r : tmp) {
+		for (ReceipeResultCommand r : tmp) {
 			int cnt = Collections.frequency(result, r);
-			if(cnt > 1) {
+			if (cnt > 1) {
 				r.setCount(cnt);
 				saveTmp.add(r);
-			}else {
+			} else {
 				r.setCount(1);
-				saveTmp.add(r);				
-			}	
+				saveTmp.add(r);
+			}
 		}
 		return saveTmp;
 	}

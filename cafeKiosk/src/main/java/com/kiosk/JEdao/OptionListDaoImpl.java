@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.HSvo.OptionListVo;
 
 @Repository
-public class OptionListDaoImpl implements IOptionListDao{
+public class OptionListDaoImpl implements IOptionListDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+
 	@Override
 	public List<OptionListVo> optionList() throws Exception {
 		return sqlSessionTemplate.selectList("optionList");

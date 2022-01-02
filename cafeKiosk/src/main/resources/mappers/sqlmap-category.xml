@@ -5,15 +5,18 @@
 
 <mapper namespace="categoryDao">
 	<select id="categoryList" resultType="categoryVo">
-		select * from CATEGORY order by NUM, TYPE
+		select * from CATEGORY
+		order by NUM, TYPE
 	</select>
-	
+
 	<select id="categoryMinNum" resultType="Integer">
-		select min(NUM) from CATEGORY
+		select min(NUM) from
+		CATEGORY
 	</select>
-	
+
 	<select id="categoryMaxNum" resultType="Integer">
-		select max(NUM) from CATEGORY
+		select max(NUM) from
+		CATEGORY
 	</select>
 
 </mapper>

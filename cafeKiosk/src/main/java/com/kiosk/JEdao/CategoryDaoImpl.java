@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.HSvo.CategoryVo;
 
 @Repository
-public class CategoryDaoImpl implements ICategoryDao{
+public class CategoryDaoImpl implements ICategoryDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+
 	@Override
 	public List<CategoryVo> categoryList() throws Exception {
 		return sqlSessionTemplate.selectList("categoryList");

@@ -113,7 +113,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
- 		function mainMove() {
+		function mainMove() {
 			window.location.replace('<c:url value="/kiosk/main" />');
 		}
 		setTimeout(mainMove, 5000);

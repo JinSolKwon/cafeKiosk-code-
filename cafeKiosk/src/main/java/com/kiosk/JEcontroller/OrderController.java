@@ -52,8 +52,8 @@ public class OrderController {
 		session.setAttribute("pageNum", num);
 		session.setAttribute("categoryNum", num - categoryMinNum);
 		int cateNum = (int) session.getAttribute("categoryNum");
-		if(cateNum < 0) {
-			session.setAttribute("categoryNum", 0);			
+		if (cateNum < 0) {
+			session.setAttribute("categoryNum", 0);
 		}
 		return "kiosk/orderForm";
 	}
