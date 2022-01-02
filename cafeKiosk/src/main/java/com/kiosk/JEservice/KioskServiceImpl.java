@@ -151,7 +151,6 @@ public class KioskServiceImpl implements IKioskService{
 		Set<ReceipeResultCommand> tmp = new HashSet<>(result);
 		for(ReceipeResultCommand r : tmp) {
 			int cnt = Collections.frequency(result, r);
-			System.out.println(r + " : " + cnt);
 			if(cnt > 1) {
 				r.setCount(cnt);
 				saveTmp.add(r);
@@ -159,10 +158,6 @@ public class KioskServiceImpl implements IKioskService{
 				r.setCount(1);
 				saveTmp.add(r);				
 			}	
-		}
-		System.out.println("--------");
-		for(ReceipeResultCommand c : saveTmp) {
-			System.out.println("for2:  "+ c.toString());			
 		}
 		return saveTmp;
 	}
