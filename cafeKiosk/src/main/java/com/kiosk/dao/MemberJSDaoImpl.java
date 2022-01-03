@@ -35,7 +35,7 @@ public class MemberJSDaoImpl implements MemberJSDao{
 	
 	@Override
 	public MemberVo member(int num) {
-		return sqlSessionTemplate.selectOne("selectMember", num);
+		return sqlSessionTemplate.selectOne("selectMember1", num);
 	}
 	
 	@Override

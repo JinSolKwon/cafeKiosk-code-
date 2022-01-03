@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 회원 가져오기 -->
-	<select id="selectMember" parameterType="int" resultType="memberVo">
+	<select id="selectMember1" parameterType="int" resultType="memberVo">
 		select * from MEMBER where NUM = #{value}
 	</select>
 	
