@@ -69,6 +69,21 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	@Override
+	public MenuVo menuImageInfo(String menu) {
+		return menuDao.menuImageInfo(menu);
+	}
+	
+	@Override
+	public int menuUpdate(MenuVo vo) {
+		return menuDao.menuUpdate(vo);
+	}
+	
+	@Override
+	public int menuImageUpdate(MenuVo vo) {
+		return menuDao.menuImageUpdate(vo);
+	}
+	
+	@Override
 	public MenuVo menuSelect(int num) {
 		return menuDao.menuSelect(num);
 	}

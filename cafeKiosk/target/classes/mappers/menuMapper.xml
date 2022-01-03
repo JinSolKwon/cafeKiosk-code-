@@ -27,7 +27,7 @@
 	  			where MENU like '%' || #{menu} ||'%'
 	  	  </if>
 		  order by NUM asc ,REGDATE asc)) A,
-		  (select * from CATEGORY
+		  (select NUM, TYPE, CATEGORY from CATEGORY
 		  <if test='type!=null or !type.equals("")'>
 	  			where TYPE like '%' || #{type} ||'%'
 	  	  </if>
@@ -35,7 +35,7 @@
 		  (select * from MENU_IMAGE) C
 		  where B.NUM = A.CATEGORYNUM
 		  and A.MENU = C.MENU (+)
-		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
+		  <![CDATA[and RNUM >= #{start} and RNUM <= #{end} ]]>
 	</select>
 	
 	<!-- 마스터 패스워드 가져오기 -->
@@ -60,6 +60,23 @@
 		insert into MENU_IMAGE(NUM,MENU,SAVE_NAME,EXTENSION,REGDATE)
 			values (MENU_IMAGE_SEQ.nextval,#{menu},#{saveName},#{extension},sysdate)
 	</insert>
+	
+	<!-- 메뉴 이미지 정보 가져오기 -->
+	<select id="menuImageInfo" parameterType="String" resultType="menuJsVo">
+		select * from MENU_IMAGE where menu = #{menu}
+	</select>
+	
+	<!-- 메뉴 수정 -->
+	<update id="menuUpdate" parameterType="menuJSVo">
+	update MENU set MENU=#{menu}, CATEGORY_NUM=#{categoryNum}, PRICE=#{price}
+		where NUM = #{num}
+	</update>
+	
+	<!-- 메뉴 사진 수정 -->
+	<update id="menuImageUpdate" parameterType="menuJSVo">
+	update MENU_IMAGE set SAVE_NAME=#{saveName}, extension=#{extension}
+		where MENU=#{menu}
+	</update>
 	
 	<!-- 카테고리 목록 가져오기 -->
 	<select id="getCategory" resultType="menuJSVo">
@@ -118,6 +135,7 @@
 		values (CATEGORY_SEQ.nextval,#{type},#{category})
 	</insert>
 	
+	<!-- 카테고리 수정 -->
 	<update id="categoryUpdate" parameterType="menuJSVo">
 	update CATEGORY set TYPE=#{type}, CATEGORY=#{category}
 		where NUM = #{categoryNum}

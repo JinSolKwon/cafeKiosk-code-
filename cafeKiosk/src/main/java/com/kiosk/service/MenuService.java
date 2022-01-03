@@ -23,6 +23,12 @@ public interface MenuService {
 	
 	public abstract void menuImageInsert(MenuVo vo);
 	
+	public abstract MenuVo menuImageInfo(String menu);
+	
+	public abstract int menuUpdate(MenuVo vo);
+	
+	public abstract int menuImageUpdate(MenuVo vo);
+	
 	public abstract MenuVo menuSelect(int num);
 	
 	public abstract int changeActivation(MenuVo vo);

@@ -462,11 +462,12 @@
 		var chk = Swal.fire({
             title: '메뉴 수정',
             html:
+            	'<form id="regForm2" method="post" action ="<c:url value="/managerPage/updateMenu"/>" enctype="multipart/form-data">'+
             	'<table class="tableModal">'+
             		'<tr style="height:40px;">'+
             			'<td>카테고리</td>'+
 	        			'<td colspan="2">'+
-            				'<select name="category" id="category" style="width:100%;vertical-align:middle;">'+
+            				'<select name="category1" id="category1" style="width:100%;vertical-align:middle;">'+
 							'<option value="" selected>카테고리 선택</option>'+
 		  					'<c:forEach var="category" items="${categoryList}">'+
 								'<option value="${category.num}">${category.category}</option>'+						
@@ -478,14 +479,15 @@
 			    	'<tr>'+
 			    		'<td>메뉴이름</td>'+
 			    		'<td colspan="2">'+
-		 	                '<input type="text" id="swal-input1" class="swal2-input" value="'+menu+'" placeholder="메뉴명" style="width:200px;">'+
+			    			'<input type="hidden" id="num1" name="num1" value="'+num+'">'+
+		 	                '<input type="text" name="swal-input1" id="swal-input1" class="swal2-input" value="'+menu+'" placeholder="메뉴명" style="width:200px;">'+
 		 	            '</td>'+
-		 	            '<td><button class="btn btn-secondary" id="categoryChk1" onclick="fn_categoryChk1();" type="button" value="N">중복체크</button></td>'+
+		 	            '<td><button class="btn btn-secondary" id="menuChk1" onclick="fn_menuChk1();" type="button" value="N">중복체크</button></td>'+
 		 	        '</tr>'+
 		 	       '<tr>'+
 			    		'<td>메뉴가격</td>'+
 			    		'<td colspan="2">'+
-		 	                '<input type="text" id="swal-input2" class="swal2-input" value="'+price+'" placeholder="메뉴명" style="width:200px;">'+
+		 	                '<input type="text" name="swal-input2" id="swal-input2" class="swal2-input" value="'+price+'" placeholder="메뉴명" style="width:200px;">'+
 		 	            '</td>'+
 		 	            '<td style="text-align:left;">원</td>'+
 	 	        	'</tr>' + 
@@ -499,24 +501,33 @@
 					'</tr>'+
 					'</table>'+
 					'<div id ="image_container1" style="text-align:center;align-items:center;">'+
-					'</div>'
+					'<img id="modal-img" alt="" src="">'+
+					'</div>'+
+					'</form>'
                 ,
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     // Validate input 
-                    if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
-                        Swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                    var idChkVal1 = $("#menuChk1").val();
+                    if ($("#category1").val()=="") {
+                        Swal.showValidationMessage("메뉴 카테고리를 선택해주세요."); // Show error when validation fails.
                         Swal.enableButtons(); // Enable the button again.
-                    } else if ($('#swal-input1').val() != masterPass){
-                    	Swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
+                    } else if ($('#swal-input1').val() ==""){
+                    	Swal.showValidationMessage("메뉴 이름을 입력해주세요."); // Show error when validation fails.
                     	Swal.enableButtons(); // Enable the button again.
-                	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
-                		Swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
+                	} else if ($('#swal-input2').val() =="" ) {
+                		Swal.showValidationMessage("메뉴 가격을 입력해주세요."); // Show error when validation fails.
+                		Swal.enableButtons(); // Enable the button again.
+                	} else if (idChkVal1 == "N"){
+                		Swal.showValidationMessage("메뉴이름 중복체크를 해주세요."); // Show error when validation fails.
                 		Swal.enableButtons(); // Enable the button again.
                 	} else {
                         swal.resetValidationMessage(); // Reset the validation message.
                         resolve([
-                            str = $('#swal-input2').val(),
+                        	category = $('#category1').val(),
+                        	menu = $('#swal-input1').val(),
+                            price = $('#swal-input2').val(),
+                            image = $('#btn-file1').val()
                         ]);
                     }
                 })
@@ -530,14 +541,15 @@
     		allowOutsideClick: false
         }).then((result) => {
             if (result.value) {
+                $("#regForm2").submit();
 			$.ajax({ 
 			    url : 'updateMenu',        // 전송 URL
 			    type : 'POST',                // POST 방식
+			    enctype : 'multipart/form-data',
 			    traditional : true,
-			    data : {
-			    	str : str,   		// 보내고자 하는 data 변수 설정
-			    	num : num
-			    },
+			    processData: false,
+			    contentType: false,
+			    data : formData,
               success: function(jdata){
                   if(jdata = 1) {
                       location.replace("menuControl") //list 로 페이지 새로고침
@@ -571,7 +583,25 @@
 	    	
 	    reader.readAsDataURL(event.target.files[0]);
 	}
-
+	
+	// 스윗알럿 메뉴 이름 중복체크
+	function fn_menuChk1(){	
+		$.ajax({
+			url : "menuChk",
+			type : "post",
+			dataType : "json",
+			data : {"menu" : $("#swal-input1").val()},
+			success : function(data){
+				if(data == 2){
+					alert("중복된 메뉴이름입니다.");
+				}else if(data < 2){
+					$("#menuChk1").attr("value", "Y");
+					alert("사용가능한 메뉴이름입니다.");
+				}
+			}
+		})
+	}
+	
 	// 파일 선택 여부 확인
 	document.getElementById('file1').addEventListener('change', function(){
 		$('#image_container1').empty();

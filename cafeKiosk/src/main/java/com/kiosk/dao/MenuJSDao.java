@@ -31,6 +31,15 @@ public interface MenuJSDao {
 	//메뉴 이미지 생성 메서드
 	public abstract void menuImageInsert(MenuVo vo);
 	
+	//메뉴 이미지 정보 가져오기 메서드
+	public abstract MenuVo menuImageInfo(String menu); 
+	
+	//메뉴 수정 메서드
+	public abstract int menuUpdate(MenuVo vo);
+	
+	//메뉴 사진 수정 메서드
+	public abstract int menuImageUpdate(MenuVo vo);
+	
 	//메뉴 정보 가져오기 메서드
 	public abstract MenuVo menuSelect(int num);
 	

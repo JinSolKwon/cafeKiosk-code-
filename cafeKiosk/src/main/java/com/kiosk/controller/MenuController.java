@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kiosk.service.MenuService;
 import com.kiosk.vo.MenuVo;
@@ -68,8 +69,6 @@ public class MenuController {
 		} else {
 			menuList = Collections.emptyList();
 		}
-		
-		System.out.println(menuList);
 		
 		number = 1;
 		if (currentPage >= 2) {
@@ -135,20 +134,15 @@ public class MenuController {
 		
 		String fileBaseName = FilenameUtils.getBaseName(file.getOriginalFilename());
 		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-		System.out.println("파일명: " + fileBaseName);
-		System.out.println("확장자명: " + extension);
-		System.out.println(fileBaseName + "." + extension);
 		
 		vo.setCategoryNum(categoryNum);
 		vo.setMenu(menu);
 		vo.setPrice(price);
 		
-		System.out.println(vo);
-		
 		if ( service.menuCheck(vo) == 0) {
 			if(!file.getOriginalFilename().isEmpty()) {
-				if(extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") 
-						|| extension.equals("gif") || extension.equals("bmp")) {
+				if(extension.toLowerCase().equals("jpg") || extension.toLowerCase().equals("jpeg") || extension.toLowerCase().equals("png") 
+						|| extension.toLowerCase().equals("gif") || extension.toLowerCase().equals("bmp")) {
 					file.transferTo(new File(FILE_PATH, file.getOriginalFilename()));
 					vo.setSaveName(fileBaseName);
 					vo.setExtension(extension);
@@ -184,6 +178,56 @@ public class MenuController {
 		return result;
 	}
 	
+	//메뉴 수정
+	@PostMapping("updateMenu")
+	public String updateMenu(@RequestParam("file1")MultipartFile file, Model model, HttpSession session, MultipartHttpServletRequest req,
+			HttpServletRequest request, MenuVo vo)throws IllegalStateException, IOException {
+		int num = Integer.parseInt(request.getParameter("num1"));
+		int categoryNum = Integer.parseInt(request.getParameter("category1"));
+		String menu = request.getParameter("swal-input1");
+		String price = request.getParameter("swal-input2");
+		
+		int price1 = Integer.parseInt(price.replaceAll("\\,", ""));
+		
+		
+		String fileBaseName = FilenameUtils.getBaseName(file.getOriginalFilename());
+		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		vo.setNum(num);
+		vo.setCategoryNum(categoryNum);
+		vo.setMenu(menu);
+		vo.setPrice(price1);
+		
+		MenuVo vo2 = service.menuImageInfo(menu);
+		String beforeFilename = null;
+		
+		if ( service.menuCheck(vo) < 2) {
+			if(!file.getOriginalFilename().isEmpty()) {
+				if(extension.toLowerCase().equals("jpg") || extension.toLowerCase().equals("jpeg") || extension.toLowerCase().equals("png") 
+						|| extension.toLowerCase().equals("gif") || extension.toLowerCase().equals("bmp")) {
+					if (vo2.getSaveName() != null) {
+						beforeFilename = vo2.getSaveName() + "." + vo2.getExtension();
+						if (!beforeFilename.equals("")) {
+							File dir = new File(FILE_PATH);
+							File[] files = dir.listFiles();
+							for (File f : files) {
+								if (f.getName().equals(beforeFilename)) {
+									f.delete();
+								}
+							}
+						}
+					}
+					file.transferTo(new File(FILE_PATH, file.getOriginalFilename()));
+					vo.setSaveName(fileBaseName);
+					vo.setExtension(extension);
+					System.out.println(vo);
+					service.menuUpdate(vo);
+					service.menuImageUpdate(vo);
+				}
+			}
+		}
+		return "redirect:menuControl";
+	}
 	
 	// 카테고리 관리 페이지
 	@RequestMapping("categoryControl")
