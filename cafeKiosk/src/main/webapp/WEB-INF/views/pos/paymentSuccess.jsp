@@ -27,9 +27,13 @@
 		<div class="row fs-3 text-center my-3">
 			<b>결제에 성공했습니다.</b>
 		</div>
-		<div class="row text-center">
-			<div class="my-3 text-center">
-				<button class="btn btn-outline-secondary" onclick="location.href='/pos/menuOrder'" style="width: 250px;">돌아가기</button>
+		<div class="row text-center justify-content-end">
+			<div class="col-6 my-3 text-center">
+			<!-- 영수증 출력만 서비스갔다오기 -->
+				<button class="btn btn-outline-secondary" onclick="location.href='/pos/menuOrder'" style="width: 150px;">영수증출력</button>
+			</div>
+			<div class="col-6 my-3 text-center">
+				<button class="btn btn-outline-secondary" onclick="location.href='/pos/menuOrder'" style="width: 150px;">영수증미출력</button>
 			</div>
 		</div>
 				
