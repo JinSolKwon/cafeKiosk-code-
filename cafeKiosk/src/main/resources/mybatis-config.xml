@@ -14,6 +14,7 @@
   <typeAliases>
 		<!-- 지은 -->
     <typeAlias alias="menuImageVo" type="com.kiosk.JEvo.MenuImageVo"/>
+    <typeAlias alias="receipeResultCmd" type="com.kiosk.JEcommand.ReceipeResultCommand"/>
     
     <!-- 화석 -->
 		<typeAlias alias="managerVo" type="com.kiosk.HSvo.ManagerVo"/>
