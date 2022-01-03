@@ -21,21 +21,101 @@
 	
 	<!-- 메뉴 목록 가져오기 -->
 	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
-      select * from (select rownum RNUM, NUM, CATEGORY_NUM as CATEGORYNUM, MENU, PRICE, REGDATE, USING 
-		  from (select * from MENU
-		  <if test='menu!=null or !menu.equals("")'>
-	  			where MENU like '%' || #{menu} ||'%'
-	  	  </if>
-		  order by NUM asc ,REGDATE asc)) A,
-		  (select NUM, TYPE, CATEGORY from CATEGORY
-		  <if test='type!=null or !type.equals("")'>
-	  			where TYPE like '%' || #{type} ||'%'
-	  	  </if>
-		  ) B,
-		  (select * from MENU_IMAGE) C
-		  where B.NUM = A.CATEGORYNUM
-		  and A.MENU = C.MENU (+)
+		select
+		    *
+		from(
+		        select
+		            ROWNUM,
+		            a.menu_num, 
+		            a.CATEGORY_NUM, 
+		            a.MENU,   
+		            a.PRICE, 
+		            a.REGDATE, 
+		            a.USING,
+		            b.type,
+		            b.category
+		        from
+		            (select
+		                num as menu_num,
+		                category_num,
+		                menu,
+		                price,
+		                regdate,
+		                using
+		             from
+		                menu
+		             where
+		                num > 0
+		                <if test='menu!=null or !menu.equals("")'>
+				  		and MENU like '%' || #{menu} ||'%'
+				  	 	</if>
+		            )A,
+		            (select
+		                num as category_num,
+		                type,
+		                category
+		            from 
+		                category
+		            where
+		                num > 0
+		                <if test='type!=null or !type.equals("")'>
+					  	and TYPE = #{type}
+					  	</if>
+		            )B
+		        where
+		            b.category_num = a.category_num
+		            <![CDATA[and ROWNUM >= #{start} and ROWNUM <= #{end} ]]>
+		        )C,
+		        menu_image D
+		where
+		    c.MENU = D.MENU (+)
+		order by
+		    menu_num asc;
+	
+	<!-- 
+	select 
+      	* 
+    from (
+      	select 
+      		rownum RNUM,
+      		NUM, 
+      		CATEGORY_NUM as CATEGORYNUM, 
+      		MENU, 
+      		PRICE, 
+      		REGDATE, 
+      		USING 
+		 from (
+		 	select 
+		 		* 
+		 	from 
+		 		MENU
+			  <if test='menu!=null or !menu.equals("")'>
+		  			where MENU like '%' || #{menu} ||'%'
+		  	  </if>
+		  	order by NUM asc,
+		  	REGDATE asc
+		  	)
+		  ) A,
+			(select 
+			  	NUM, 
+			  	TYPE, 
+			  	CATEGORY 
+			  from 
+			  	CATEGORY
+				  <if test='type!=null or !type.equals("")'>
+			  			where TYPE = #{type}
+			  	  </if>
+			) B,
+		  (select 
+		  	* 
+		  from 
+		  	MENU_IMAGE
+		  ) C
+		  where 
+		  	B.NUM = A.CATEGORYNUM
+		  	and A.MENU = C.MENU (+)
 		  <![CDATA[and RNUM >= #{start} and RNUM <= #{end} ]]>
+	 -->
 	</select>
 	
 	<!-- 마스터 패스워드 가져오기 -->
