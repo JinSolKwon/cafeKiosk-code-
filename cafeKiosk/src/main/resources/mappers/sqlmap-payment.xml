@@ -6,20 +6,38 @@
 <mapper namespace="paymentDao">
 	<insert id="paymentRegist" parameterType="paymentVo">
 		<if test="memberNum == 0">
-		insert into 
+			insert into
 			PAYMENT
-				("NUM", "ORDER_NUM", "POINT", "CARD", "TOTAL", "ORDER_DATE")
+			("NUM", "ORDER_NUM", "POINT", "CARD",
+			"TOTAL", "ORDER_DATE")
 			values
-				(PAYMENT_SEQ.nextval, #{orderNum}, #{point}, #{card}, #{total}, systimestamp)
-		
+			(PAYMENT_SEQ.nextval, #{orderNum},
+			#{point}, #{card}, #{total},
+			systimestamp)
+
 		</if>
 		<if test="memberNum gt 0">
-		insert into 
+			insert into
 			PAYMENT
-				("NUM", "ORDER_NUM", "MEMBER_NUM", "POINT", "CARD", "TOTAL", "ORDER_DATE")
+			("NUM", "ORDER_NUM", "MEMBER_NUM",
+			"POINT", "CARD", "TOTAL", "ORDER_DATE")
 			values
-				(PAYMENT_SEQ.nextval, #{orderNum}, #{memberNum}, #{point}, #{card}, #{total}, systimestamp)
+			(PAYMENT_SEQ.nextval,
+			#{orderNum}, #{memberNum}, #{point}, #{card}, #{total},
+			systimestamp)
 		</if>
 	</insert>
+
+	<select id="receipeInfo" parameterType="HashMap"
+		resultType="HashMap">
+		select ORDER_NUM, POINT, CASH, TOTAL, CAST(ORDER_DATE as
+		DATE) ORDER_DATE
+		from
+		PAYMENT
+		where
+		to_char(ORDER_DATE,
+		'YYYYMMDD')=#{orderDate} and order_num =
+		#{orderNum}
+	</select>
 
 </mapper>
