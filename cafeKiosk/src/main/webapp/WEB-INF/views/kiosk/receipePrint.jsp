@@ -29,7 +29,7 @@
 				<span>[사업자] 000-00-00000</span>
 			</div>
 			<div class="receipe-print-header-1">
-				<span>[주 소] 경기도 남양주시 별내면 광전리 </span>
+				<span>[주 소] 경기도 남양주시 별내면 청학리 </span>
 			</div>
 			<div class="receipe-print-header-1">
 				<span>[대표자] 이화석</span> <span>[TEL] 010-0000-0000</span>
