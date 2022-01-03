@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kiosk.JEcommand.MenuOrderCommand;
-import com.kiosk.JEservice.IKioskService;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
-import com.kiosk.HSvo.OptionListVo;
+import com.kiosk.JEcommand.MenuOrderCommand;
+import com.kiosk.JEcommand.MenuOrderResultCommand;
+import com.kiosk.JEcommand.ReceipeResultCommand;
+import com.kiosk.JEservice.IKioskService;
 
 @Controller
 @RequestMapping(value = "/kiosk/")
@@ -33,11 +34,16 @@ public class OrderController {
 	private IKioskService kioskService;
 
 	@RequestMapping(value = "order", method = RequestMethod.GET)
-	String order(@RequestParam(value = "num", defaultValue = "1") int num, HttpSession session, Model model)
+	String order(@RequestParam(value = "num", defaultValue = "0") int num, HttpSession session, Model model)
 			throws Exception {
+		int categoryMinNum = kioskService.categoryMinNum();
+		if (num == 0 || num < categoryMinNum) {
+			num = categoryMinNum;
+		}
 		if (session.getAttribute("cateList") == null) {
 			List<CategoryVo> cateList = kioskService.categoryList();
 			session.setAttribute("cateList", cateList);
+			session.setAttribute("cateLength", cateList.size());
 		}
 		List<HashMap<String, String>> menuList = kioskService.menuList(num);
 		model.addAttribute("menuList", menuList);
@@ -45,6 +51,11 @@ public class OrderController {
 			session.removeAttribute("pageNum");
 		}
 		session.setAttribute("pageNum", num);
+		session.setAttribute("categoryNum", num - categoryMinNum);
+		int cateNum = (int) session.getAttribute("categoryNum");
+		if (cateNum < 0) {
+			session.setAttribute("categoryNum", 0);
+		}
 		return "kiosk/orderForm";
 	}
 
@@ -89,43 +100,61 @@ public class OrderController {
 	public String orderSet(@RequestParam(value = "num") int num, HttpSession session, Model model) {
 		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
 		int toNum = (Integer) session.getAttribute("orderTotal");
+		int countNum = (Integer) session.getAttribute("orderCount");
 		toNum -= orderList.get(num).getPrice();
+		countNum -= 1;
 		orderList.remove(num);
-		session.removeAttribute("orderList");
-		session.removeAttribute("orderTotal");
-		session.setAttribute("orderList", orderList);
-		session.setAttribute("orderTotal", toNum);
+		if (toNum == 0 && countNum == 0) {
+			session.removeAttribute("orderList");
+			session.removeAttribute("orderTotal");
+			session.removeAttribute("orderCount");
+		} else {
+			session.setAttribute("orderList", orderList);
+			session.setAttribute("orderTotal", toNum);
+			session.setAttribute("orderCount", countNum);
+		}
 		int pageNum = (Integer) session.getAttribute("pageNum");
 		return "redirect:/kiosk/order?num=" + pageNum;
-	}
-
-	@RequestMapping(value = "orderResult")
-	public String orderSet() {
-		return "kiosk/orderResultForm";
 	}
 
 	@RequestMapping(value = "scroll")
 	public String scroll(@RequestParam(value = "type") String type, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
 		int pageNum = (Integer) session.getAttribute("pageNum");
-		int cateLen = kioskService.categoryList().size();
+		int cateMaxNum = kioskService.categoryMaxNum();
 		if (type.equals("N") || type == "N") {
-			if (pageNum < cateLen) {
+			if (pageNum < cateMaxNum) {
 				pageNum += 1;
-				rttr.addFlashAttribute("scDis", "R");
 			}
 		}
 		if (type.equals("A") || type == "A") {
 			if (1 < pageNum) {
 				pageNum -= 1;
-				rttr.addFlashAttribute("scDis", "L");
 			}
 		}
 		return "redirect:/kiosk/order?num=" + pageNum;
 	}
 
+	@RequestMapping(value = "orderResult")
+	public String orderResult(Model model, HttpSession session) throws Exception {
+		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		if (orderList == null) {
+			return "redirect:/kiosk/main";
+		}
+		List<MenuOrderResultCommand> orderResultList = kioskService.orderResultSet(orderList);
+		model.addAttribute("orderResultList", orderResultList);
+		return "kiosk/orderResultForm";
+	}
+
 	@RequestMapping(value = "pay")
 	public String pay(@RequestParam(value = "mem") String mem, Model model, HttpSession session) {
+		
+		// 웹 소켓 사용 시 kiosk 닉네임 지정
+		session.setAttribute("user", "kiosk");
+		
+		if (session.getAttribute("orderList") == null) {
+			return "redirect:/kiosk/main";
+		}
 		if (mem.equals("M")) {
 			return "kiosk/point";
 		} else if (mem.equals("E")) {
@@ -138,10 +167,16 @@ public class OrderController {
 
 	@RequestMapping(value = "credit")
 	public String pat2(@RequestParam(value = "cd") String cd, HttpSession session) throws Exception {
+		
+		// 웹 소켓 사용 시 kiosk 닉네임 지정
+		session.setAttribute("user", "kiosk");
+		
 		if (cd.equals("cd")) {
 			MemberVo member = (MemberVo) session.getAttribute("member");
-			List<MenuOrderCommand> orderList = new ArrayList<>();
-			orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+			List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+			if (orderList == null) {
+				return "redirect:/kiosk/main";
+			}
 			int orderTotal = (Integer) session.getAttribute("orderTotal");
 			String payWhat = (String) session.getAttribute("payWhat");
 			int orderNum = kioskService.orderNumCheck();
@@ -167,9 +202,15 @@ public class OrderController {
 	@RequestMapping(value = "pointPay")
 	public String pointPay(@RequestParam(value = "type") String type, Model model, HttpSession session)
 			throws Exception {
+		
+		// 웹 소켓 사용 시 kiosk 닉네임 지정
+		session.setAttribute("user", "kiosk");
+		
 		MemberVo member = (MemberVo) session.getAttribute("member");
-		List<MenuOrderCommand> orderList = new ArrayList<>();
-		orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		List<MenuOrderCommand> orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
+		if (orderList == null) {
+			return "redirect:/kiosk/main";
+		}
 		int orderTotal = (Integer) session.getAttribute("orderTotal");
 		int totalPayment = 0;
 		int orderNum = kioskService.orderNumCheck();
@@ -207,9 +248,22 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "receipe")
-	public String payRecipe(@RequestParam(value = "type") String type) {
+	public String payRecipe(@RequestParam(value = "type") String type, HttpSession session) throws Exception {
 		if (type.equals("Y")) {
-			return "redirect:/kiosk/main";
+			MemberVo member = (MemberVo) session.getAttribute("member");
+			if (member != null) {
+				member = kioskService.checkPhoneNumber(member.getPhone());
+			}
+			if (session.getAttribute("orderNum") == null) {
+				return "redirect:/kiosk/main";
+			}
+			int orderNum = (int) session.getAttribute("orderNum");
+			List<ReceipeResultCommand> resultReceipe = kioskService.resultReceipe(orderNum);
+			HashMap<String, Object> receipeInfo = kioskService.receipeInfo(orderNum);
+			session.setAttribute("member", member);
+			session.setAttribute("resultReceipe", resultReceipe);
+			session.setAttribute("receipeInfo", receipeInfo);
+			return "kiosk/receipePrint";
 		} else if (type.equals("N")) {
 			return "kiosk/payResult";
 		}
