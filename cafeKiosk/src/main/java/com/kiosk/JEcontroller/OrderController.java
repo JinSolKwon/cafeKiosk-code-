@@ -126,6 +126,10 @@ public class OrderController {
 
 	@RequestMapping(value = "pay")
 	public String pay(@RequestParam(value = "mem") String mem, Model model, HttpSession session) {
+		
+		// 웹 소켓 사용 시 kiosk 닉네임 지정
+		session.setAttribute("user", "kiosk");
+		
 		if (mem.equals("M")) {
 			return "kiosk/point";
 		} else if (mem.equals("E")) {
@@ -139,6 +143,10 @@ public class OrderController {
 	@RequestMapping(value = "credit")
 	public String pat2(@RequestParam(value = "cd") String cd, HttpSession session) throws Exception {
 		if (cd.equals("cd")) {
+			
+			// 웹 소켓 사용 시 kiosk 닉네임 지정
+			session.setAttribute("user", "kiosk");
+			
 			MemberVo member = (MemberVo) session.getAttribute("member");
 			List<MenuOrderCommand> orderList = new ArrayList<>();
 			orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
@@ -167,6 +175,10 @@ public class OrderController {
 	@RequestMapping(value = "pointPay")
 	public String pointPay(@RequestParam(value = "type") String type, Model model, HttpSession session)
 			throws Exception {
+		
+		// 웹 소켓 사용 시 kiosk 닉네임 지정
+		session.setAttribute("user", "kiosk");
+		
 		MemberVo member = (MemberVo) session.getAttribute("member");
 		List<MenuOrderCommand> orderList = new ArrayList<>();
 		orderList = (List<MenuOrderCommand>) session.getAttribute("orderList");
