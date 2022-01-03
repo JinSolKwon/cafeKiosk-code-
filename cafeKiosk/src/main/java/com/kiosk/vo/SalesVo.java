@@ -13,7 +13,7 @@ public class SalesVo {
 	private int syrub;
 	private String whipping;
 	private int price;
-	private Timestamp orderDate;
+	private String orderDate;
 	// 결제 테이블 변수
 	private int memberNum;
 	private int point;
@@ -51,7 +51,7 @@ public class SalesVo {
 	public int getPrice() {
 		return price;
 	}
-	public Timestamp getOrderDate() {
+	public String getOrderDate() {
 		return orderDate;
 	}
 	public int getMemberNum() {
@@ -105,7 +105,7 @@ public class SalesVo {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public void setOrderDate(Timestamp orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
 	public void setMemberNum(int memberNum) {

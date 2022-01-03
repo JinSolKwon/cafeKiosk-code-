@@ -47,4 +47,19 @@ public class SalesDaoImpl implements SalesDao{
 	public SalesVo periodRefundSum(HashMap<String, String> map) {
 		return sqlSessionTemplate.selectOne("periodRefundSum", map);
 	}
+	
+	@Override
+	public List<SalesVo> dailySalesList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("dailySalesList",map);
+	}
+	
+	@Override
+	public List<SalesVo> dailyRefundList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("dailyRefundList",map);
+	}
+	
+	@Override
+	public List<SalesVo> dailyProfitList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("dailyProfitList",map);
+	}
 }

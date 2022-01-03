@@ -98,7 +98,7 @@
 			
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${startPage > pageBlock}">
-			    <li class="page-item disabled">
+			    <li class="page-item">
 		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
 		    </c:if>
@@ -107,7 +107,7 @@
 		    </c:forEach>
 		    <c:if test="${endPage < pageCount}">
 		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Next</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${endPage +1}"/>">Next</a>
 		    	</li>
 		    </c:if>
 		  </ul>

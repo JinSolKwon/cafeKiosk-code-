@@ -39,18 +39,18 @@
 					<th style="width:10%">확인</th>
 				</tr>
 			</thead>
-			<c:if test="${orderList eq null}">
+			<c:if test="${orderCount eq 0}">
 				<tr>
-					<th colspan="11" class="text-center">
+					<td colspan="11" class="text-center">
 						<p><br>주문이 없습니다.</p>
-					</th>
+					</td>
 				</tr>
 			</c:if>
 		</table>
 		</div>
 		<div style="max-height:550px;overflow-y:scroll;overflow-x:hidden;margin-top:0px;">
 		<table class="table table-hover" style="margin-top:0px;">
-			<c:if test="${orderList ne null}">
+			<c:if test="${orderCount ne null}">
 			<tbody>
 				<c:forEach items="${orderList}" var="orderList">
 					<c:if test="${orderNum ne orderList.orderNum}">

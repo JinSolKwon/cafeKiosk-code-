@@ -22,4 +22,13 @@ public interface SalesDao {
 	
 	// 기간 환불 합계 메서드
 	public abstract SalesVo periodRefundSum(HashMap<String, String> map);
+	
+	// 기간 내 일별 매출 리스트 메서드
+	public abstract List<SalesVo> dailySalesList(HashMap<String, String> map);
+	
+	// 기간 내 일별 환불 리스트 메서드
+	public abstract List<SalesVo> dailyRefundList(HashMap<String, String> map);
+	
+	// 기간 내 일별 이익 리스트 메서드
+	public abstract List<SalesVo> dailyProfitList(HashMap<String, String> map);
 }

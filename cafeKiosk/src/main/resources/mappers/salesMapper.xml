@@ -60,4 +60,70 @@
     	</choose>
     	and refund = 'Y'
     </select>
+    
+    <!-- 기간 내 일 별 매출 목록 -->
+    <select id="dailySalesList" parameterType="HashMap" resultType="salesVo">
+   	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate, NVL(sum(a.count), 0) count, NVL(sum(total),0) total, 
+   		NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+ 	 	FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+       <![CDATA[ FROM payment
+        	where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+            and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 
+        	GROUP BY ORDER_DATE, total, point, cash, card
+        ) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+            FROM dual 
+         CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+        ) b
+  		WHERE b.dt = a.ORDER_DATE(+)
+  		<![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+  		GROUP BY b.dt
+  		ORDER BY b.dt
+    </select>
+    
+    <!-- 기간 내 일 별 환불 목록 -->
+    <select id="dailyRefundList" parameterType="HashMap" resultType="salesVo">
+   	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate
+     , NVL(sum(a.count), 0) count, NVL(sum(total),0) total, NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+  	   FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+        <![CDATA[ FROM payment
+      where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+        and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1
+        and refund='Y'
+      GROUP BY TO_CHAR(ORDER_DATE,'YYYY-MM-DD'), total, point, cash, card
+      ) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+         FROM dual 
+      CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+      ) b
+	  WHERE b.dt = a.ORDER_DATE(+)
+	  <![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+	  GROUP BY b.dt
+	  ORDER BY b.dt
+    </select>
+    
+    <!-- 기간 내 일 별 이익 목록 -->
+    <select id="dailyProfitList" parameterType="HashMap" resultType="salesVo">
+      SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate
+     		, NVL(sum(a.count), 0) count, NVL(sum(total),0) total, NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+  		 	FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+            <![CDATA[FROM payment
+          		where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+            	and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 
+            	and refund='N'
+          		GROUP BY TO_CHAR(ORDER_DATE,'YYYY-MM-DD'), total, point, cash, card
+        	) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+             FROM dual 
+         	 CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+        ) b
+	  WHERE b.dt = a.ORDER_DATE(+)
+	  <![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+	  GROUP BY b.dt
+	  ORDER BY b.dt
+    </select>
+    
 </mapper>

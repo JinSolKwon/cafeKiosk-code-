@@ -52,4 +52,40 @@ public class SalesServiceImpl implements SalesService{
 		
 		return salesDao.periodRefundSum(map);
 	}
+	
+	@Override
+	public List<SalesVo> dailySalesList(String startDate, String endDate, String start, String end) {
+		HashMap<String,String> map = new HashMap<String,String>(); 
+		
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("start", start);
+		map.put("end", end);
+		
+		return salesDao.dailySalesList(map);
+	}
+	
+	@Override
+	public List<SalesVo> dailyRefundList(String startDate, String endDate, String start, String end) {
+		HashMap<String,String> map = new HashMap<String,String>(); 
+		
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("start", start);
+		map.put("end", end);
+		
+		return salesDao.dailyRefundList(map);
+	}
+	
+	@Override
+	public List<SalesVo> dailyProfitList(String startDate, String endDate, String start, String end) {
+		HashMap<String,String> map = new HashMap<String,String>(); 
+		
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("start", start);
+		map.put("end", end);
+		
+		return salesDao.dailyProfitList(map);
+	}
 }

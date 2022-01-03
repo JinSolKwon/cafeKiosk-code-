@@ -104,16 +104,16 @@
 			
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${startPage > pageBlock}"> 
-			    <li class="page-item disabled">
-		      		<a class="page-link" href="<c:url value="/managerPage/menuControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
+			    <li class="page-item">
+		      		<a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
 		    </c:if>
 		    <c:forEach var="i" begin="${startPage}" end="${endPage}">
-		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/menuControl?pageNum=${i}"/>">${i}</a></li>
+		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${i}"/>">${i}</a></li>
 		    </c:forEach>
 		    <c:if test="${endPage < pageCount}">
 		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/menuControl?pageNum=${startPage - pageBlock}"/>">Next</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${endPage + 1}"/>">Next</a>
 		    	</li>
 		    </c:if>
 		  </ul>
@@ -252,7 +252,7 @@
 				    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
 				    },
 	                success: function(jdata){
-	                    if(jdata = 1) {
+	                    if(jdata = 1) { 
 	                        location.replace("categoryControl") //list 로 페이지 새로고침
 	                    }
 	                    else{

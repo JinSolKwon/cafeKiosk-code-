@@ -111,16 +111,16 @@
 			
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${startPage > pageBlock}"> 
-			    <li class="page-item disabled">
-		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
+			    <li class="page-item">
+		      		<a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
 		    </c:if>
 		    <c:forEach var="i" begin="${startPage}" end="${endPage}">
-		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${i}"/>">${i}</a></li>
+		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${i}"/>">${i}</a></li>
 		    </c:forEach>
 		    <c:if test="${endPage < pageCount}">
 		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Next</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${endPage + 1}"/>">Next</a>
 		    	</li>
 		    </c:if>
 		  </ul>
