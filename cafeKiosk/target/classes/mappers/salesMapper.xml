@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salesDao">
+	
+	<!-- 오늘 주문 수 가져오기 -->
+	<select id="todayOrderCount" resultType="int">
+		select count(*)	from ORDER_LIST WHERE TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')	
+	</select>
+	
+	<!-- 오늘 주문 목록 가져오기 -->
+	<select id="todayOrderList" resultType="salesVo">
+      select * from (select rownum RNUM, NUM, ORDER_NUM as orderNum, MENU, TEMPERATURE, BEVERAGE_SIZE as beverageSize, 
+      		SHOT, SYRUB, WHIPPING, PRICE, ORDER_DATE as orderDate 
+      		from (select * from ORDER_LIST 
+      		where TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') order by NUM asc)) A,
+		  	(select ORDER_NUM, MEMBER_NUM as memberNum, POINT, CARD, CASH, TOTAL, PROVISION, REFUND from PAYMENT where
+		  	TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')) B
+		  where B.ORDER_NUM = A.orderNum
+	</select>
+	
+	<!-- 오늘 매출 정보 목록 가져오기 -->
+	<select id="todaySalesList" resultType="salesVo">
+		select NUM,ORDER_NUM, MEMBER_NUM as memberNum, POINT, CARD, CASH, TOTAL, PROVISION, REFUND from PAYMENT where
+		  	TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<!-- 오늘 매출 가장 최근 자료 하나 가져오기 -->
+	<select id="lastSales" resultType="salesVo">
+		select NUM,ORDER_NUM, MEMBER_NUM as memberNum, POINT, CARD, CASH, TOTAL, PROVISION, REFUND from PAYMENT where
+		  	TO_CHAR(ORDER_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') and ORDER_NUM = #{value}
+	</select>
+	
+	<!-- 기간 매출 합계  -->
+	<select id="periodSalesSum" parameterType="HashMap" resultType="salesVo">
+	select sum(total) as total,sum(point) as point,sum(cash) as cash,sum(card) as card
+   		from PAYMENT
+    	<choose>
+    		<when test="startDate==null or startDate.equals('')">
+    			where TO_CHAR(ORDER_DATE,'YYYYMMDD') between TRUNC(SYSDATE, 'MM') and TO_CHAR(SYSDATE,'YYYYMMDD')+0.99999
+    		</when>
+    		<otherwise>
+    			where ORDER_DATE between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate},'YYYY-MM-DD')+0.99999
+    		</otherwise>
+    	</choose>
+    </select>
+    
+    <!-- 기간 환불 합계 -->
+    <select id="periodRefundSum" parameterType="HashMap" resultType="salesVo">
+	select sum(total) as total,sum(point) as point,sum(cash) as cash,sum(card) as card
+    	from PAYMENT
+    	<choose>
+    		<when test="startDate==null or startDate.equals('')">
+    			where TO_CHAR(ORDER_DATE,'YYYYMMDD') between TRUNC(SYSDATE, 'MM') and TO_CHAR(SYSDATE,'YYYYMMDD')+0.99999
+    		</when>
+    		<otherwise>
+    			where ORDER_DATE between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate},'YYYY-MM-DD')+0.99999
+    		</otherwise>
+    	</choose>
+    	and refund = 'Y'
+    </select>
+    
+    <!-- 기간 내 일 별 매출 목록 -->
+    <select id="dailySalesList" parameterType="HashMap" resultType="salesVo">
+   	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate, NVL(sum(a.count), 0) count, NVL(sum(total),0) total, 
+   		NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+ 	 	FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+       <![CDATA[ FROM payment
+        	where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+            and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 
+        	GROUP BY ORDER_DATE, total, point, cash, card
+        ) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+            FROM dual 
+         CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+        ) b
+  		WHERE b.dt = a.ORDER_DATE(+)
+  		<![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+  		GROUP BY b.dt
+  		ORDER BY b.dt
+    </select>
+    
+    <!-- 기간 내 일 별 환불 목록 -->
+    <select id="dailyRefundList" parameterType="HashMap" resultType="salesVo">
+   	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate
+     , NVL(sum(a.count), 0) count, NVL(sum(total),0) total, NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+  	   FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+        <![CDATA[ FROM payment
+      where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+        and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1
+        and refund='Y'
+      GROUP BY TO_CHAR(ORDER_DATE,'YYYY-MM-DD'), total, point, cash, card
+      ) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+         FROM dual 
+      CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+      ) b
+	  WHERE b.dt = a.ORDER_DATE(+)
+	  <![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+	  GROUP BY b.dt
+	  ORDER BY b.dt
+    </select>
+    
+    <!-- 기간 내 일 별 이익 목록 -->
+    <select id="dailyProfitList" parameterType="HashMap" resultType="salesVo">
+      SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS orderDate
+     		, NVL(sum(a.count), 0) count, NVL(sum(total),0) total, NVL(sum(point),0) point, NVL(sum(cash),0) cash, NVL(sum(card),0) card
+  		 	FROM ( select TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE, count(TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')) COUNT, total, point, cash, card
+            <![CDATA[FROM payment
+          		where ORDER_DATE >= TO_DATE(#{startDate},'YYYY-MM-DD')
+            	and ORDER_DATE < TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 
+            	and refund='N'
+          		GROUP BY TO_CHAR(ORDER_DATE,'YYYY-MM-DD'), total, point, cash, card
+        	) a
+      , ( SELECT row_number() OVER(ORDER BY LEVEL) RNUM, TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1 AS dt
+             FROM dual 
+         	 CONNECT BY LEVEL <= (TO_DATE(#{endDate},'YYYY-MM-DD') 
+                            - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)]]>
+        ) b
+	  WHERE b.dt = a.ORDER_DATE(+)
+	  <![CDATA[and RNUM >= #{start} and RNUM <= #{end}]]>
+	  GROUP BY b.dt
+	  ORDER BY b.dt
+    </select>
+    
+</mapper>

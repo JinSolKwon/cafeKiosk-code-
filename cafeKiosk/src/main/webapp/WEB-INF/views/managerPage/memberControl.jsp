@@ -16,12 +16,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 	<link href="${pageContext.request.contextPath}/resources/css/manager.css" rel="stylesheet" type="text/css">
-<title>회원관리(관리자페이지 홈)</title>
+<title>회원 관리</title>
 </head>
 <body>
 	<%@ include file="../include/manageMenu.jsp"%>
 	<div id="manageMain">
-		<h1 style="font-weight:bold;">회원관리</h1>
+		<h1 style="font-weight:bold;">회원 관리</h1>
 		
 		<form action="<c:url value="/managerPage/memberControl"/>" method="POST" style="margin-left:73%">
 			<input type="text" id="phoneNum" name="backNumber" placeholder="전화번호 검색" style="height:40px;">
@@ -40,7 +40,7 @@
 		
 		<c:if test="${count > 0}">
 		<form name="memberForm">
-			<input type="button" class="btn btn-secondary" value="삭제" style="height:40px;width:70px;float:right;" onclick="deleteValue();">
+			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;" onclick="deleteValue();">
 			<table class="table table-hover" id="example-table-1">
 				<thead>
 					<tr class="table-secondary">
@@ -98,7 +98,7 @@
 			
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${startPage > pageBlock}">
-			    <li class="page-item disabled">
+			    <li class="page-item">
 		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
 		    </c:if>
@@ -107,7 +107,7 @@
 		    </c:forEach>
 		    <c:if test="${endPage < pageCount}">
 		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${startPage - pageBlock}"/>">Next</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/memberControl?pageNum=${endPage +1}"/>">Next</a>
 		    	</li>
 		    </c:if>
 		  </ul>
@@ -149,6 +149,7 @@
 	    		text: '선택 항목이 존재하지 않습니다.',
 	    		confirmButtonColor: '#DDDDDD',
 	    		confirmButtonText: '확인',
+	    		showCloseButton: true,
 	    		allowOutsideClick: false
 	    	})
 	    }
@@ -162,7 +163,8 @@
                    cancelButtonColor: '#DDDDDD',
                    confirmButtonText: '삭제',
                    cancelButtonText: '취소',
-                   allowOutsideClick: false
+                   showCloseButton: true,
+           		   allowOutsideClick: false
                }).then((result) => {
                    if (result.value) {
 					$.ajax({ 
@@ -213,8 +215,8 @@
                 return new Promise(function (resolve) {
                     // Validate input 
                     if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '') {
-                        swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
-                        swal.enableConfirmButton(); // Enable the confirm button again.
+                        Swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                        Swal.enableButtons();
                     } else {
                         swal.resetValidationMessage(); // Reset the validation message.
                         resolve([
@@ -228,7 +230,9 @@
             confirmButtonColor: '#444444',
             cancelButtonColor: '#DDDDDD',
             confirmButtonText: '수정완료',
-            cancelButtonText: '수정취소'
+            cancelButtonText: '수정취소',
+            showCloseButton: true,
+    		allowOutsideClick: false
         }).then((result) => {
             if (result.value) {
 			$.ajax({ 

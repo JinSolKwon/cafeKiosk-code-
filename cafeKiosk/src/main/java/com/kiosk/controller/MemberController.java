@@ -195,20 +195,4 @@ public class MemberController {
 		return "redirect:deleteMemberControl";
 	}
 	
-	//========================================아래는 페이지 이동용============================================
-	
-	// 당일 매출 관리 페이지
-	@GetMapping("salesToday")
-	public String salesToday(Model model, HttpSession session) throws Exception{
-			
-		return "managerPage/salesToday";
-	}	
-	
-	// 이전 매출 관리 페이지
-	@GetMapping("salesPast")
-	public String salesPast(Model model, HttpSession session) throws Exception{
-			
-		return "managerPage/salesPast";
-	}
-	
 }

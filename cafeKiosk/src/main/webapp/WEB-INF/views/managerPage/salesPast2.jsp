@@ -32,7 +32,7 @@
 	<div id="manageMain">
 		<h1 style="font-weight:bold;">이전 매출 확인</h1>
 		
-		<form action="<c:url value="/managerPage/salesPast?search=1"/>" method="POST" style="float:right;">
+		<form action="<c:url value="/managerPage/salesPast"/>" method="POST" style="float:right;">
 			<label>
 			<input type = "text" class = "date" id = "startDate" name = "eventStartDate" style="height:35px;width:140px;cursor:default;" placeholder="시작 날짜" readonly>
 			~
@@ -40,22 +40,28 @@
 			</label>
 			<input type = "submit" value="검색" class="btn btn-secondary" style="margin-bottom:3px;">
 			<input type = "button" value="month" class="btn btn-primary" style="margin-bottom:3px;"
-				onClick="window.location='<c:url value="/managerPage/salesPast?search=1"/>'">
+				onClick="window.location='<c:url value="/managerPage/salesPast"/>'">
 		</form>
 		
 		<p style="margin-left:75%;font-weight:bold;font-size:large;">
 			조회일자: ${startDate} ~ ${endDate}
 		</p>
 		
-		
-		<div style="width:33%;float:left;">
 		<table class="table" style="table-layout:fixed;">
 			<thead>
 				<tr class="table-secondary">
 					<th rowspan="2">일자</th>
 					<th colspan="3">매출</th>
+					<th colspan="3">환불</th>
+					<th colspan="3">이익</th>
 				</tr>
 				<tr class="table-secondary">
+					<th>포인트</th>
+					<th>현금</th>
+					<th>카드</th>
+					<th>포인트</th>
+					<th>현금</th>
+					<th>카드</th>
 					<th>포인트</th>
 					<th>현금</th>
 					<th>카드</th>
@@ -63,17 +69,23 @@
 				<tr class="table-primary">
 					<th rowspan="2">합계</th>
 					<c:choose>
-					<c:when test="${periodSalesSum eq null}">
+					<c:when test="${periodSalesSum eq null and periodRefundSum eq null}">
+						<th colspan="3">0</th>
 						<th colspan="3">0</th>
 					</c:when>
 					<c:otherwise>
 					<th colspan="3"><fmt:formatNumber value="${periodSalesSum.total}" pattern="###,###,###,###"/></th>
+					<th colspan="3"><fmt:formatNumber value="${periodRefundSum.total}" pattern="###,###,###,###"/></th>
 					</c:otherwise>
 					</c:choose>
+					<th colspan="3"><fmt:formatNumber value="${periodSalesSum.total - periodRefundSum.total}" pattern="###,###,###,###"/></th>
 				</tr>
 				<tr class="table-primary">
 					<c:choose>
-					<c:when test="${periodSalesSum eq null}">
+					<c:when test="${periodSalesSum eq null and periodRefundSum eq null}">
+						<th>0</th>
+						<th>0</th>
+						<th>0</th>
 						<th>0</th>
 						<th>0</th>
 						<th>0</th>
@@ -82,141 +94,154 @@
 					<th><fmt:formatNumber value="${periodSalesSum.point}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodSalesSum.cash}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodSalesSum.card}" pattern="###,###,###,###"/></th>
-					</c:otherwise>
-					</c:choose>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${dailySalesList}" var="sales">
-					<tr>
-						<td>${sales.orderDate}</td>
-						<td>${sales.point}</td>
-						<td>${sales.cash}</td>
-						<td>${sales.card}</td>
-					</tr>	
-				</c:forEach>
-			</tbody>
-		</table>
-		</div>
-		
-		<div style="width:33%;float:left;">
-		<table class="table" style="table-layout:fixed;">
-			<thead>
-				<tr class="table-secondary">
-					<th colspan="3">환불</th>
-				</tr>
-				<tr class="table-secondary">
-					<th>포인트</th>
-					<th>현금</th>
-					<th>카드</th>
-				</tr>
-				<tr class="table-primary">
-					<c:choose>
-					<c:when test="${periodRefundSum eq null}">
-						<th colspan="3">0</th>
-					</c:when>
-					<c:otherwise>
-					<th colspan="3"><fmt:formatNumber value="${periodRefundSum.total}" pattern="###,###,###,###"/></th>
-					</c:otherwise>
-					</c:choose>
-				</tr>
-				<tr class="table-primary">
-					<c:choose>
-					<c:when test="${periodRefundSum eq null}">
-						<th>0</th>
-						<th>0</th>
-						<th>0</th>
-					</c:when>
-					<c:otherwise>
 					<th><fmt:formatNumber value="${periodRefundSum.point}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodRefundSum.cash}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodRefundSum.card}" pattern="###,###,###,###"/></th>
 					</c:otherwise>
 					</c:choose>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${dailyRefundList}" var="refund">
-					<tr>
-						<td>${refund.point}</td>
-						<td>${refund.cash}</td>
-						<td>${refund.card}</td>
-					</tr>	
-				</c:forEach>
-			</tbody>
-		</table>
-		</div>
-		
-		<div style="width:33%;float:left;">
-		<table class="table" style="table-layout:fixed;">
-			<thead>
-				<tr class="table-secondary">
-					<th colspan="3">매출</th>
-				</tr>
-				<tr class="table-secondary">
-					<th>포인트</th>
-					<th>현금</th>
-					<th>카드</th>
-				</tr>
-				<tr class="table-primary">
-					<th colspan="3"><fmt:formatNumber value="${periodSalesSum.total - periodRefundSum.total}" pattern="###,###,###,###"/></th>
-				</tr>
-				<tr class="table-primary">
 					<th><fmt:formatNumber value="${periodSalesSum.point-periodRefundSum.point}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodSalesSum.cash-periodRefundSum.cash}" pattern="###,###,###,###"/></th>
 					<th><fmt:formatNumber value="${periodSalesSum.card-periodRefundSum.card}" pattern="###,###,###,###"/></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${dailyProfitList}" var="profit">
-					<tr>
-						<td>${profit.point}</td>
-						<td>${profit.cash}</td>
-						<td>${profit.card}</td>
-					</tr>	
-				</c:forEach>
+				<tr>
+					<td>2021-12-01</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-02</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-03</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-04</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-05</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-06</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-07</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-08</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-09</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
+				<tr>
+					<td>2021-12-10</td>
+					<td>1</td>
+					<td>2</td>
+					<td>3</td>
+					<td>4</td>
+					<td>5</td>
+					<td>6</td>
+					<td>7</td>
+					<td>8</td>
+					<td>9</td>
+				</tr>
 			</tbody>
 		</table>
-		</div>
 		
-		<div style="margin-top:48%">
-				<nav aria-label="Page navigation example justify-content-center">
-			<c:if test="${count > 0}">
-			<c:set var="imsi" value="${count % pageSize == 0 ? 0 : 1 }"/>
-			<c:set var="pageCount" value="${count / pageSize + imsi }"/>
-			<fmt:parseNumber var="pageCount" value="${pageCount}" integerOnly="true"/>
-	
-			<c:set var="pageBlock" value="${3}"/>
-	
-			<fmt:parseNumber var="result" value="${(currentPage-1) / pageBlock}" integerOnly="true"/>
-			<c:set var="startPage" value="${result * pageBlock +1 }"/>
-	
-			<c:set var="endPage" value="${startPage + pageBlock - 1}"/>
-	
-			<c:if test="${endPage > pageCount}">
-				<c:set var="endPage" value="${pageCount}"/>
-			</c:if>
-			
+		<nav aria-label="Page navigation example justify-content-center">
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${startPage > pageBlock}"> 
-			    <li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/salesPast?pageNum=${startPage - pageBlock}"/>">Previous</a>
-		    	</li>
-		    </c:if>
-		    <c:forEach var="i" begin="${startPage}" end="${endPage}">
-		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/salesPast?pageNum=${i}"/>">${i}</a></li>
-		    </c:forEach>
-		    <c:if test="${endPage < pageCount}">
-		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/salesPast?pageNum=${endPage + 1}"/>">Next</a>
-		    	</li>
-		    </c:if>
+		    <li class="page-item disabled">
+		      <a class="page-link">Previous</a>
+		    </li>
+		    <li class="page-item"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item">
+		      <a class="page-link" href="#">Next</a>
+		    </li>
 		  </ul>
-		  </c:if>
 		</nav>
 	</div>
-	</div>
-	
 	<script>
 	$(function() {              
         

@@ -19,7 +19,7 @@
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1521:xe" />
 
-		<property name="username" value="kiosktester" />
+		<property name="username" value="cafe" />
 		<property name="password" value="1234" />
 	</bean>
 
@@ -48,6 +48,10 @@
 	</bean>
 
 	<bean id="menuJSDao" class="com.kiosk.dao.MenuJSDaoImpl">
+		<constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="salesDao" class="com.kiosk.dao.SalesDaoImpl">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	

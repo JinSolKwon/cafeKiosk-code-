@@ -4,7 +4,7 @@
 
 <mapper namespace="menuJSDao">
 	
-	<!-- 관리자 계정 수 가져오기 -->
+	<!-- 메뉴 수 가져오기 -->
 	<select id="countMenu" parameterType="hashmap" resultType="int">
 		select count(*)	
 			from MENU A
@@ -19,22 +19,23 @@
 		</choose>
 	</select>
 	
-	<!-- 관리자 계정 목록 가져오기 -->
+	<!-- 메뉴 목록 가져오기 -->
 	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
       select * from (select rownum RNUM, NUM, CATEGORY_NUM as CATEGORYNUM, MENU, PRICE, REGDATE, USING 
 		  from (select * from MENU
 		  <if test='menu!=null or !menu.equals("")'>
 	  			where MENU like '%' || #{menu} ||'%'
 	  	  </if>
-		  order by NUM asc ,REGDATE desc)) A,
-		  (select rownum RNUM, NUM, TYPE, CATEGORY
-		   from (select * from CATEGORY
+		  order by NUM asc ,REGDATE asc)) A,
+		  (select NUM, TYPE, CATEGORY from CATEGORY
 		  <if test='type!=null or !type.equals("")'>
 	  			where TYPE like '%' || #{type} ||'%'
 	  	  </if>
-		  )) B
+		  ) B,
+		  (select * from MENU_IMAGE) C
 		  where B.NUM = A.CATEGORYNUM
-		  <![CDATA[and A.RNUM >= #{start} and A.RNUM <= #{end} ]]>
+		  and A.MENU = C.MENU (+)
+		  <![CDATA[and RNUM >= #{start} and RNUM <= #{end} ]]>
 	</select>
 	
 	<!-- 마스터 패스워드 가져오기 -->
@@ -48,6 +49,35 @@
 		WHERE NUM = #{value}
 	</delete>
 	
+	<!-- 메뉴 생성-->
+	<insert id="menuInsert" parameterType="menuJSVo">
+		insert into MENU(NUM,CATEGORY_NUM,MENU,PRICE,REGDATE,USING)
+			values (MENU_SEQ.nextval,#{categoryNum},#{menu},#{price},sysdate,default)
+	</insert>
+	
+	<!-- 메뉴 사진 입력 -->
+	<insert id="menuImageInsert" parameterType="menuJSVo">
+		insert into MENU_IMAGE(NUM,MENU,SAVE_NAME,EXTENSION,REGDATE)
+			values (MENU_IMAGE_SEQ.nextval,#{menu},#{saveName},#{extension},sysdate)
+	</insert>
+	
+	<!-- 메뉴 이미지 정보 가져오기 -->
+	<select id="menuImageInfo" parameterType="String" resultType="menuJsVo">
+		select * from MENU_IMAGE where menu = #{menu}
+	</select>
+	
+	<!-- 메뉴 수정 -->
+	<update id="menuUpdate" parameterType="menuJSVo">
+	update MENU set MENU=#{menu}, CATEGORY_NUM=#{categoryNum}, PRICE=#{price}
+		where NUM = #{num}
+	</update>
+	
+	<!-- 메뉴 사진 수정 -->
+	<update id="menuImageUpdate" parameterType="menuJSVo">
+	update MENU_IMAGE set SAVE_NAME=#{saveName}, extension=#{extension}
+		where MENU=#{menu}
+	</update>
+	
 	<!-- 카테고리 목록 가져오기 -->
 	<select id="getCategory" resultType="menuJSVo">
 		select * from CATEGORY
@@ -58,4 +88,56 @@
 		SELECT COUNT(*) FROM MENU
 		WHERE MENU = #{menu}
 	</select>
+	
+	<!-- 메뉴 정보 가져오기 -->
+	<select id="menuSelect" parameterType="int" resultType="menuJSVo">
+		select * from MENU where NUM = #{value}
+	</select>
+	
+	<!-- 메뉴 활성화/비활성화 여부 변경 -->
+	<update id="changeActivation" parameterType="menuJSVo">
+		update MENU set USING = #{using}
+		where NUM = #{num}
+	</update>
+	
+	<!-- 카테고리 수 가져오기 -->
+	<select id="countCategory" parameterType="String" resultType="int">
+		select count(*)	from CATEGORY
+		<if test='value!=null or !value.equals("")'>
+	  			where CATEGORY like '%' || #{value} || '%'
+	  	</if>
+	</select>
+	
+	<!-- 카테고리 목록 가져오기 -->
+	<select id="categoryListJS" parameterType="hashmap" resultType="menuJSVo">
+      select * from (select rownum RNUM, NUM as categoryNum, TYPE, CATEGORY
+		  from (select * from CATEGORY
+		  <if test='category!=null or !category.equals("")'>
+	  			where CATEGORY like '%' || #{category} || '%'
+	  	  </if>
+		  order by NUM asc)) 
+		  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<!-- 카테고리 이름 중복체크 -->
+	<select id="categoryChk" resultType="int">
+	SELECT COUNT(*) FROM CATEGORY WHERE CATEGORY = #{category}
+	</select>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="categoryDelete" parameterType="String">
+	DELETE FROM CATEGORY WHERE NUM = #{value}
+	</delete>
+	
+	<!-- 카테고리 생성-->
+	<insert id="categoryInsert" parameterType="menuJSVo">
+	insert into CATEGORY(NUM,TYPE,CATEGORY)
+		values (CATEGORY_SEQ.nextval,#{type},#{category})
+	</insert>
+	
+	<!-- 카테고리 수정 -->
+	<update id="categoryUpdate" parameterType="menuJSVo">
+	update CATEGORY set TYPE=#{type}, CATEGORY=#{category}
+		where NUM = #{categoryNum}
+	</update>
 </mapper>

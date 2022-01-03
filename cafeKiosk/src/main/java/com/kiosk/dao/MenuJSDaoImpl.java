@@ -29,7 +29,7 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	}
 	
 	@Override
-	public List<MenuVo> MenuList(HashMap<String, String> map) {
+	public List<MenuVo> menuList(HashMap<String, String> map) {
 		return sqlSessionTemplate.selectList("menuList", map);
 	}
 	
@@ -44,12 +44,77 @@ public class MenuJSDaoImpl implements MenuJSDao{
 	}
 	
 	@Override
-	public List<MenuVo> categoryList() {
+	public List<MenuVo> categoryAllList() {
 		return sqlSessionTemplate.selectList("getCategory");
 	}
 	
 	@Override
 	public int menuCheck(MenuVo vo) {
 		return sqlSessionTemplate.selectOne("menuChk", vo);
+	}
+	
+	@Override
+	public void menuInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("menuInsert", vo);
+	}
+	
+	@Override
+	public void menuImageInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("menuImageInsert", vo);
+	}
+	
+	@Override
+	public MenuVo menuImageInfo(String menu) {
+		return sqlSessionTemplate.selectOne("menuImageInfo", menu);
+	}
+	
+	@Override
+	public int menuUpdate(MenuVo vo) {
+		return sqlSessionTemplate.update("menuUpdate", vo);
+	}
+	
+	@Override
+	public int menuImageUpdate(MenuVo vo) {
+		return sqlSessionTemplate.update("menuImageUpdate", vo);
+	}
+	
+	@Override
+	public MenuVo menuSelect(int num) {   
+		return sqlSessionTemplate.selectOne("menuSelect", num);
+	}
+	
+	@Override
+	public int changeActivation(MenuVo vo) {
+		return sqlSessionTemplate.update("changeActivation", vo);
+	}
+	
+	@Override
+	public int categoryCount(String category) {
+		return sqlSessionTemplate.selectOne("countCategory", category);
+	}
+	
+	@Override
+	public List<MenuVo> categoryList(HashMap<String, String> map) {
+		return sqlSessionTemplate.selectList("categoryListJS", map);
+	}
+	
+	@Override
+	public int categoryDelete(String number) {
+		return sqlSessionTemplate.delete("categoryDelete", number);
+	}
+	
+	@Override
+	public int categoryCheck(MenuVo vo) {
+		return sqlSessionTemplate.selectOne("categoryChk", vo);
+	}
+	
+	@Override
+	public void categoryInsert(MenuVo vo) {
+		sqlSessionTemplate.insert("categoryInsert", vo);
+	}
+	
+	@Override
+	public int categoryUpdate(MenuVo vo) {
+		return sqlSessionTemplate.update("categoryUpdate", vo);
 	}
 }

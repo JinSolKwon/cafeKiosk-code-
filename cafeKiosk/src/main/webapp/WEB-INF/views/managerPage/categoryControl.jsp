@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="UTF-8">
  	<!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,38 +16,35 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<!-- Bootstrap 모달 -->
 	<script src="https://code.jquery.com/jquery-latest.js"></script>
- 
-	<link href="${pageContext.request.contextPath}/resources/css/manager.css" rel="stylesheet" type="text/css">
-<title>관리자 계정 관리</title>
+<title>카테고리 관리</title>
 </head>
 <body>
 	<%@ include file="../include/manageMenu.jsp"%>
 	<div id="manageMain">
-		<h1 style="font-weight:bold;">관리자 계정 관리</h1>
+		<h1 style="font-weight:bold;">카테고리 관리</h1>
 		
-		<form action="<c:url value="/managerPage/idControl"/>" method="POST" style="margin-left:67%">
-			<input type="text" id="id" name="id" placeholder="아이디 검색" style="height:40px;">
+		<form action="<c:url value="/managerPage/categoryControl"/>" method="POST" style="margin-left:67%">
+			<input type="text" id="category" name="category" placeholder="카테고리명 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
 		</form>
 		
-		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertManager"
+		<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertCategoryModal"
 		style="height:40px;width:70px;margin-bottom:3px;">등록</button>
-			
+		
 		<c:if test="${count == 0}">
 			<table class="table">
 				<tr>
 					<td>
-						등록된 멤버가 존재하지 않습니다.
+						등록된 카테고리가 존재하지 않습니다.
 					</td>
 				</tr>
 			</table>
 		</c:if>
 		
 		<c:if test="${count > 0}">
-		<form name="managerForm">
-			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;margin-top:1px;"
+		<form name="form" method="POST">
+			<input type="button" class="btn btn-primary" value="삭제" style="height:40px;width:70px;float:right;"
 				onclick="deleteValue('${masterPass}');">
-
 			<table class="table table-hover" id="example-table-1">
 				<thead>
 					<tr class="table-secondary">
@@ -58,33 +54,30 @@
 						<th style="width:10%" onclick="event.cancelBubble=true">번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
-						<th style="width:25%" onclick="event.cancelBubble=true">아이디</th>
-						<th style="width:25%" onclick="event.cancelBubble=true">직위</th>
-						<th style="width:30%" onclick="event.cancelBubble=true">가입일자</th>
+						<th onclick="event.cancelBubble=true" style="width:40%;">카테고리 타입</th>
+						<th onclick="event.cancelBubble=true" style="width:40%;">카테고리</th>
+						
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="manager" items="${managerList}">
+					<c:forEach var="category" items="${categoryList}">
 					<tr>
-						<c:if test="${manager.status eq 'master' }">
-							<td onclick="event.cancelBubble=true"></td>
-						</c:if>
-						<c:if test="${manager.status ne 'master' }">
-							<td onclick="event.cancelBubble=true">
-								<input type="checkbox" class="form-check-input" name="reportChkBxRow" value="${manager.num}">
-							</td>
-						</c:if>
+						<td onclick="event.cancelBubble=true" style="color:black;">
+							<input type="checkbox" class="form-check-input" name="reportChkBxRow" value="${category.categoryNum}">
+						</td>
 						<td style="cursor:pointer;">
 							<c:out value="${number}"/>
 							<c:set var="number" value="${number + 1}"/>
 						</td>
-						<td class="hidden-col">${manager.num}</td>
+						<td class="hidden-col">${category.categoryNum}</td>
 						<td class="hidden-col">${masterPass}</td>
-						<td style="cursor:pointer;">${manager.id}</td>
-						<td style="cursor:pointer;">${manager.status}</td>
-						<td style="cursor:pointer;">
-							<fmt:formatDate value="${manager.regdate}" pattern="yyyy-MM-dd"/>
-						</td>
+						<c:if test="${category.type eq 0}">
+							<td style="cursor:pointer;">디저트</td>
+						</c:if>
+						<c:if test="${category.type eq 1}">
+							<td style="cursor:pointer;">음료</td>
+						</c:if>
+						<td style="cursor:pointer;">${category.category}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
@@ -112,15 +105,15 @@
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${startPage > pageBlock}"> 
 			    <li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${startPage - pageBlock}"/>">Previous</a>
 		    	</li>
 		    </c:if>
 		    <c:forEach var="i" begin="${startPage}" end="${endPage}">
-		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${i}"/>">${i}</a></li>
+		    	<li class="page-item"><a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${i}"/>">${i}</a></li>
 		    </c:forEach>
 		    <c:if test="${endPage < pageCount}">
 		    	<li class="page-item">
-		      		<a class="page-link" href="<c:url value="/managerPage/idControl?pageNum=${endPage + 1}"/>">Next</a>
+		      		<a class="page-link" href="<c:url value="/managerPage/categoryControl?pageNum=${endPage + 1}"/>">Next</a>
 		    	</li>
 		    </c:if>
 		  </ul>
@@ -128,33 +121,56 @@
 		</nav>
 	</div>
 	
-    <!-- Modal -->
-  <div class="modal fade" id="insertManager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <!-- insert Modal -->
+  <div class="modal fade" id="insertCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" >
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">admin 계정 등록</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">카테고리 등록</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      <form method="post" id="regForm" action ="<c:url value="/managerPage/insertManager"/>">
+	      <form method="post" id="regForm" action ="<c:url value="/managerPage/insertCategory"/>">
 		      <div class="modal-body" style="text-align:center;">
-	  			<input type="text" placeholder="아이디" id="regId" class="regId" name="regId" style="width:40%;height:37px;vertical-align:middle;border: 1px solid #DDDDDD;">
-	  			<button class="btn btn-secondary" id="idChk" onclick="fn_idChk();" type="button" value="N">중복체크</button><br><br>
-		        <input type="password" id="pw" class="pw" name="pw" placeholder="비밀번호" style="width:40%;height:37px;vertical-align:middle;margin-right:20%;border: 1px solid #DDDDDD;"><br><br>
-		        <input type="password" id="pwConfirm" class="pwConfirm" name="pwConfirm" placeholder="비밀번호 확인" style="width:40%;height:37px;vertical-align:middle;margin-right:20%;border: 1px solid #DDDDDD;"><br><br>
+			      <table class="tableModal">
+		  			<tr style="height:40px;">
+		  				<td style="width:25%;">
+				  			메뉴타입
+			        	</td>
+			        	<td style="width:25%;">
+				  			<input class="form-check-input" type="radio" name="menuType" id="menuType" value="1" checked>
+    						음료
+				  		</td>
+				  		<td style="width:25%;">
+					        <input class="form-check-input" type="radio" name="menuType" id="menuType" value="0">
+    						디저트
+					    </td>
+					    <td style="width:25%;">
+					    </td>
+			        </tr>
+			        <tr style="height:40px;">
+			        	<td>
+				  			카테고리명
+			        	</td>
+			        	<td colspan="2">
+				  			<input type="text" placeholder="카테고리 이름" id="categoryName" class="categoryName" name="categoryName" style="width:100%;vertical-align:middle;border: 1px solid #DDDDDD;">
+					    </td>
+					    <td>
+					    	<button class="btn btn-secondary" id="categoryChk" onclick="fn_categoryChk();" type="button" value="N">중복체크</button>
+					    </td>
+					</tr>
+			      </table>
 		      </div>
 		      <div class="alert">
 		      
 		      </div>
 		      <div class="modal-footer" style="align-items:center;justify-content:center;">
-		        <input type="button" id="insertId" value="계정등록" class="btn btn-secondary">
+		        <input type="button" id="insertCategory" value="카테고리 등록" class="btn btn-secondary">
 		        <button type="button" class="btn" style="background:#DDDDDD;color:white;" data-bs-dismiss="modal">등록취소</button>
 		      </div>
 		  </form>    
 	    </div>
 	  </div>
   </div>
-
 	
 	<script>
 	// 전체 체크박스 선택
@@ -173,9 +189,9 @@
 	    })
 	})
 	
-	// 관리자 계정 삭제
+	// 메뉴 삭제
 	function deleteValue(masterPass){
-	var url = "deleteManager";    // Controller로 보내고자 하는 URL
+	var url = "deleteCategory";    // Controller로 보내고자 하는 URL
 	var valueArr = new Array();
     var list = $("input[name='reportChkBxRow']");
     
@@ -197,14 +213,14 @@
     }
     else{
 		var chk = Swal.fire({
-                  title: 'admin 계정 삭제',
+                  title: '카테고리 삭제',
                   showCancelButton: true,
                   confirmButtonColor: '#444444',
                   cancelButtonColor: '#DDDDDD',
                   confirmButtonText: '삭제',
                   cancelButtonText: '취소',
+                  allowOutsideClick: false,
                   showCloseButton: true,
-          	   	  allowOutsideClick: false,
                   html:
                 	  '<input id="swal-input" class="swal-input" placeholder="Master Password">',
                 	  preConfirm: function () {
@@ -212,12 +228,14 @@
                               // Validate input 
                               if ($('#swal-input').val() == '') {
                                   Swal.showValidationMessage("마스터 패스워드가 입력되지 않았습니다."); // Show error when validation fails.
-                                  Swal.enableButtons(); // Enable the button again.
+                                  Swal.enableButtons();
+                                  
                               } else if ($('#swal-input').val() != masterPass) { 
                             	  Swal.showValidationMessage("마스터 패스워드와 일치하지 않습니다."); // Show error when validation fails.
-                            	  Swal.enableButtons(); // Enable the button again.	
+                                  Swal.enableButtons();
+                            	  
                           	  }	else {
-                                  swal.resetValidationMessage(); // Reset the validation message.
+                                  Swal.resetValidationMessage(); // Reset the validation message.
                                   resolve([
                                       $('#swal-input').val()
                                   ]);
@@ -227,16 +245,15 @@
               }).then((result) => { 
                   if (result.value) {
 				$.ajax({ 
-				    url : 'deleteManager',                    // 전송 URL
+				    url : 'deleteCategory',                    // 전송 URL
 				    type : 'POST',                // POST 방식
 				    traditional : true,
 				    data : {
 				    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
 				    },
 	                success: function(jdata){
-	                    if(jdata = 1) {
-	                        alert("삭제 성공");
-	                        location.replace("idControl") //list 로 페이지 새로고침
+	                    if(jdata = 1) { 
+	                        location.replace("categoryControl") //list 로 페이지 새로고침
 	                    }
 	                    else{
 	                        alert("삭제 실패");
@@ -248,47 +265,78 @@
 		}
 	}
 	
+	// 카테고리 등록 유효성 체크
+	$(document).ready(function(){
+		$("#insertCategory").on("click", function(){			
+			if($("input[name='menuType']:checked").val() ==''){
+				alert("메뉴 타입을 선택해주세요.");
+				$("#menuType").focus();
+				return false;
+			}
+			if($("#categoryName").val()==""){
+				alert("메뉴 카테고리를 선택해주세요.");
+				$("#categoryName").focus();
+				return false;
+			}
+			
+			var idChkVal = $("#categoryChk").val();
+			if(idChkVal == "N"){
+				alert("카테고리 중복체크를 해주세요.");
+			    return false;
+			}else if(idChkVal == "Y"){
+				$("#regForm").submit();
+			}
+		});		 
+	})
 	
-	// 테이블의 Row 클릭시 관리자 계정 정보 가져온 후 수정
+	// 테이블의 Row 클릭시 카테고리 정보 가져온 후 수정
 	$("#example-table-1 tr").click(function(){ 	
 
-		var str = "";
-		
 		// 현재 클릭된 Row(<tr>)
 		var tr = $(this);
 		var td = tr.children();
 		
 		// td.eq(index)를 통해 값을 가져올 수도 있다.
-		var num = td.eq(2).text();
+		var categoryNum = td.eq(2).text();
 		var masterPass = td.eq(3).text() ;
-		var id = td.eq(4).text();
-		var status = td.eq(5).text();
-		var regdate = td.eq(6).text();
-		
+		var type = td.eq(4).text();
+		var category = td.eq(5).text(); 
+
 		var chk = Swal.fire({
-            title: 'admin 계정 수정',
+            title: '카테고리 수정',
             html:
-            	'<h4>아이디 : ' + id + '</h4><br>' + 
-                '<input type="password" id="swal-input1" class="swal2-input" placeholder="Master Password" >' +
-                '<input type="password" id="swal-input2" class="swal2-input" placeholder="New Password" >' + 
-                '<input type="password" id="swal-input3" class="swal2-input" placeholder="New PasswordCheck">'
-                ,
+            	'<table class="tableModal">'+
+            		'<tr style="height:40px;">'+
+  						'<td style="width:25%;">메뉴타입</td>'+
+	        			'<td style="width:25%;">'+
+		  					'<input class="form-check-input" type="radio" name="menuType1" id="menuType1" value="1" checked>'+
+							'음료'+
+		  				'</td>'+
+		  				'<td style="width:25%;">'+
+			        		'<input class="form-check-input" type="radio" name="menuType1" id="menuType1" value="0">'+
+							'디저트'+
+			    		'</td>'+
+			    		'<td style="width:25%;"></td>'+
+	        		'</tr>'+
+            		'<tr>' + 
+            			'<td>카테고리명</td>'+
+            			'<td colspan="2"><input type="text" id="swal-input1" class="swal2-input" value="'+category+'" placeholder="카테고리명" style="width:200px;"></td>'+
+            			'<td><button class="btn btn-secondary" id="categoryChk1" onclick="fn_categoryChk1();" type="button" value="N">중복체크</button></td>'+
+					'</tr>',
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     // Validate input 
-                    if ($('#swal-input1').val() == '' || $('#swal-input2').val() == '' || $('#swal-input3').val() == '') {
-                        Swal.showValidationMessage("세 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
+                    if ($("input[name='menuType1']:checked").val() =='' || $('#swal-input1').val() == '') {
+                        Swal.showValidationMessage("두 가지 항목을 모두 입력해주세요."); // Show error when validation fails.
                         Swal.enableButtons(); // Enable the button again.
-                    } else if ($('#swal-input1').val() != masterPass){
-                    	Swal.showValidationMessage("마스터 계정 비밀번호와 일치하지 않습니다."); // Show error when validation fails.
+                    } else if ($("#categoryChk1").val() == 'N'){
+                    	Swal.showValidationMessage("카테고리 중복체크를 해주세요."); // Show error when validation fails.
                     	Swal.enableButtons(); // Enable the button again.
-                	} else if ($('#swal-input2').val() != $('#swal-input3').val() ) {
-                		Swal.showValidationMessage("새 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // Show error when validation fails.
-                		Swal.enableButtons(); // Enable the button again.
                 	} else {
                         swal.resetValidationMessage(); // Reset the validation message.
                         resolve([
-                            str = $('#swal-input2').val(),
+                            category = $('#swal-input1').val(),
+                            type = $("input[name='menuType1']:checked").val()
                         ]);
                     }
                 })
@@ -303,17 +351,17 @@
         }).then((result) => {
             if (result.value) {
 			$.ajax({ 
-			    url : 'updateManager',        // 전송 URL
+			    url : 'updateCategory',        // 전송 URL
 			    type : 'POST',                // POST 방식
 			    traditional : true,
 			    data : {
-			    	str : str,   		// 보내고자 하는 data 변수 설정
-			    	num : num
+			    	category : category,   		// 보내고자 하는 data 변수 설정
+			    	type : type,
+			    	categoryNum : categoryNum
 			    },
               success: function(jdata){
                   if(jdata = 1) {
-                      alert("수정 성공");
-                      location.replace("idControl") //list 로 페이지 새로고침
+                      location.replace("categoryControl") //list 로 페이지 새로고침
                   }
                   else{
                       alert("수정 실패");
@@ -324,61 +372,37 @@
         })            
 	});
 	
-	// 관리자 계정 등록 유효성 체크
-	$(document).ready(function(){
-		$("#insertId").on("click", function(){
-			if($("#regId").val()==""){
-				alert("아이디를 입력해주세요.");
-				$("#regId").focus();
-				return false;
-			}
-			if($("#pw").val()==""){
-				alert("비밀번호를 입력해주세요.");
-				$("#pw").focus();
-				return false;
-			}
-			if($("#pwConfirm").val()==""){
-				alert("비밀번호 확인을 입력해주세요.");
-				$("#pwConfirm").focus();
-				return false;
-			}
-			
-			if($("#pw").val()!=$("#pwConfirm").val()){
-				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")
-				$("#pwConfirm").focus();
-				return false;
-			}
-			
-			var idChkVal = $("#idChk").val();
-			if(idChkVal == "N"){
-				alert("아이디 중복체크를 해주세요.");
-			    return false;
-			}else if(idChkVal == "Y"){
-				alert("등록성공")
-				$("#regForm").submit();
-			}
-		});		 
-	})
-	
-	// 관리자 계정 등록 id 중복체크
-	function fn_idChk(){
-		var idReg = /^[a-z]+[a-z0-9]{3,15}$/g;
-		if( !idReg.test( $("input[name=regId]").val() ) ) {
-	        alert("아이디는 영문자로 시작하는 3~15자 영문자 또는 숫자이어야 합니다.");
-	        return false;
-	    }
-		
+	// 카테고리 등록 중복체크
+	function fn_categoryChk(){	
 		$.ajax({
-			url : "idChk",
+			url : "categoryChk",
 			type : "post",
 			dataType : "json",
-			data : {"id" : $("#regId").val()},
+			data : {"category" : $("#categoryName").val()},
 			success : function(data){
 				if(data == 1){
-					alert("중복된 아이디입니다.");
+					alert("중복된 카테고리 이름입니다.");
 				}else if(data == 0){
-					$("#idChk").attr("value", "Y");
-					alert("사용가능한 아이디입니다.");
+					$("#categoryChk").attr("value", "Y");
+					alert("사용가능한 카테고리 이름입니다.");
+				}
+			}
+		})
+	}
+	
+	// 카테고리 수정 중복체크
+	function fn_categoryChk1(){	
+		$.ajax({
+			url : "categoryChk",
+			type : "post",
+			dataType : "json",
+			data : {"category" : $("#swal-input1").val()},
+			success : function(data){
+				if(data == 1){
+					alert("중복된 카테고리 이름입니다.");
+				}else if(data == 0){
+					$("#categoryChk1").attr("value", "Y");
+					alert("사용가능한 카테고리 이름입니다.");
 				}
 			}
 		})
@@ -389,7 +413,7 @@
 	    console.log('modal close');
 	  $(this).find('form')[0].reset()
 	});
-
+	
 	</script>
 </body>
 </html>

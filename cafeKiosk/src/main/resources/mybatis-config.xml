@@ -29,6 +29,7 @@
         
     <!-- 진솔 -->
  		<typeAlias alias="menuJSVo" type="com.kiosk.vo.MenuVo"/>
+ 		<typeAlias alias="salesVo" type="com.kiosk.vo.SalesVo"/>
         
 	</typeAliases>
  	
