@@ -88,6 +88,8 @@ public class MenuController {
 		
 		session.setAttribute("pageNum", pageNum);
 		
+		System.out.println(menuList.toString());
+		
 		return "managerPage/menuControl";
 	}
 	

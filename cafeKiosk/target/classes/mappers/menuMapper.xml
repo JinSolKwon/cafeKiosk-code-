@@ -21,6 +21,7 @@
 	
 	<!-- 메뉴 목록 가져오기 -->
 	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
+		<!-- menuJSVo에 맞게 데이터 가져오기 *말고 -->
 		select
 		    *
 		from(
@@ -70,7 +71,7 @@
 		where
 		    c.MENU = D.MENU (+)
 		order by
-		    menu_num asc;
+		    menu_num asc
 	
 	<!-- 
 	select 
