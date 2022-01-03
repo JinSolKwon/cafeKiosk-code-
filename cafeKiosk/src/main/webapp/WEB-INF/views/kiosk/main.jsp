@@ -24,7 +24,6 @@
 	<a href="<c:url value="/kiosk/order" />"><div class="main-main1"><span>비회원<br>주문하기</span></div></a>
 </div>
 <div class="footer-main"><span>* 현금 결제는 카운터에서만 가능합니다. *</span></div>
-<!-- 추가추가 -->
 </div>
 </body>
 </html>
