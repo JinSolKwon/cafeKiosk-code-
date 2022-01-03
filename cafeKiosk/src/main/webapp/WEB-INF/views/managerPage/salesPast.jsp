@@ -151,7 +151,7 @@
 		<table class="table" style="table-layout:fixed;">
 			<thead>
 				<tr class="table-secondary">
-					<th colspan="3">매출</th>
+					<th colspan="3">이익</th>
 				</tr>
 				<tr class="table-secondary">
 					<th>포인트</th>

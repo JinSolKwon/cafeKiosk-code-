@@ -36,7 +36,7 @@ public class MenuController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 		
-	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
+	private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
 	
 	@Inject
 	MenuService service;
@@ -144,7 +144,7 @@ public class MenuController {
 				if(extension.toLowerCase().equals("jpg") || extension.toLowerCase().equals("jpeg") || extension.toLowerCase().equals("png") 
 						|| extension.toLowerCase().equals("gif") || extension.toLowerCase().equals("bmp")) {
 					file.transferTo(new File(FILE_PATH, file.getOriginalFilename()));
-					vo.setSaveName(fileBaseName);
+					vo.setSaveName(file.getOriginalFilename());
 					vo.setExtension(extension);
 					service.menuImageInsert(vo);
 				}

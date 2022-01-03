@@ -25,8 +25,6 @@ public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 		
-	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
-	
 	@Inject
 	MemberService service;
 	

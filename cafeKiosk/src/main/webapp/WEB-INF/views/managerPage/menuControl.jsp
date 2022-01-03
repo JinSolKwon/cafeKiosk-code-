@@ -91,7 +91,7 @@
 							<td class="hidden-col">선택된 파일없음</td>
 						</c:if>
 						<c:if test="${menu.saveName ne null }">
-							<td class="hidden-col">${menu.saveName}.${menu.extension}</td>
+							<td class="hidden-col">${menu.saveName}</td>
 						</c:if>
 						<td style="cursor:pointer;">${menu.category}</td>
 						<td style="cursor:pointer;">${menu.menu}</td>
