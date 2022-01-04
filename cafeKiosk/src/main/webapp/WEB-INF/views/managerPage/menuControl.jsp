@@ -23,11 +23,25 @@
 	<div id="manageMain">
 		<h1 style="font-weight:bold;">메뉴 관리</h1>
 		
-		<form action="<c:url value="/managerPage/menuControl"/>" method="POST" style="margin-left:55%">
+		<form action="<c:url value="/managerPage/menuControl?search=1"/>" method="POST" style="margin-left:55%">
 			<select name="type" style="height:40px;">
-				<option value="" selected>전체</option>
-				<option value="1">음료</option>
-				<option value="0">디저트</option>
+			<c:choose>
+				<c:when test="${type eq '0'}">
+					<option value="">전체</option>
+					<option value="1">음료</option>
+					<option value="0"selected>디저트</option>
+				</c:when>
+				<c:when test="${type eq '1'}">
+					<option value="">전체</option>
+					<option value="1" selected>음료</option>
+					<option value="0">디저트</option>
+				</c:when>
+				<c:otherwise>
+					<option value="" selected>전체</option>
+					<option value="1">음료</option>
+					<option value="0">디저트</option>
+				</c:otherwise>
+			</c:choose>
 			</select>
 			<input type="text" id="menu" name="menu" placeholder="메뉴명 검색" style="height:40px;">
 			<input type="submit" class="btn btn-secondary" value="검색" style="height:40px;width:70px;margin-bottom:3px;">
@@ -62,6 +76,7 @@
 						<th class="hidden-col" onclick="event.cancelBubble=true">진짜 번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">마스터 비밀번호</th>
 						<th class="hidden-col" onclick="event.cancelBubble=true">이미지 파일</th>
+						<th class="hidden-col" onclick="event.cancelBubble=true">카테고리 번호</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">카테고리</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">메뉴명</th>
 						<th style="width:20%" onclick="event.cancelBubble=true">가격(won)</th>
@@ -93,6 +108,7 @@
 						<c:if test="${menu.saveName ne null }">
 							<td class="hidden-col">${menu.saveName}</td>
 						</c:if>
+						<td class="hidden-col">${menu.categoryNum}</td>
 						<td style="cursor:pointer;">${menu.category}</td>
 						<td style="cursor:pointer;">${menu.menu}</td>
 						<td style="cursor:pointer;"><fmt:formatNumber value="${menu.price}" pattern="#,###,###"/></td>
@@ -425,6 +441,7 @@
 			data : {"menu" : $("#menuName").val()},
 			success : function(data){
 				if(data == 1){
+					$("#menuChk").attr("value", "N");
 					alert("중복된 메뉴이름입니다.");
 				}else if(data == 0){
 					$("#menuChk").attr("value", "Y");
@@ -454,21 +471,23 @@
 		var num = td.eq(2).text();
 		var masterPass = td.eq(3).text();
 		var image = td.eq(4).text();
-		var category = td.eq(5).text();
-		var menu = td.eq(6).text();
-		var price = td.eq(7).text();
-		var regdate = td.eq(8).text();
+		var categoryNum = td.eq(5).text();
+		var category = td.eq(6).text();
+		var menu = td.eq(7).text();
+		var price = td.eq(8).text();
+		var regdate = td.eq(9).text();
 		
 		var chk = Swal.fire({
             title: '메뉴 수정',
             html:
             	'<form id="regForm2" method="post" action ="<c:url value="/managerPage/updateMenu"/>" enctype="multipart/form-data">'+
+    			'<input type="hidden" id="categoryNum5" name="categoryNum5" value="'+categoryNum+'">'+
             	'<table class="tableModal">'+
             		'<tr style="height:40px;">'+
             			'<td>카테고리</td>'+
 	        			'<td colspan="2">'+
             				'<select name="category1" id="category1" style="width:100%;vertical-align:middle;">'+
-							'<option value="" selected>카테고리 선택</option>'+
+							'<option value="">카테고리 선택</option>'+
 		  					'<c:forEach var="category" items="${categoryList}">'+
 								'<option value="${category.num}">${category.category}</option>'+						
 							'</c:forEach>'+
@@ -590,11 +609,13 @@
 			url : "menuChk",
 			type : "post",
 			dataType : "json",
-			data : {"menu" : $("#swal-input1").val()},
+			data : {"menu" : $("#swal-input1").val(),
+					"num" : $("#num1").val()},
 			success : function(data){
-				if(data == 2){
+				if(data == 1){
+					$("#menuChk").attr("value", "N");
 					alert("중복된 메뉴이름입니다.");
-				}else if(data < 2){
+				}else if(data == 0){
 					$("#menuChk1").attr("value", "Y");
 					alert("사용가능한 메뉴이름입니다.");
 				}
@@ -611,6 +632,17 @@
 				return;
 			}
 		filename.innerText = this.files[0].name;
+	});
+
+	// 셀렉트 박스 selected 설정 (메뉴 수정 스윗알럿)
+	$("select[name=category1]").find("option").each(function(index){
+
+		if( $(this).val() == $("input[name=categoryNum5]").val()){
+
+			$("select[name=category1]").val($("input[name=categoryNum5]").val()).prop("selected", true);
+
+		}
+
 	});
 
 	</script>

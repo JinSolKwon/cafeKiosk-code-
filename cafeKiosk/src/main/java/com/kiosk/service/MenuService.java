@@ -44,4 +44,6 @@ public interface MenuService {
 	public abstract void categoryInsert(MenuVo vo);
 	
 	public abstract int categoryUpdate(MenuVo vo);
+	
+	public abstract MenuVo categorySelect(int num);
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,7 @@ import com.kiosk.HSvo.ManagerVo;
 public class ManagerController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
-		
-	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	@Inject
 	ManagerService service;
@@ -111,6 +111,8 @@ public class ManagerController {
 		
 		String id = request.getParameter("regId");
 		String pw = request.getParameter("pw");
+		
+		pw = encoder.encode(pw);
 		
 		vo.setId(id);
 		vo.setPw(pw);

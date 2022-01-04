@@ -42,8 +42,6 @@ public class SalesController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SalesController.class);
 		
-	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
-	
 	@Inject
 	SalesService service;
 	

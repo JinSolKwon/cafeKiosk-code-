@@ -36,7 +36,8 @@ public class MenuController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 		
-	private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
+	//private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
+	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
 	
 	@Inject
 	MenuService service;
@@ -45,12 +46,21 @@ public class MenuController {
 	@RequestMapping("menuControl")
 	public String menu(@RequestParam(name="pageNum",required=false,defaultValue="0")int pageNum,
 			@RequestParam(name="menu", required=false, defaultValue="")String menu,
-			@RequestParam(name="type", required=false, defaultValue="")String type,  
+			@RequestParam(name="type", required=false, defaultValue="")String type,
+			@RequestParam(name="search", required=false, defaultValue="0")int search,
 			Model model, HttpSession session) throws Exception{
-		
+		if (search == 0) {
+			if (session.getAttribute("menu") != null) {
+			menu = session.getAttribute("menu").toString();
+			}
+			if (session.getAttribute("type") != null) {
+				type = session.getAttribute("type").toString();
+			}
+		} 
 		if (pageNum == 0) {
 			pageNum = 1;
 		}
+		
 		int pageSize = 10;
 		int currentPage = pageNum;
 		
@@ -87,6 +97,8 @@ public class MenuController {
 		model.addAttribute("masterPass", masterPass);
 		
 		session.setAttribute("pageNum", pageNum);
+		session.setAttribute("menu", menu);
+		session.setAttribute("type", type);
 		
 		System.out.println(menuList.toString());
 		
@@ -171,11 +183,22 @@ public class MenuController {
 	@ResponseBody
 	@PostMapping(value="menuChk")
 	public int menuChk(HttpServletRequest request,MenuVo vo) throws Exception{
-		String id = request.getParameter("menu");
+		String menu = request.getParameter("menu");
 		
-		vo.setMenu(id);
+		int num = 0;
+		
+		if(request.getParameter("num") != null) {
+			num = Integer.parseInt(request.getParameter("num"));
+		}		
+		String name=service.menuSelect(num).getMenu();
+		
+		vo.setMenu(menu);
 		
 		int result = service.menuCheck(vo);
+		
+		if (name.equals(menu)) {
+			result -= 1;
+		}
 		
 		return result;
 	}
@@ -296,11 +319,20 @@ public class MenuController {
 	public int categoryChk(HttpServletRequest request,MenuVo vo) throws Exception{
 		String category = request.getParameter("category");
 		
-		System.out.println(category);
+		int categoryNum = 0;
+		
+		if(request.getParameter("categoryNum") != null) {
+			categoryNum = Integer.parseInt(request.getParameter("categoryNum"));
+		}		
+		String name=service.categorySelect(categoryNum).getCategory();
 		
 		vo.setCategory(category);
 		
 		int result = service.categoryCheck(vo);
+		
+		if(category.equals(name)) {
+			result -= 1;
+		}
 		
 		return result;
 	}

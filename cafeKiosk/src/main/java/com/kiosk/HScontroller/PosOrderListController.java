@@ -113,5 +113,51 @@ public class PosOrderListController {
 
 		return "redirect:/pos/orderList";
 	}
+	
+	@RequestMapping(value = "/pos/orderList/refund1", method = RequestMethod.GET)
+	public String menuRefund1(int orderNum, RedirectAttributes rttr) {
+
+		logger.info("menuRefund메서드 orderNum확인 : " + orderNum);
+
+		boolean payRefundResult = posOrderListService.menuRefund(orderNum);
+
+		if (payRefundResult == true) {
+			// payment 테이블의 refund 칼럼 update성공
+			
+			// orderNum하고 날짜같이 들가야함
+			Date date = new Date();
+			SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
+			String today = fmtToday.format(date);
+			
+			RefundPaymentCmd refundPaymentCmd = new RefundPaymentCmd(orderNum, today);
+			
+			PaymentVo paymentVo = posOrderListService.selectPayment(refundPaymentCmd);
+			logger.info(paymentVo.toString());
+
+			// 환불정보 테이블에 정보입력
+			boolean insertRefundResult = posOrderListService.insertRefund(paymentVo);
+
+			if (insertRefundResult == true) {
+				rttr.addFlashAttribute("insertRefundResult", true);
+
+				// 포인트 결제 내역있을 경우 해당 회원에게 포인트 복구
+				int refundPoint = paymentVo.getPoint();
+				int refundMemberNum = paymentVo.getMemberNum();
+
+				if (refundPoint > 0) {
+					// 회원 테이블에 있는 회원에게 포인트 복구
+					RefundPointCmd refundPointCmd = new RefundPointCmd(refundPoint, refundMemberNum);
+
+					// 회원번호로 update실행 후 동작 완료 여부에 따라 결과 설정
+					boolean refundPointResult = posOrderListService.refundPoint(refundPointCmd);
+					rttr.addFlashAttribute("refundPointResult", refundPointResult);
+				}
+			}
+			rttr.addFlashAttribute("insertRefundResult", insertRefundResult);
+		}
+		rttr.addFlashAttribute("payRefundResult", payRefundResult);
+
+		return "redirect:/managerPage/salesToday";
+	}
 
 }

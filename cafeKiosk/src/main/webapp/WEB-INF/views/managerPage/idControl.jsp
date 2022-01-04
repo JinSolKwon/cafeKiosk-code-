@@ -375,6 +375,7 @@
 			data : {"id" : $("#regId").val()},
 			success : function(data){
 				if(data == 1){
+					$("#idChk").attr("value", "N");
 					alert("중복된 아이디입니다.");
 				}else if(data == 0){
 					$("#idChk").attr("value", "Y");

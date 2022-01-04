@@ -128,4 +128,9 @@ public class MenuServiceImpl implements MenuService{
 	public int categoryUpdate(MenuVo vo) {
 		return menuDao.categoryUpdate(vo);
 	}
+	
+	@Override
+	public MenuVo categorySelect(int num) {
+		return menuDao.categorySelect(num);
+	}
 }

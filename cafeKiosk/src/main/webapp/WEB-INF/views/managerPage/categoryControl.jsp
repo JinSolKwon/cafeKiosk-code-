@@ -309,6 +309,7 @@
             		'<tr style="height:40px;">'+
   						'<td style="width:25%;">메뉴타입</td>'+
 	        			'<td style="width:25%;">'+
+	        				'<input type="hidden" id="num1" name="num1" value="'+categoryNum+'">'+
 		  					'<input class="form-check-input" type="radio" name="menuType1" id="menuType1" value="1" checked>'+
 							'음료'+
 		  				'</td>'+
@@ -381,6 +382,7 @@
 			data : {"category" : $("#categoryName").val()},
 			success : function(data){
 				if(data == 1){
+					$("#categoryChk").attr("value", "N");
 					alert("중복된 카테고리 이름입니다.");
 				}else if(data == 0){
 					$("#categoryChk").attr("value", "Y");
@@ -396,9 +398,11 @@
 			url : "categoryChk",
 			type : "post",
 			dataType : "json",
-			data : {"category" : $("#swal-input1").val()},
+			data : {"category" : $("#swal-input1").val(),
+					"categoryNum" : $("#num1").val()},
 			success : function(data){
 				if(data == 1){
+					$("#categoryChk1").attr("value", "N");
 					alert("중복된 카테고리 이름입니다.");
 				}else if(data == 0){
 					$("#categoryChk1").attr("value", "Y");

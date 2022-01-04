@@ -70,7 +70,7 @@
 								<td style="width:10%">환불완료</td>
 							</c:when>
 							<c:otherwise>
-								<td style="width:10%"><button class="btn btn-secondary" onClick="window.location='<c:url value="/pos/orderList/refund?orderNum=${orderList.orderNum}"/>'">환불</button></td>									
+								<td style="width:10%"><button class="btn btn-secondary" onClick="window.location='<c:url value="/pos/orderList/refund1?orderNum=${orderList.orderNum}"/>'">환불</button></td>									
 							</c:otherwise>
 							</c:choose>
 						</tr>
