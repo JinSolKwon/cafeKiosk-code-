@@ -6,8 +6,6 @@
 - 권진솔
 - 이화석
 
-<br>
-
 # 프로젝트 소개
 
 ### 개발기간 2021.11.17 ~ 2022.01.05 (49일)
@@ -41,7 +39,6 @@
 - 메뉴관리
 - 회원관리
 - 관리자 계정 관리
-<br>
 
 # 개발에 사용된 사이트(링크)
 ### [DB설계](https://www.erdcloud.com/d/aQX5XH6FSpQ5boebz)
@@ -50,7 +47,6 @@
 ### [기타설계문서(깃허브)](https://github.com/JinSolKwon/cafeKiosk)
 ### [PPT자료](https://docs.google.com/presentation/d/1m60jUVEyAs-txxOov3YFimo9plgDoz8XvBuDGzBPbYo/edit)
 ### [세부일정계획표](https://docs.google.com/spreadsheets/d/1QmlWY-MhG9CwIqt_5TTt8NeKvUeNJZz743VhFsjidyg/edit?usp=drive_web&ouid=101429968988774976735)
-<br>
 
 # 개발환경 및 개발도구
 ![개발 도구](https://user-images.githubusercontent.com/88276563/148174892-34d447ba-0edd-489a-908a-0b6bda2b6d15.png)
