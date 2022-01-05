@@ -311,7 +311,7 @@ var numC = '<%=session.getAttribute("categoryNum")%>';
 	$("#cateUl-orderForm").find("LI").eq(numC).css('background-color', '#F05454');
 	
 //버튼 스크롤 이동
-$(document).ready(function cateMove(){
+$(document).ready(function cateMove(){	
 	var cateWidth = $('.header-orderForm1-2').width();
 	var cateLength = '<%=session.getAttribute("cateLength")%>';
 	var cateSelect = Number(numC)+1;

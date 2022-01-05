@@ -1,6 +1,7 @@
 package com.kiosk.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +40,8 @@ public class MenuController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 		
-	private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
+	//private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
+	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
 	
 	@Inject
 	MenuService service;
@@ -45,12 +50,21 @@ public class MenuController {
 	@RequestMapping("menuControl")
 	public String menu(@RequestParam(name="pageNum",required=false,defaultValue="0")int pageNum,
 			@RequestParam(name="menu", required=false, defaultValue="")String menu,
-			@RequestParam(name="type", required=false, defaultValue="")String type,  
+			@RequestParam(name="type", required=false, defaultValue="")String type,
+			@RequestParam(name="search", required=false, defaultValue="0")int search,
 			Model model, HttpSession session) throws Exception{
-		
+		if (search == 0) {
+			if (session.getAttribute("menu") != null) {
+			menu = session.getAttribute("menu").toString();
+			}
+			if (session.getAttribute("type") != null) {
+				type = session.getAttribute("type").toString();
+			}
+		} 
 		if (pageNum == 0) {
 			pageNum = 1;
 		}
+		
 		int pageSize = 10;
 		int currentPage = pageNum;
 		
@@ -87,6 +101,8 @@ public class MenuController {
 		model.addAttribute("masterPass", masterPass);
 		
 		session.setAttribute("pageNum", pageNum);
+		session.setAttribute("menu", menu);
+		session.setAttribute("type", type);
 		
 		System.out.println(menuList.toString());
 		
@@ -171,11 +187,22 @@ public class MenuController {
 	@ResponseBody
 	@PostMapping(value="menuChk")
 	public int menuChk(HttpServletRequest request,MenuVo vo) throws Exception{
-		String id = request.getParameter("menu");
+		String menu = request.getParameter("menu");
 		
-		vo.setMenu(id);
+		int num = 0;
+		
+		if(request.getParameter("num") != null) {
+			num = Integer.parseInt(request.getParameter("num"));
+		}		
+		String name=service.menuSelect(num).getMenu();
+		
+		vo.setMenu(menu);
 		
 		int result = service.menuCheck(vo);
+		
+		if (name.equals(menu)) {
+			result -= 1;
+		}
 		
 		return result;
 	}
@@ -229,6 +256,22 @@ public class MenuController {
 			}
 		}
 		return "redirect:menuControl";
+	}
+	
+	@RequestMapping("display")
+	public String displayPhoto(@PathVariable String image,HttpServletResponse res) throws Exception{
+		
+		res.setContentType("image/*");
+		ServletOutputStream bout = res.getOutputStream();
+		
+		String imgPath = FILE_PATH + "\\" + image;
+		FileInputStream f = new FileInputStream(imgPath);
+		int length;
+		byte[] buffer = new byte[10];
+		while((length = f.read(buffer)) != -1) {
+			bout.write(buffer, 0, length);
+		}
+		return null;
 	}
 	
 	// 카테고리 관리 페이지
@@ -296,11 +339,20 @@ public class MenuController {
 	public int categoryChk(HttpServletRequest request,MenuVo vo) throws Exception{
 		String category = request.getParameter("category");
 		
-		System.out.println(category);
+		int categoryNum = 0;
+		
+		if(request.getParameter("categoryNum") != null) {
+			categoryNum = Integer.parseInt(request.getParameter("categoryNum"));
+		}		
+		String name=service.categorySelect(categoryNum).getCategory();
 		
 		vo.setCategory(category);
 		
 		int result = service.categoryCheck(vo);
+		
+		if(category.equals(name)) {
+			result -= 1;
+		}
 		
 		return result;
 	}

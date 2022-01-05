@@ -23,10 +23,11 @@
 	<select id="menuList" parameterType="hashmap" resultType="menuJSVo">
 		<!-- menuJSVo에 맞게 데이터 가져오기 *말고 -->
 		select
-		    *
+		    C.menu_num as num, C.CATEGORY_NUM as categoryNum, C.MENU, C.PRICE, C.REGDATE, C.USING, C.TYPE, C.CATEGORY, 
+		    D.SAVE_NAME as saveName, D.EXTENSION
 		from(
 		        select
-		            ROWNUM,
+		            ROWNUM RNUM,
 		            a.menu_num, 
 		            a.CATEGORY_NUM, 
 		            a.MENU,   
@@ -46,7 +47,7 @@
 		             from
 		                menu
 		             where
-		                num > 0
+		                <![CDATA[num > 0]]>
 		                <if test='menu!=null or !menu.equals("")'>
 				  		and MENU like '%' || #{menu} ||'%'
 				  	 	</if>
@@ -58,18 +59,18 @@
 		            from 
 		                category
 		            where
-		                num > 0
+		                 <![CDATA[num > 0]]>
 		                <if test='type!=null or !type.equals("")'>
-					  	and TYPE = #{type}
+					  	and TYPE like '%' || #{type} || '%'
 					  	</if>
 		            )B
 		        where
 		            b.category_num = a.category_num
-		            <![CDATA[and ROWNUM >= #{start} and ROWNUM <= #{end} ]]>
 		        )C,
 		        menu_image D
 		where
-		    c.MENU = D.MENU (+)
+		    C.MENU = D.MENU (+)
+		    <![CDATA[and C.RNUM >= #{start} and C.RNUM <= #{end} ]]>
 		order by
 		    menu_num asc
 	
@@ -198,6 +199,10 @@
 	  	  </if>
 		  order by NUM asc)) 
 		  <![CDATA[where RNUM >= #{start} and RNUM <= #{end} ]]>
+	</select>
+	
+	<select id="categorySelect" parameterType="int" resultType="menuJSVo">
+		select * from CATEGORY where NUM=#{value}
 	</select>
 	
 	<!-- 카테고리 이름 중복체크 -->

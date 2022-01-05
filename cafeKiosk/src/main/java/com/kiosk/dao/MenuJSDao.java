@@ -63,4 +63,7 @@ public interface MenuJSDao {
 	
 	//카테고리 수정 메서드
 	public abstract int categoryUpdate(MenuVo vo);
+	
+	//카테고리 정보 가져오기 메서드
+	public abstract MenuVo categorySelect(int num);
 }
