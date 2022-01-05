@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.HScommand.ReceipeCmd;
 import com.kiosk.HScommand.RegisterCmd;
 import com.kiosk.HSdao.PosMenuOrderDao;
 import com.kiosk.HSvo.CategoryVo;
@@ -16,6 +17,7 @@ import com.kiosk.HSvo.MenuVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
+import com.kiosk.HSvo.ReceipeJoinVo;
 
 @Repository
 public class PosMenuOrderServiceImpl implements PosMenuOrderService{
@@ -121,5 +123,15 @@ public class PosMenuOrderServiceImpl implements PosMenuOrderService{
 	@Override
 	public int updateMemberPoint(MemberVo memberVo) {
 		return posMenuOrderDao.updateMemberPoint(memberVo);
+	}
+	
+	@Override
+	public List<ReceipeJoinVo> receipeInfo(ReceipeCmd receipeCmd) {
+		return posMenuOrderDao.receipeInfo(receipeCmd);
+	}
+	
+	@Override
+	public MemberVo memberInfo(int memberNum) {
+		return posMenuOrderDao.memberInfo(memberNum);
 	}
 }

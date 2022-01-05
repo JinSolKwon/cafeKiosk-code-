@@ -1,5 +1,6 @@
 package com.kiosk.HScontroller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,11 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kiosk.HScommand.CancelCmd;
 import com.kiosk.HScommand.MenuOrderCmd;
+import com.kiosk.HScommand.ReceipeCmd;
 import com.kiosk.HScommand.RegisterCmd;
 import com.kiosk.HSservice.PosMenuOrderService;
 import com.kiosk.HSvo.CategoryVo;
@@ -31,6 +34,7 @@ import com.kiosk.HSvo.MenuVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
+import com.kiosk.HSvo.ReceipeJoinVo;
 
 @Controller
 public class PosMenuOrderController {
@@ -379,7 +383,7 @@ public class PosMenuOrderController {
 			
 			Set<String> keySet = pointInfo.keySet();
 			for (String key : keySet) {
-				System.out.println(key + " : " + pointInfo.get(key));
+				logger.info(key + " : " + pointInfo.get(key));
 			}
 			int pointType = pointInfo.get("pointType"); 
 			int changePoint = pointInfo.get("changePoint");
@@ -444,8 +448,8 @@ public class PosMenuOrderController {
 		logger.info("menuOrderList세션 삭제");
 		session.removeAttribute("paymentInfo");
 		logger.info("paymentInfo세션 삭제");
-		session.removeAttribute("orderNum");
-		logger.info("orderNum세션 삭제");
+//		session.removeAttribute("orderNum");
+//		logger.info("orderNum세션 삭제");
 		session.removeAttribute("memberInfo");
 		logger.info("memberInfo세션 삭제");
 		session.removeAttribute("pointInfo");
@@ -459,4 +463,47 @@ public class PosMenuOrderController {
 	public String paymentSuccess() {
 		return "/pos/paymentSuccess";
 	}
+	
+	@RequestMapping(value = "/pos/menuOrder/receipe", method = RequestMethod.GET)
+	public String receipePrint(HttpSession session, Model model, @RequestParam String type) {
+		if(type.equals("Y")) {
+			logger.info("receipe type : Y");
+			int orderNum = (int) session.getAttribute("orderNum");
+			Date date = new Date();
+			SimpleDateFormat fmtToday = new SimpleDateFormat("yyyyMMdd");
+			String today = fmtToday.format(date);
+			
+			
+			ReceipeCmd receipeCmd = new ReceipeCmd(orderNum, today);
+			
+			List<ReceipeJoinVo> receipeInfo = posMenuOrderService.receipeInfo(receipeCmd);
+
+			Timestamp orderDate = receipeInfo.get(0).getOrderDate();
+			
+			for (int i = 0; i < receipeInfo.size(); i++) {
+				logger.info(receipeInfo.get(i).toString());
+			}
+			
+			model.addAttribute("receipeInfo", receipeInfo);
+			model.addAttribute("orderDate", orderDate);
+			
+			
+			if(receipeInfo.get(0).getMemberNum() > 0) {
+				int memberNum = receipeInfo.get(0).getMemberNum();
+				MemberVo memberInfo = posMenuOrderService.memberInfo(memberNum);
+				
+				logger.info(memberInfo.toString());
+				
+				model.addAttribute("memberInfo", memberInfo);
+			}
+			
+			session.removeAttribute("orderNum");
+			logger.info("orderNum세션 삭제");
+		
+			return "/pos/receipePrint";
+		}
+		
+		return "redirect:/pos/menuOrder";
+	}
+	
 }

@@ -7,12 +7,14 @@ import javax.inject.Inject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kiosk.HScommand.ReceipeCmd;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
 import com.kiosk.HSvo.MenuVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
+import com.kiosk.HSvo.ReceipeJoinVo;
 
 @Repository
 public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
@@ -63,5 +65,15 @@ public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
 	@Override
 	public int updateMemberPoint(MemberVo memberVo) {
 		return sqlSessionTemplate.update("posMenuOrderMapper.updateMemberPoint", memberVo);
+	}
+	
+	@Override
+	public List<ReceipeJoinVo> receipeInfo(ReceipeCmd receipeCmd) {
+		return sqlSessionTemplate.selectList("posMenuOrderMapper.receipeInfo", receipeCmd);
+	}
+	
+	@Override
+	public MemberVo memberInfo(int memberNum) {
+		return sqlSessionTemplate.selectOne("posMenuOrderMapper.memberInfo", memberNum);
 	}
 }

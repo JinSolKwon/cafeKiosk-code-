@@ -2,12 +2,14 @@ package com.kiosk.HSdao;
 
 import java.util.List;
 
+import com.kiosk.HScommand.ReceipeCmd;
 import com.kiosk.HSvo.CategoryVo;
 import com.kiosk.HSvo.MemberVo;
 import com.kiosk.HSvo.MenuVo;
 import com.kiosk.HSvo.OptionListVo;
 import com.kiosk.HSvo.OrderListVo;
 import com.kiosk.HSvo.PaymentVo;
+import com.kiosk.HSvo.ReceipeJoinVo;
 
 public interface PosMenuOrderDao {
 	
@@ -37,4 +39,10 @@ public interface PosMenuOrderDao {
 	
 	// 포인트 변동
 	public int updateMemberPoint(MemberVo memberVo);
+	
+	// 영수증에 사용되는 정보 가져오기
+	public List<ReceipeJoinVo> receipeInfo(ReceipeCmd receipeCmd);
+	
+	// 회원번호로 회원정보 조회
+	public MemberVo memberInfo(int memberNum);
 }

@@ -122,4 +122,60 @@
 		where
 			num = #{num}
 	</update>
+	
+	<select id="receipeInfo" parameterType="receipeCmd" resultType="receipeJoinVo">
+		select
+		    a.order_num,
+		    a.menu,
+		    a.temperature,
+		    a.beverage_size,
+		    a.shot,
+		    a.syrub,
+		    a.whipping,
+		    a.price,
+		    a.order_date,
+		    b.member_num,
+		    b.point,
+		    b.total
+		from
+		    (select
+		        order_num,
+		        menu,
+		        temperature,
+		        beverage_size,
+		        shot,
+		        syrub,
+		        whipping,
+		        price,
+		        order_date
+		    from
+		        order_list
+		    where
+		        to_char(order_date, 'YYYYMMDD') = #{today}
+		        and order_num = #{orderNum}
+		    )A,
+		    (select
+		        order_num,
+		        member_num,
+		        point,
+		        total,
+		        order_date
+		    from
+		        payment
+		     where
+		        to_char(order_date, 'YYYYMMDD') = #{today}
+		        and order_num = #{orderNum}  
+		    )B
+	
+	</select>
+	
+	<select id="memberInfo" parameterType="int" resultType="memberVo">
+		select
+			*
+		from
+			member
+		where
+			num = #{memberNum}
+	</select>
+	
 </mapper>
