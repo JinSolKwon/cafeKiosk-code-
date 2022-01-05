@@ -45,7 +45,7 @@
 ### [UI설계](https://ovenapp.io/view/o6qhI0UDdZZMsPge61fidf2eYWlOeL7D/)
 ### [개발코드(깃허브)](https://github.com/JinSolKwon/cafeKiosk-code-)
 ### [기타설계문서(깃허브)](https://github.com/JinSolKwon/cafeKiosk)
-### [PPT자료](https://docs.google.com/presentation/d/1m60jUVEyAs-txxOov3YFimo9plgDoz8XvBuDGzBPbYo/edit)
+### [PPT자료](https://docs.google.com/presentation/d/1YpJmQV32lOIxAVv9igVgFp07jJFyp8jbgdyOlBOHsNg/edit#slide=id.p1)
 ### [세부일정계획표](https://docs.google.com/spreadsheets/d/1QmlWY-MhG9CwIqt_5TTt8NeKvUeNJZz743VhFsjidyg/edit?usp=drive_web&ouid=101429968988774976735)
 
 # 개발환경 및 개발도구
