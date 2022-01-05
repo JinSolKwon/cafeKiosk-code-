@@ -117,7 +117,16 @@
 					<c:if test="${orderNum eq null or orderNum eq orderList.orderNum}">
 						<tr>
 							<td>${orderList.orderNum}</td>
-							<td>(${orderList.temperature})${orderList.menu}</td>
+							<td>
+								<c:choose>
+									<c:when test="${orderList.temperature eq null}">
+										${orderList.menu}
+									</c:when>
+									<c:otherwise>
+										(${orderList.temperature})${orderList.menu}11
+									</c:otherwise>								
+								</c:choose>
+							</td>
 							<td>${orderList.beverageSize}</td>
 							<c:choose>   
 								<c:when test="${orderList.shot eq 0}">

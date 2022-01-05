@@ -40,8 +40,8 @@ public class MenuController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 		
-	//private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
-	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
+	private static final String FILE_PATH ="C:\\cafeCarp\\MenuUpload";
+//	private static final String FILE_PATH ="d:\\javastudy\\jspupload";
 	
 	@Inject
 	MenuService service;
@@ -219,7 +219,7 @@ public class MenuController {
 		int price1 = Integer.parseInt(price.replaceAll("\\,", ""));
 		
 		
-		String fileBaseName = FilenameUtils.getBaseName(file.getOriginalFilename());
+		String fileBaseName = file.getOriginalFilename();
 		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 		
 		vo.setNum(num);
@@ -250,29 +250,30 @@ public class MenuController {
 					vo.setSaveName(fileBaseName);
 					vo.setExtension(extension);
 					System.out.println(vo);
-					service.menuUpdate(vo);
 					service.menuImageUpdate(vo);
 				}
 			}
+			service.menuUpdate(vo);
 		}
 		return "redirect:menuControl";
 	}
 	
-	@RequestMapping("display")
-	public String displayPhoto(@PathVariable String image,HttpServletResponse res) throws Exception{
-		
-		res.setContentType("image/*");
-		ServletOutputStream bout = res.getOutputStream();
-		
-		String imgPath = FILE_PATH + "\\" + image;
-		FileInputStream f = new FileInputStream(imgPath);
-		int length;
-		byte[] buffer = new byte[10];
-		while((length = f.read(buffer)) != -1) {
-			bout.write(buffer, 0, length);
-		}
-		return null;
-	}
+	// JE 수정해야됨
+//	@RequestMapping("display")
+//	public String displayPhoto(@PathVariable String image,HttpServletResponse res) throws Exception{
+//		
+//		res.setContentType("image/*");
+//		ServletOutputStream bout = res.getOutputStream();
+//		
+//		String imgPath = FILE_PATH + "\\" + image;
+//		FileInputStream f = new FileInputStream(imgPath);
+//		int length;
+//		byte[] buffer = new byte[10];
+//		while((length = f.read(buffer)) != -1) {
+//			bout.write(buffer, 0, length);
+//		}
+//		return null;
+//	}
 	
 	// 카테고리 관리 페이지
 	@RequestMapping("categoryControl")

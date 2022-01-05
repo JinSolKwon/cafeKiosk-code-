@@ -458,6 +458,30 @@
 	  //$(this).find('form')[0].reset() - 폼 내용 리셋(파일은 리셋 안됨)
 	});
 	
+	function imgChange(){
+		$('#file1').click();
+	}
+	function fileCheck2(el) {
+		
+	    if(!/\.(jpeg|jpg|png|gif|bmp)$/i.test(el.value)){ 
+	        alert('이미지 파일만 업로드 가능합니다.'); 
+	        el.value = ''; 
+	        el.focus(); 
+	    }
+	    
+    var reader = new FileReader();
+    
+    reader.onload = function(event) {
+    	var img = document.getElementById("modal-img-up"); 
+    	img.setAttribute("src", event.target.result); 
+    	img.width = 200;
+    	img.height = 200;   	
+    	}; 
+    	
+    reader.readAsDataURL(event.target.files[0]);
+	
+	}
+	
 	// 테이블의 Row 클릭시 메뉴정보 가져온 후 수정
 	$("#example-table-1 tr").click(function(){ 	
 
@@ -476,28 +500,22 @@
 		var menu = td.eq(7).text();
 		var price = td.eq(8).text();
 		var regdate = td.eq(9).text();
-		
-		$(document).ready(function(){
-			var filename2 = document.getElementById('fileName1');
-			
-			filename2.innerText = image;
-	
-			var imgSrc = "<c:url value='/display?image="+ image +"'/>";
-			$('#modal-img').attr("src", imgSrc);
-			$('#modal-img').attr("alt", image);
-		});
+		console.log(image);
+		if(image=='선택된 파일없음'){
+			image = 'noimage.gif';
+		}
+		console.log(image);
 		
 		var chk = Swal.fire({
             title: '메뉴 수정',
             html:
             	'<form id="regForm2" method="post" action ="<c:url value="/managerPage/updateMenu"/>" enctype="multipart/form-data">'+
-    			'<input type="hidden" id="categoryNum5" name="categoryNum5" value="'+categoryNum+'">'+
             	'<table class="tableModal">'+
             		'<tr style="height:40px;">'+
             			'<td>카테고리</td>'+
 	        			'<td colspan="2">'+
             				'<select name="category1" id="category1" style="width:100%;vertical-align:middle;">'+
-							'<option value="">카테고리 선택</option>'+
+							'<option value="" selected>카테고리 선택</option>'+
 		  					'<c:forEach var="category" items="${categoryList}">'+
 								'<option value="${category.num}">${category.category}</option>'+						
 							'</c:forEach>'+
@@ -516,22 +534,19 @@
 		 	       '<tr>'+
 			    		'<td>메뉴가격</td>'+
 			    		'<td colspan="2">'+
-		 	                '<input type="text" name="swal-input2" id="swal-input2" class="swal2-input" value="'+price+'" placeholder="메뉴명" style="width:200px;">'+
+		 	                '<input type="text" name="swal-input2" id="swal-input2" class="swal2-input" value="'+price+'" placeholder="금액" style="width:200px;">'+
 		 	            '</td>'+
 		 	            '<td style="text-align:left;">원</td>'+
 	 	        	'</tr>' + 
-	 	        	'<tr style="height:40px;">'+
-			        	'<td>사진추가</td>'+
-			        	'<td colspan="2" style="text-align:left;">'+
-				  			'<input type="file" id="file1" name="file1" accept="image/*" style="display:none" onchange="fileCheck1(this);"/>'+
-				  			'<span id="fileName1">선택된 파일없음</span>'+
+	 	        	'<tr>'+
+			        	'<td colspan="4" style="text-align:center;">'+
+				  			'<input type="file" id="file1" name="file1" accept="image/*" style="display:none" onchange="fileCheck2(this);"/>'+
+				  			'<img height="300" onclick="imgChange()" id="modal-img-up" for="file1" alt="'+image+'" src="<c:url value="/display?saveName='+image+'"/>">'+
 					    '</td>'+
-					    '<td><label class="btn btn-primary" for="file1" id="btn-file1" style="border: 1px solid #ddd; outline: none;">사진 추가</label></td>'+
 					'</tr>'+
+	 	        	'<tr>'+
+		        	'<td colspan="4" style="text-align:center;">이미지를 클릭하면 변경할 수 있습니다.</td>'+'</tr>'+
 					'</table>'+
-					'<div id ="image_container1" style="text-align:center;align-items:center;">'+
-					'<img id="modal-img" alt="" src="">'+
-					'</div>'+
 					'</form>'
                 ,
             preConfirm: function () {
@@ -590,17 +605,6 @@
 			});       
             }
         })      
-     	// 파일 선택 여부 확인
-    	document.getElementById('file1').addEventListener('change', function(){
-    		$('#image_container1').empty();
-    		var filename = document.getElementById('fileName1');
-    		
-   			if(this.files[0] == undefined ){
-   				filename.innerText = '선택된 파일없음';
-   				return;
-   			}
- 			filename.innerText = this.files[0].name;
-    	});
 		
 	});
 

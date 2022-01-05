@@ -69,11 +69,11 @@ public class PosMenuOrderDaoImpl implements PosMenuOrderDao {
 	
 	@Override
 	public List<ReceipeJoinVo> receipeInfo(ReceipeCmd receipeCmd) {
-		return sqlSessionTemplate.selectList("posMenuOrderMapper.receipeInfo", receipeCmd);
+		return sqlSessionTemplate.selectList("posMenuOrderMapper.selectReceipeInfo", receipeCmd);
 	}
 	
 	@Override
 	public MemberVo memberInfo(int memberNum) {
-		return sqlSessionTemplate.selectOne("posMenuOrderMapper.memberInfo", memberNum);
+		return sqlSessionTemplate.selectOne("posMenuOrderMapper.selectMemberInfo", memberNum);
 	}
 }
