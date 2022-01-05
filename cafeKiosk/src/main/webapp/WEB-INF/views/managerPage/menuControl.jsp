@@ -319,7 +319,7 @@
                 	  '<input id="swal-input" class="swal-input" placeholder="Master Password">',
                 	  preConfirm: function () {
                           return new Promise(function (resolve) {
-                              // Validate input 
+                              // Validate input  
                               if ($('#swal-input').val() == '') {
                                   Swal.showValidationMessage("마스터 패스워드가 입력되지 않았습니다."); // Show error when validation fails.
                                   Swal.enableButtons();
@@ -477,6 +477,16 @@
 		var price = td.eq(8).text();
 		var regdate = td.eq(9).text();
 		
+		$(document).ready(function(){
+			var filename2 = document.getElementById('fileName1');
+			
+			filename2.innerText = image;
+	
+			var imgSrc = "<c:url value='/display?image="+ image +"'/>";
+			$('#modal-img').attr("src", imgSrc);
+			$('#modal-img').attr("alt", image);
+		});
+		
 		var chk = Swal.fire({
             title: '메뉴 수정',
             html:
@@ -514,7 +524,7 @@
 			        	'<td>사진추가</td>'+
 			        	'<td colspan="2" style="text-align:left;">'+
 				  			'<input type="file" id="file1" name="file1" accept="image/*" style="display:none" onchange="fileCheck1(this);"/>'+
-				  			'<span id="fileName1">'+image+'</span>'+
+				  			'<span id="fileName1">선택된 파일없음</span>'+
 					    '</td>'+
 					    '<td><label class="btn btn-primary" for="file1" id="btn-file1" style="border: 1px solid #ddd; outline: none;">사진 추가</label></td>'+
 					'</tr>'+
@@ -579,9 +589,22 @@
               }
 			});       
             }
-        })            
+        })      
+     	// 파일 선택 여부 확인
+    	document.getElementById('file1').addEventListener('change', function(){
+    		$('#image_container1').empty();
+    		var filename = document.getElementById('fileName1');
+    		
+   			if(this.files[0] == undefined ){
+   				filename.innerText = '선택된 파일없음';
+   				return;
+   			}
+ 			filename.innerText = this.files[0].name;
+    	});
+		
 	});
 
+	
 	// 이미지 파일 유효성 검사
 	function fileCheck1(el) {
 		
